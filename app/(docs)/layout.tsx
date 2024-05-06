@@ -8,7 +8,7 @@ import { Header } from "@/components/blocks/header";
 import { HeaderGradient } from "@/components/blocks/header-gradient";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import "./globals.css";
+import "../globals.css";
 
 const CrimsonPro = Crimson_Pro({
   subsets: ["latin"],
