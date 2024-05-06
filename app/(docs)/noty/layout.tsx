@@ -162,17 +162,19 @@ export default function RootLayout({
               {sponsors.map((product, index) => (
                 <li
                   key={index}
-                  className="flex items-center justify-center w-full py-2 pl-4 pr-5 text-sm leading-6 group relative filter grayscale hover:grayscale-0 transition-all duration-300 ease-in-out"
+                  className="flex items-center justify-center w-full py-2 pl-4 pr-5 text-sm leading-6 group relative "
                 >
-                  <Link href={product.url} target="_blank">
-                    <Image
-                      src={`/sponsors/${product.imageSrc}`}
-                      alt={product.alt}
-                      width={140}
-                      height={140}
-                      className="max-w-64 min-h-6 transition-all duration-300 ease-in-out"
-                    />
-                  </Link>
+                  <div className="filter grayscale hover:grayscale-0 transition-all dark:invert dark:hover:invert-0 duration-300 ease-in-out">
+                    <Link href={product.url} target="_blank">
+                      <Image
+                        src={`/sponsors/${product.imageSrc}`}
+                        alt={product.alt}
+                        width={140}
+                        height={140}
+                        className="max-w-64 min-h-6 transition-all duration-300 ease-in-out"
+                      />
+                    </Link>
+                  </div>
                 </li>
               ))}
             </ul>
