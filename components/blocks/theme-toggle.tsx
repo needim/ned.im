@@ -1,0 +1,88 @@
+"use client";
+
+import useNextValue from "@/components/hooks/use-next-value";
+import { cn } from "@/lib/utils";
+import {
+  IconContrastFilled,
+  IconMoonFilled,
+  IconSunFilled,
+} from "@tabler/icons-react";
+import { motion } from "framer-motion";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
+
+export function ThemeToggle({
+  hideIndicator = false,
+}: {
+  hideIndicator?: boolean;
+}) {
+  const [mounted, setMounted] = useState(false);
+  const { setTheme, theme } = useTheme();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const nextTheme = useNextValue(
+    ["light", "system", "dark"] as const,
+    theme as string
+  );
+
+  if (!mounted) {
+    return null;
+  }
+
+  return (
+    <div
+      className="flex items-center gap-2 cursor-pointer group"
+      onClick={() => {
+        setTheme(nextTheme);
+      }}
+    >
+      <div
+        className={cn(
+          "text-muted-foreground text-xs",
+          hideIndicator &&
+            "transition-all translate-x-full opacity-0 group-hover:opacity-100 group-hover:translate-x-0 delay-150"
+        )}
+      >
+        {theme}
+      </div>
+      <motion.div
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.9 }}
+        className={cn(
+          "h-6 w-10 flex items-center bg-zinc-0 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/30 dark:ring-white/10 rounded-full shadow-inner dark:shadow-black/10 relative"
+        )}
+      >
+        <div
+          className={cn(
+            "rounded-full size-4 transition-all duration-300 ease-in-out relative",
+            theme === "light" && "translate-x-1",
+            theme === "system" && "translate-x-3",
+            theme === "dark" && "translate-x-5"
+          )}
+        >
+          <IconSunFilled
+            className={cn(
+              "size-4 rotate-0 scale-100 absolute top-0 left-0 dark:rotate-180 dark:scale-0 transition-transform duration-200 ease-in-out",
+              theme === "system" && "scale-0"
+            )}
+          />
+          <IconContrastFilled
+            className={cn(
+              "size-4 absolute top-0 left-0 scale-0 dark:rotate-180 transition-transform duration-200 ease-in-out",
+              theme === "system" && "scale-100"
+            )}
+          />
+          <IconMoonFilled
+            className={cn(
+              "size-4 scale-0 dark:scale-100 absolute top-0 left-0 -rotate-0 transition-transform duration-200 ease-in-out",
+              theme === "system" && "scale-0 dark:scale-0 rotate-180"
+            )}
+          />
+        </div>
+      </motion.div>
+    </div>
+  );
+}
