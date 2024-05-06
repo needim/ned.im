@@ -51,7 +51,7 @@ export function Footer() {
                   Built with <IconNextjs className="size-4 inline" />
                 </Link>
                 <Link
-                  href="https://www.netlify.com"
+                  href="https://www.vercel.com"
                   target="_blank"
                   rel="nofollow"
                   className="items-center flex gap-1"
