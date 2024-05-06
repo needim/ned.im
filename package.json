@@ -10,10 +10,14 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.19",
+    "@mdx-js/loader": "^3.0.1",
+    "@mdx-js/react": "^3.0.1",
+    "@next/mdx": "^14.2.3",
     "@radix-ui/react-dropdown-menu": "^2.0.6",
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-tooltip": "^1.0.7",
     "@tabler/icons-react": "^3.3.0",
+    "@types/mdx": "^2.0.13",
     "@uidotdev/usehooks": "^2.4.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
@@ -24,6 +28,7 @@
     "next-themes": "^0.3.0",
     "react": "^18",
     "react-dom": "^18",
+    "remark-gfm": "^4.0.0",
     "tailwind-merge": "^2.3.0",
     "twitter-api-v2": "^1.16.3"
   },

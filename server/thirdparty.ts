@@ -39,18 +39,23 @@ const query = `
 `;
 
 export const getGithubInfo = cache(
-  async (): Promise<Externals.Github.ApiResponse> => {
-    const res = await fetch("https://api.github.com/graphql", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${TOKEN}`,
-      },
-      body: JSON.stringify({
-        query,
-      }),
-    });
+  async (): Promise<Externals.Github.ApiResponse | null> => {
+    try {
+      const res = await fetch("https://api.github.com/graphql", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${TOKEN}`,
+        },
+        body: JSON.stringify({
+          query,
+        }),
+      });
 
-    return res.json();
+      return res.json();
+    } catch (e) {
+      console.error(e);
+      return null;
+    }
   },
   ["ned-im-github-data"],
   {

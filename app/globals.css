@@ -82,7 +82,7 @@
   h4,
   h5,
   h6 {
-    @apply font-serif font-medium;
+    @apply font-serif !font-medium;
   }
 
   .pro {
@@ -91,6 +91,10 @@
 
   a {
     @apply underline-offset-4;
+  }
+
+  blockquote {
+    @apply !not-italic !font-normal;
   }
 }
 

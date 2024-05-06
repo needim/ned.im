@@ -28,7 +28,7 @@ export function ProjectCard({
   return (
     <Link
       href={link}
-      target="_blank"
+      target={link.startsWith("http") ? "_blank" : undefined}
       ref={ref}
       className={cn(
         "group relative h-48 w-full rounded-3xl cursor-pointer overflow-hidden shadow-[rgba(0,_0,_0,_0.15)_0px_20px_40px_-12px] bg-card/20 p-6 ring-2 hover:ring-3 ring-zinc-900/5 dark:ring-zinc-800 transition-all duration-500 hover:ring-zinc-600/20 dark:hover:ring-zinc-700 max-w-80",

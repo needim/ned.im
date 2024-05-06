@@ -468,7 +468,7 @@ export const projects = [
     deprecated: "2023-01-01",
     description:
       "A dependency-free, simple notification plugin with no dependencies.",
-    link: { href: "https://ned.im/noty", label: "ned.im/noty" },
+    link: { href: "/noty", label: "ned.im/noty" },
     logo: <></>,
   },
   {
