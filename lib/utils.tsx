@@ -231,7 +231,7 @@ export const changelog = [
   {
     date: "2023-09-08",
     event: "Become an uncle",
-    title: "Oh boy!",
+    title: "His name is Atlas",
     desciption: "My sister gave birth to a handsome boy.",
     icon: "👶🏻",
     dateFormatOptions: dateFormat.day,
@@ -431,7 +431,7 @@ export const changelog = [
 
 export const projects = [
   {
-    name: "Smashing Tools",
+    name: "smashing.tools",
     released: "2023-01-01",
     description: "Curated best starter kits, UI components & resources.",
     link: { href: "https://smashing.tools", label: "smashing.tools" },

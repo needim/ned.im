@@ -1,6 +1,6 @@
 import { Container } from "@/components/blocks/container";
-import { ProjectCard } from "@/components/blocks/project-card";
 import { projects } from "@/lib/utils";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -11,16 +11,31 @@ export default function Home() {
           <p className="mt-2">All the projects I&apos;ve worked on.</p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-12">
+        <div className="grid grid-cols-1 gap-4">
           {projects.map((project) => (
-            <ProjectCard
+            <div
               key={project.name}
-              title={project.name}
-              description={project.description}
-              link={project.link.href}
-              label={project.link.label}
-              icon={project.logo}
-            />
+              className="relative flex items-center space-x-3 rounded-lg border  bg-card px-6 py-5 shadow-sm focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2 hover:border-primary"
+            >
+              <div className="min-w-0 flex-1">
+                <Link
+                  href={project.link.href}
+                  target={
+                    project.link.href.startsWith("http") ? "_blank" : undefined
+                  }
+                  className="focus:outline-none"
+                >
+                  <span className="absolute inset-0" aria-hidden="true" />
+                  <p className="text-base font-medium">{project.name}</p>
+                  <p className="truncate text-sm text-muted-foreground">
+                    {project.description}
+                  </p>
+                </Link>
+              </div>
+              <div className="flex-shrink-0">
+                {project.logo && project.logo}
+              </div>
+            </div>
           ))}
         </div>
       </div>
