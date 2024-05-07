@@ -51,7 +51,7 @@ export function ChangelogList(): React.ReactElement {
                 index === changelog.length - 1 && "pb-0"
               )}
             >
-              <p className="text-xs font-mono absolute top-1.5 right-0 text-muted-foreground">
+              <p className="text-xs font-mono block sm:absolute top-1.5 right-0 text-muted-foreground">
                 {formattedDateTimeline(log.date, log?.dateFormatOptions)}
               </p>
               <h2 className="font-sans text-md font-normal">

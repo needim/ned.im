@@ -13,7 +13,6 @@ export default function Notes() {
           <h2 className="text-3xl">Typefaces</h2>
           <ul className="mt-4">
             <li>
-              Serif:{" "}
               <a
                 target="_blank"
                 href="https://fonts.google.com/specimen/Crimson+Pro"
@@ -23,14 +22,12 @@ export default function Notes() {
               by Jacques Le Bailly
             </li>
             <li>
-              Sans:{" "}
               <a target="_blank" href="https://vercel.com/font">
                 Geist Sans
               </a>{" "}
               by Vercel
             </li>
             <li>
-              Mono:{" "}
               <a target="_blank" href="https://vercel.com/font">
                 Geist Mono
               </a>{" "}

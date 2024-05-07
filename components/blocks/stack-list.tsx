@@ -24,10 +24,10 @@ export function StackList({
             className="flex items-center justify-between py-2 pl-4 pr-5 text-sm leading-6 group"
           >
             <div className="flex w-0 flex-1 items-center">
-              <div className="w-24 font-medium text-muted-foreground">
+              <div className="w-24 font-medium text-muted-foreground hidden sm:block">
                 {product.category}
               </div>
-              <div className="ml-4 flex min-w-0 flex-1 gap-2">
+              <div className="ml-0 sm:ml-4 flex flex-col sm:flex-row min-w-0 flex-1 gap-2">
                 <span className="flex-shrink-0 text-muted-foreground">
                   {product.brand}
                 </span>
