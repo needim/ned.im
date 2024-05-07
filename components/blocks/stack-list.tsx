@@ -27,7 +27,7 @@ export function StackList({
               <div className="w-24 font-medium text-muted-foreground hidden sm:block">
                 {product.category}
               </div>
-              <div className="ml-0 sm:ml-4 flex flex-col sm:flex-row min-w-0 flex-1 gap-2">
+              <div className="ml-0 sm:ml-4 flex flex-col sm:flex-row min-w-0 flex-1 gap-0 sm:gap-2">
                 <span className="flex-shrink-0 text-muted-foreground">
                   {product.brand}
                 </span>

@@ -78,7 +78,7 @@ export default async function Readme() {
       </Container>
       <Container className="mt-24 md:mt-20">
         <h2 className="text-3xl">Spotlight</h2>
-        <p className="text-muted-foreground text-balance mb-8 mt-3">
+        <p className="text-muted-foreground mb-8 mt-3">
           Most recent projects and contributions.
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

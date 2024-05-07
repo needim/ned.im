@@ -51,14 +51,14 @@ export function ChangelogList(): React.ReactElement {
                 index === changelog.length - 1 && "pb-0"
               )}
             >
-              <p className="text-xs font-mono block sm:absolute top-1.5 right-0 text-muted-foreground">
+              <p className="text-xs font-mono block mt-1 sm:absolute sm:mt-0 sm:top-1.5 right-0 text-muted-foreground">
                 {formattedDateTimeline(log.date, log?.dateFormatOptions)}
               </p>
-              <h2 className="font-sans text-md !font-normal">
+              <h2 className="mt-0.5 sm:mt-0 font-sans text-md !font-normal">
                 <span className="font-semibold">{log.event}</span> — {log.title}
               </h2>
               {log.desciption && (
-                <p className="mt-1 text-sm text-muted-foreground">
+                <p className="mt-0.5 sm:mt-1 text-sm text-muted-foreground">
                   {log.desciption.split("\n").map((line, index) => (
                     <span key={index}>
                       {line}
