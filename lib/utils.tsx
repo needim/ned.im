@@ -194,7 +194,7 @@ export const changelog = [
   {
     date: "2024-04-01",
     event: "Visit to France",
-    title: "Strausburg",
+    title: "Strasbourg",
     icon: "🇫🇷",
     dateFormatOptions: dateFormat.month,
   },
