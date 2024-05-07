@@ -1,15 +1,15 @@
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 import type { Metadata } from "next";
-import { Crimson_Pro } from "next/font/google";
+import { Lexend } from "next/font/google";
 
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import "./globals.css";
 
-const CrimsonPro = Crimson_Pro({
+const LexendFont = Lexend({
   subsets: ["latin"],
-  variable: "--font-crimson",
+  variable: "--font-lexend",
 });
 
 export const metadata: Metadata = {
@@ -56,7 +56,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${GeistSans.variable} ${GeistMono.variable} ${CrimsonPro.variable}`}
+      className={`${GeistSans.variable} ${GeistMono.variable} ${LexendFont.variable}`}
       suppressHydrationWarning
     >
       <body>

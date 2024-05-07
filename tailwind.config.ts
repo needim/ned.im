@@ -23,7 +23,7 @@ const config = {
       fontFamily: {
         sans: ["var(--font-geist-sans)"],
         mono: ["var(--font-geist-mono)"],
-        serif: ["var(--font-crimson)"],
+        serif: ["var(--font-lexend)"],
       },
       fontSize: {
         xxs: "0.625rem",
