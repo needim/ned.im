@@ -232,7 +232,7 @@ function AvatarContainer({
   );
 }
 
-function Avatar({
+export function Avatar({
   large = false,
   className,
   ...props
