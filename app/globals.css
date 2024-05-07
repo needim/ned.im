@@ -136,3 +136,17 @@
     border-image-slice: 1;
   }
 }
+
+#carbon-responsive .carbon-responsive-wrap {
+  border-radius: var(--radius);
+  border: 1px solid hsl(var(--border)) !important;
+}
+
+.dark #carbon-responsive .carbon-responsive-wrap {
+  background: hsl(var(--background));
+}
+
+.dark #carbon-responsive a,
+#carbon-responsive a:hover {
+  color: var(--primary);
+}

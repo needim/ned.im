@@ -65,6 +65,7 @@ export default function RootLayout({
           defaultTheme="system"
           enableSystem
           storageKey="ned.im.theme"
+          disableTransitionOnChange
         >
           <TooltipProvider
             delayDuration={10}

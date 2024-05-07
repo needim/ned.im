@@ -7,7 +7,7 @@ import {
   IconMoonFilled,
   IconSunFilled,
 } from "@tabler/icons-react";
-import { motion } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
@@ -18,10 +18,53 @@ export function ThemeToggle({
 }) {
   const [mounted, setMounted] = useState(false);
   const { setTheme, theme } = useTheme();
+  const controlsSun = useAnimation();
+  const controlsMoon = useAnimation();
+  const controlsContrast = useAnimation();
+
+  const iconVariants = {
+    sun: {
+      rotate: 0,
+      scale: 1,
+      opacity: 1,
+    },
+    moon: {
+      rotate: 0,
+      scale: 1,
+      opacity: 1,
+    },
+    system: {
+      rotate: 0,
+      scale: 1,
+      opacity: 1,
+    },
+    // applies to all
+    hidden: {
+      scale: 0,
+      opacity: 0,
+      rotate: 180,
+    },
+    systemHidden: {
+      scale: 0,
+      opacity: 0,
+    },
+  };
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    if (theme === "system") {
+      controlsSun.start("hidden");
+      controlsContrast.start("system");
+      controlsMoon.start("hidden");
+    } else {
+      controlsSun.start(theme === "light" ? "sun" : "hidden");
+      controlsMoon.start(theme === "dark" ? "moon" : "hidden");
+      controlsContrast.start("systemHidden");
+    }
+  }, [mounted, controlsContrast, controlsMoon, controlsSun, theme]);
 
   const nextTheme = useNextValue(
     ["light", "system", "dark"] as const,
@@ -39,15 +82,17 @@ export function ThemeToggle({
         setTheme(nextTheme);
       }}
     >
-      <div
-        className={cn(
-          "text-muted-foreground text-xs",
-          hideIndicator &&
-            "transition-all translate-x-full opacity-0 group-hover:opacity-100 group-hover:translate-x-0 delay-150"
-        )}
-      >
-        {theme}
-      </div>
+      {!hideIndicator && (
+        <div
+          className={cn(
+            "text-muted-foreground text-xs",
+            hideIndicator &&
+              "transition-all translate-x-full opacity-0 group-hover:opacity-100 group-hover:translate-x-0 delay-150"
+          )}
+        >
+          {theme}
+        </div>
+      )}
       <motion.div
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.9 }}
@@ -55,7 +100,11 @@ export function ThemeToggle({
           "h-6 w-10 flex items-center bg-zinc-0 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/30 dark:ring-white/10 rounded-full shadow-inner dark:shadow-black/10 relative"
         )}
       >
-        <div
+        <motion.div
+          animate={{
+            x: theme === "light" ? 4 : theme === "system" ? 12 : 20,
+            transition: { duration: 0.1, easings: ["easeInOut"] },
+          }}
           className={cn(
             "rounded-full size-4 transition-all duration-300 ease-in-out relative",
             theme === "light" && "translate-x-1",
@@ -63,25 +112,34 @@ export function ThemeToggle({
             theme === "dark" && "translate-x-5"
           )}
         >
-          <IconSunFilled
-            className={cn(
-              "size-4 rotate-0 scale-100 absolute top-0 left-0 dark:rotate-180 dark:scale-0 transition-transform duration-200 ease-in-out",
-              theme === "system" && "scale-0"
-            )}
-          />
-          <IconContrastFilled
-            className={cn(
-              "size-4 absolute top-0 left-0 scale-0 dark:rotate-180 transition-transform duration-200 ease-in-out",
-              theme === "system" && "scale-100"
-            )}
-          />
-          <IconMoonFilled
-            className={cn(
-              "size-4 scale-0 dark:scale-100 absolute top-0 left-0 -rotate-0 transition-transform duration-200 ease-in-out",
-              theme === "system" && "scale-0 dark:scale-0 rotate-180"
-            )}
-          />
-        </div>
+          <motion.div
+            className="size-4 absolute top-0 left-0"
+            variants={iconVariants}
+            initial="hidden"
+            animate={controlsSun}
+            transition={{ duration: 0.2, ease: "easeInOut" }}
+          >
+            <IconSunFilled className="size-4" />
+          </motion.div>
+          <motion.div
+            className="size-4 absolute top-0 left-0"
+            variants={iconVariants}
+            initial="hidden"
+            animate={controlsContrast}
+            transition={{ duration: 0.2, ease: "easeInOut" }}
+          >
+            <IconContrastFilled className="size-4 dark:rotate-180" />
+          </motion.div>
+          <motion.div
+            className="size-4 absolute top-0 left-0"
+            variants={iconVariants}
+            initial="hidden"
+            animate={controlsMoon}
+            transition={{ duration: 0.2, ease: "easeInOut" }}
+          >
+            <IconMoonFilled className="size-4" />
+          </motion.div>
+        </motion.div>
       </motion.div>
     </div>
   );
