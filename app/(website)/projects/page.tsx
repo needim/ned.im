@@ -15,7 +15,7 @@ export default function Home() {
           {projects.map((project) => (
             <div
               key={project.name}
-              className="relative flex items-center space-x-3 rounded-lg border  bg-card px-6 py-5 shadow-sm focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2 hover:border-primary"
+              className="relative flex items-center space-x-3 rounded-lg border bg-card px-6 py-5 shadow-sm focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2 hover:border-primary"
             >
               <div className="min-w-0 flex-1">
                 <Link

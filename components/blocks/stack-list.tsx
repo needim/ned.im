@@ -16,7 +16,7 @@ export function StackList({
       <p className="text-muted-foreground">{description}</p>
       <ul
         role="list"
-        className="divide-y mt-4 divide-border rounded-md border bg-zinc-100/75 dark:bg-zinc-900/75"
+        className="divide-y mt-4 divide-border rounded-md border bg-card dark:bg-zinc-900/75"
       >
         {items.map((product, index) => (
           <li

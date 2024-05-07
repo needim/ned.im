@@ -30,7 +30,7 @@ export default async function Readme() {
       <Container className="mt-9">
         <h1 className="tracking-tight text-4xl sm:text-5xl">
           Nedim Arabacı
-          <span className="text-muted-foreground font-title font-extralight text-3xl sm:text-4xl block">
+          <span className="text-muted-foreground font-title font-extralight text-3xl sm:text-4xl block text-balance">
             Developer & Software manager
           </span>
         </h1>
@@ -111,7 +111,7 @@ export default async function Readme() {
               {careerItems.map((item, index) => (
                 <div
                   key={`career-${index}`}
-                  className="flex items-baseline gap-4"
+                  className="flex flex-col sm:flex-row items-baseline gap-2 sm:gap-4"
                 >
                   <div className="font-mono flex min-w-24 text-sm text-muted-foreground">
                     {item.from} — {item.to}
