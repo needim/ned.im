@@ -83,12 +83,6 @@ export default function Notes() {
               by Fouroom
             </li>
             <li>
-              <a target="_blank" href="https://opaque.framer.website">
-                https://opaque.framer.website
-              </a>{" "}
-              by Aaron Rolston
-            </li>
-            <li>
               <a target="_blank" href="https://www.joshwcomeau.com">
                 https://www.joshwcomeau.com
               </a>{" "}
