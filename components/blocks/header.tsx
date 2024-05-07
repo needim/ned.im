@@ -384,7 +384,7 @@ export function Header() {
                   />
                   <Avatar
                     large
-                    className="block size-16 origin-left"
+                    className="block size-16 origin-left transition-transform"
                     style={{ transform: "var(--avatar-image-transform)" }}
                   />
                 </div>
