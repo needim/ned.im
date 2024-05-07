@@ -15,11 +15,12 @@ export default function Notes() {
             <li>
               <a
                 target="_blank"
-                href="https://fonts.google.com/specimen/Crimson+Pro"
+                href="https://fonts.google.com/specimen/Lexend"
               >
                 Crimson Pro
               </a>{" "}
-              by Jacques Le Bailly
+              by Bonnie Shaver-Troup, Thomas Jockin, Santiago Orozco, Héctor
+              Gómez, Superunion
             </li>
             <li>
               <a target="_blank" href="https://vercel.com/font">

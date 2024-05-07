@@ -5,7 +5,7 @@ import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Fragment, useLayoutEffect, useRef } from "react";
+import { Fragment, useEffect, useRef } from "react";
 
 import { Container } from "@/components/blocks/container";
 import { ThemeToggle } from "@/components/blocks/theme-toggle";
@@ -246,7 +246,7 @@ export function Header() {
   let avatarRef = useRef<React.ElementRef<"div">>(null);
   let isInitial = useRef(true);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     let downDelay = avatarRef.current?.offsetTop ?? 0;
     let upDelay = 64;
 
