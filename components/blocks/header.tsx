@@ -2,15 +2,14 @@
 
 import { Popover, Transition } from "@headlessui/react";
 import clsx from "clsx";
+import { useTheme } from "next-themes";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Fragment, useEffect, useRef } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 
 import { Container } from "@/components/blocks/container";
-import { ThemeToggle } from "@/components/blocks/theme-toggle";
 import avatarImage from "@/images/avatar-new.png";
-import { navItems } from "@/lib/utils";
 
 function CloseIcon(props: React.ComponentPropsWithoutRef<"svg">) {
   return (
@@ -133,11 +132,11 @@ function MobileNavigation(
             </div>
             <nav className="mt-6">
               <ul className="-my-2 divide-y divide-zinc-100 text-base text-zinc-800 dark:divide-zinc-100/5 dark:text-zinc-300">
-                {navItems.map((item) => (
-                  <MobileNavItem key={item.href} href={item.href}>
-                    {item.label}
-                  </MobileNavItem>
-                ))}
+                <MobileNavItem href="/about">About</MobileNavItem>
+                <MobileNavItem href="/articles">Articles</MobileNavItem>
+                <MobileNavItem href="/projects">Projects</MobileNavItem>
+                <MobileNavItem href="/speaking">Speaking</MobileNavItem>
+                <MobileNavItem href="/uses">Uses</MobileNavItem>
               </ul>
             </nav>
           </Popover.Panel>
@@ -161,15 +160,15 @@ function NavItem({
       <Link
         href={href}
         className={clsx(
-          "relative block px-3 py-2 transition shrink-0",
+          "relative block px-3 py-2 transition",
           isActive
-            ? "text-zinc-950 dark:text-zinc-50 dark:hover:text-zinc-50"
-            : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-zinc-300"
+            ? "text-teal-500 dark:text-teal-400"
+            : "hover:text-teal-500 dark:hover:text-teal-400"
         )}
       >
         {children}
         {isActive && (
-          <span className="absolute inset-x-1 -bottom-px h-px bg-gradient-to-r from-transparent via-amber-700 to-transparent dark:from-zinc-400/0 dark:via-amber-400/40 dark:to-transparent" />
+          <span className="absolute inset-x-1 -bottom-px h-px bg-gradient-to-r from-teal-500/0 via-teal-500/40 to-teal-500/0 dark:from-teal-400/0 dark:via-teal-400/40 dark:to-teal-400/0" />
         )}
       </Link>
     </li>
@@ -179,14 +178,36 @@ function NavItem({
 function DesktopNavigation(props: React.ComponentPropsWithoutRef<"nav">) {
   return (
     <nav {...props}>
-      <ul className="flex rounded-full bg-zinc-0 px-3 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/30 dark:text-zinc-200 dark:ring-white/10">
-        {navItems.map((item) => (
-          <NavItem key={item.href} href={item.href}>
-            {item.label}
-          </NavItem>
-        ))}
+      <ul className="flex rounded-full bg-white/90 px-3 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10">
+        <NavItem href="/about">About</NavItem>
+        <NavItem href="/articles">Articles</NavItem>
+        <NavItem href="/projects">Projects</NavItem>
+        <NavItem href="/speaking">Speaking</NavItem>
+        <NavItem href="/uses">Uses</NavItem>
       </ul>
     </nav>
+  );
+}
+
+function ThemeToggle() {
+  let { resolvedTheme, setTheme } = useTheme();
+  let otherTheme = resolvedTheme === "dark" ? "light" : "dark";
+  let [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  return (
+    <button
+      type="button"
+      aria-label={mounted ? `Switch to ${otherTheme} theme` : "Toggle theme"}
+      className="group rounded-full bg-white/90 px-3 py-2 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur transition dark:bg-zinc-800/90 dark:ring-white/10 dark:hover:ring-white/20"
+      onClick={() => setTheme(otherTheme)}
+    >
+      <SunIcon className="h-6 w-6 fill-zinc-100 stroke-zinc-500 transition group-hover:fill-zinc-200 group-hover:stroke-zinc-700 dark:hidden [@media(prefers-color-scheme:dark)]:fill-teal-50 [@media(prefers-color-scheme:dark)]:stroke-teal-500 [@media(prefers-color-scheme:dark)]:group-hover:fill-teal-50 [@media(prefers-color-scheme:dark)]:group-hover:stroke-teal-600" />
+      <MoonIcon className="hidden h-6 w-6 fill-zinc-700 stroke-zinc-500 transition dark:block [@media(prefers-color-scheme:dark)]:group-hover:stroke-zinc-400 [@media_not_(prefers-color-scheme:dark)]:fill-teal-400/10 [@media_not_(prefers-color-scheme:dark)]:stroke-teal-500" />
+    </button>
   );
 }
 
@@ -211,7 +232,7 @@ function AvatarContainer({
   );
 }
 
-export function Avatar({
+function Avatar({
   large = false,
   className,
   ...props
@@ -408,7 +429,7 @@ export function Header() {
                 "var(--header-inner-position)" as React.CSSProperties["position"],
             }}
           >
-            <div className="relative flex gap-4 items-center">
+            <div className="relative flex gap-4">
               <div className="flex flex-1">
                 {!isHomePage && (
                   <AvatarContainer>
@@ -416,13 +437,13 @@ export function Header() {
                   </AvatarContainer>
                 )}
               </div>
-              <div className="flex flex-1 justify-end md:justify-center min-h-10">
+              <div className="flex flex-1 justify-end md:justify-center">
                 <MobileNavigation className="pointer-events-auto md:hidden" />
-                <DesktopNavigation className="pointer-events-auto hidden md:block shrink-0" />
+                <DesktopNavigation className="pointer-events-auto hidden md:block" />
               </div>
               <div className="flex justify-end md:flex-1">
                 <div className="pointer-events-auto">
-                  <ThemeToggle hideIndicator />
+                  <ThemeToggle />
                 </div>
               </div>
             </div>
