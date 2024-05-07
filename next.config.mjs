@@ -10,6 +10,9 @@ const nextConfig = {
       fullUrl: true,
     },
   },
+  experimental: {
+    mdxRs: true,
+  },
 };
 
 const withMDX = createMDX({

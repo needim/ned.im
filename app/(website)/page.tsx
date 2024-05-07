@@ -14,6 +14,7 @@ const lastPosition = currentYear - careerItems[careerItems.length - 1].from;
 export default async function Readme() {
   const githubResponse = await getGithubInfo();
   const xResponse = await getXInfo();
+
   const last3weeks =
     githubResponse.data.viewer.contributionsCollection.contributionCalendar.weeks.slice(
       -3
@@ -57,7 +58,7 @@ export default async function Readme() {
           <SocialLink
             href="https://twitter.com/needim"
             aria-label="Follow on X"
-            count={xResponse.data.public_metrics?.followers_count}
+            count={xResponse.data?.public_metrics?.followers_count}
             label="followers"
             icon={XIcon}
           />

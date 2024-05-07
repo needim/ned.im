@@ -3,7 +3,6 @@ declare namespace Externals {
     type ContributionDay = {
       contributionCount: number;
       date: string;
-      color: string;
     };
 
     type ApiResponse = {
