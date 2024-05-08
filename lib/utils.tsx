@@ -57,7 +57,7 @@ export const careerItems = [
     company: { name: "90Pixel", url: "https://90pixel.com" },
     location: "Izmir, Turkey",
     description:
-      "I spent two months working for 90Pixel before accepting an offer from Defter and relocating to Montenegro.",
+      "I worked as a Full Stack Developer at 90Pixel for two months, after which I accepted an offer from Defter and relocated to Montenegro.",
   },
   {
     from: 2017,
@@ -66,7 +66,7 @@ export const careerItems = [
     company: { name: "Freelancer", url: null },
     location: "Turkey",
     description:
-      "I've taken a gap year to pursue my passion for freelance work. Through this experience, I've gained invaluable skills and had the opportunity to work with a diverse range of clients.",
+      "I took a gap year to pursue my passion for freelance work. This experience allowed me to gain invaluable skills and provided the opportunity to work with a diverse range of clients.",
   },
   {
     from: 2015,
