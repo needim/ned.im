@@ -17,7 +17,7 @@ export default function Notes() {
                 target="_blank"
                 href="https://fonts.google.com/specimen/Lexend"
               >
-                Crimson Pro
+                Lexend
               </a>{" "}
               by Bonnie Shaver-Troup, Thomas Jockin, Santiago Orozco, Héctor
               Gómez, Superunion
