@@ -572,23 +572,23 @@ const changelogItems: Array<{
     dateFormatOptions: dateFormat.month,
     photos: [
       {
-        src: "/changelog/asker-1.jpg",
+        src: "/changelog/asker-1.png",
         variant: "1x1",
       },
       {
-        src: "/changelog/asker-2.jpg",
+        src: "/changelog/asker-2.png",
         variant: "1x1",
       },
       {
-        src: "/changelog/asker-3.jpg",
+        src: "/changelog/asker-3.png",
         variant: "1x1",
       },
       {
-        src: "/changelog/asker-4.jpg",
+        src: "/changelog/asker-4.png",
         variant: "1x1",
       },
       {
-        src: "/changelog/asker-5.jpg",
+        src: "/changelog/asker-5.png",
         variant: "1x1",
       },
     ],
