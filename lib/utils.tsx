@@ -121,7 +121,6 @@ const dateFormat = {
     month: "long" as const,
     day: "numeric" as const,
   },
-
   month: {
     year: "numeric" as const,
     month: "long" as const,
@@ -131,21 +130,44 @@ const dateFormat = {
   },
 };
 
-export const changelog = [
+const changelogItems: Array<{
+  date: string;
+  event: string;
+  title: string;
+  desciption?: string;
+  icon?: string;
+  dateFormatOptions?: (typeof dateFormat)[keyof typeof dateFormat];
+  photos?: Array<{ src: string; variant: "1x1" | "4x3" | "4x5" }>;
+}> = [
   {
     date: "2023-11-01",
     event: "Visit to Greece",
     title: "Kavala",
     icon: "🇬🇷",
     dateFormatOptions: dateFormat.month,
+    photos: [
+      {
+        src: "/changelog/kavala  4x5.png",
+        variant: "4x5",
+      },
+    ],
   },
   {
     date: "2023-08-01",
     event: "Visit to Greece",
     title: "Samos Island",
-    desciption: "Big family trip.",
     icon: "🇬🇷",
     dateFormatOptions: dateFormat.month,
+    photos: [
+      {
+        src: "/changelog/samos  4x5.png",
+        variant: "4x5",
+      },
+      {
+        src: "/changelog/samos-3  4x5.png",
+        variant: "4x5",
+      },
+    ],
   },
   {
     date: "2023-07-04",
@@ -160,13 +182,30 @@ export const changelog = [
     title: "Zurich, Bern, Schaffhausen",
     icon: "🇨🇭",
     dateFormatOptions: dateFormat.day,
+    photos: [
+      {
+        src: "/changelog/scaffahaouseasesan  4x5.png",
+        variant: "4x5",
+      },
+    ],
   },
   {
     date: "2023-04-21",
     event: "Visit to Greece",
     title: "Chios Island",
+    desciption: "Big family trip.",
     icon: "🇬🇷",
     dateFormatOptions: dateFormat.day,
+    photos: [
+      {
+        src: "/changelog/chios.png",
+        variant: "1x1",
+      },
+      {
+        src: "/changelog/chios-2.png",
+        variant: "1x1",
+      },
+    ],
   },
   {
     date: "2022-07-08",
@@ -175,6 +214,24 @@ export const changelog = [
     desciption: "Food was terrible for me.",
     icon: "🇪🇬",
     dateFormatOptions: dateFormat.day,
+    photos: [
+      {
+        src: "/changelog/egypt-1.png",
+        variant: "1x1",
+      },
+      {
+        src: "/changelog/egypt-2.png",
+        variant: "1x1",
+      },
+      {
+        src: "/changelog/egypt-3.png",
+        variant: "1x1",
+      },
+      {
+        src: "/changelog/egypt-4 4x5.png",
+        variant: "4x5",
+      },
+    ],
   },
   {
     date: "2021-06-16",
@@ -183,6 +240,24 @@ export const changelog = [
     desciption: "We went to Zanzibar for our honeymoon.",
     icon: "🏝️",
     dateFormatOptions: dateFormat.day,
+    photos: [
+      {
+        src: "/changelog/zanzibar-1.png",
+        variant: "1x1",
+      },
+      {
+        src: "/changelog/zanzibar-2  4x5.png",
+        variant: "4x5",
+      },
+      {
+        src: "/changelog/zanzibar-3.png",
+        variant: "1x1",
+      },
+      {
+        src: "/changelog/zanzibar-4.png",
+        variant: "1x1",
+      },
+    ],
   },
   {
     date: "2024-04-01",
@@ -190,6 +265,12 @@ export const changelog = [
     title: "Konstanz",
     icon: "🇩🇪",
     dateFormatOptions: dateFormat.month,
+    photos: [
+      {
+        src: "/changelog/konstanz.jpg",
+        variant: "4x5",
+      },
+    ],
   },
   {
     date: "2024-04-01",
@@ -197,6 +278,24 @@ export const changelog = [
     title: "Strasbourg",
     icon: "🇫🇷",
     dateFormatOptions: dateFormat.month,
+    photos: [
+      {
+        src: "/changelog/strasbourg  4x5.png",
+        variant: "4x5",
+      },
+      {
+        src: "/changelog/strasbourg2  4x5.png",
+        variant: "4x5",
+      },
+      {
+        src: "/changelog/strasbourg3  4x5.png",
+        variant: "4x5",
+      },
+      {
+        src: "/changelog/strasbourg4  4x5.png",
+        variant: "4x5",
+      },
+    ],
   },
   {
     date: "2024-04-01",
@@ -204,13 +303,37 @@ export const changelog = [
     title: "Lucerne",
     icon: "🇨🇭",
     dateFormatOptions: dateFormat.month,
+    photos: [
+      {
+        src: "/changelog/lucerne  4x5.png",
+        variant: "4x5",
+      },
+      {
+        src: "/changelog/pilatus.png",
+        variant: "1x1",
+      },
+      {
+        src: "/changelog/pilatus-2.png",
+        variant: "1x1",
+      },
+    ],
   },
   {
     date: "2024-02-01",
     event: "Visit to Italy",
-    title: "Milan",
+    title: "Milan, Verona",
     icon: "🇮🇹",
     dateFormatOptions: dateFormat.month,
+    photos: [
+      {
+        src: "/changelog/verona  4x5.png",
+        variant: "4x5",
+      },
+      {
+        src: "/changelog/milano  4x5.png",
+        variant: "4x5",
+      },
+    ],
   },
   {
     date: "2023-12-01",
@@ -219,6 +342,12 @@ export const changelog = [
     desciption: "Beautiful city. I loved it.",
     icon: "🇭🇺",
     dateFormatOptions: dateFormat.month,
+    photos: [
+      {
+        src: "/changelog/budapest 4x5.png",
+        variant: "4x5",
+      },
+    ],
   },
   {
     date: "2023-02-01",
@@ -227,6 +356,24 @@ export const changelog = [
     desciption: "My dream city.",
     icon: "🇨🇿",
     dateFormatOptions: dateFormat.month,
+    photos: [
+      {
+        src: "/changelog/prague 4x5.png",
+        variant: "4x5",
+      },
+      {
+        src: "/changelog/prague-2.png",
+        variant: "1x1",
+      },
+      {
+        src: "/changelog/prague-3.png",
+        variant: "1x1",
+      },
+      {
+        src: "/changelog/prague-4.png",
+        variant: "1x1",
+      },
+    ],
   },
   {
     date: "2023-09-08",
@@ -235,6 +382,12 @@ export const changelog = [
     desciption: "My sister gave birth to a handsome boy.",
     icon: "👶🏻",
     dateFormatOptions: dateFormat.day,
+    photos: [
+      {
+        src: "/changelog/atlas 4x5.png",
+        variant: "4x5",
+      },
+    ],
   },
   {
     date: "2023-05-06",
@@ -250,6 +403,12 @@ export const changelog = [
     desciption: "I did my first squba diving in Sharm El-Sheikh, Egypt.",
     icon: "🤿",
     dateFormatOptions: dateFormat.day,
+    photos: [
+      {
+        src: "/changelog/scuba.png",
+        variant: "1x1",
+      },
+    ],
   },
   {
     date: "2019-10-01",
@@ -257,6 +416,12 @@ export const changelog = [
     title: "On my right arm",
     icon: "🎨",
     dateFormatOptions: dateFormat.month,
+    photos: [
+      {
+        src: "/changelog/tattoo  4x5.png",
+        variant: "4x5",
+      },
+    ],
   },
   {
     date: "2022-05-23",
@@ -270,6 +435,12 @@ export const changelog = [
     title: "Pixel Race Game",
     desciption: "I created my first HTML5 game.",
     icon: "🎮",
+    photos: [
+      {
+        src: "/changelog/pixel-race.png",
+        variant: "1x1",
+      },
+    ],
   },
   {
     date: "2015-06-01",
@@ -277,13 +448,26 @@ export const changelog = [
     title: "Mısır",
     icon: "🐈",
     dateFormatOptions: dateFormat.month,
+    photos: [
+      {
+        src: "/changelog/pet.png",
+        variant: "1x1",
+      },
+    ],
   },
   {
     date: "2010-05-24",
     event: "Lost my dad",
     title: "It was a hard time for me.",
+    desciption: "Show your love to your parents while you can.",
     icon: "🕯️",
     dateFormatOptions: dateFormat.day,
+    photos: [
+      {
+        src: "/changelog/dad.jpeg",
+        variant: "1x1",
+      },
+    ],
   },
   {
     date: "2008-11-01",
@@ -322,6 +506,12 @@ export const changelog = [
     desciption: "I married the love of my life.",
     icon: "💍",
     dateFormatOptions: dateFormat.day,
+    photos: [
+      {
+        src: "/changelog/nikah 4x5.png",
+        variant: "4x5",
+      },
+    ],
   },
   {
     date: "2021-02-21",
@@ -330,6 +520,24 @@ export const changelog = [
     desciption: "I proposed to my girlfriend. She said yes.",
     icon: "💍",
     dateFormatOptions: dateFormat.day,
+    photos: [
+      {
+        src: "/changelog/proposal.png",
+        variant: "1x1",
+      },
+      {
+        src: "/changelog/proposal-1.png",
+        variant: "1x1",
+      },
+      {
+        src: "/changelog/proposal-2.png",
+        variant: "1x1",
+      },
+      {
+        src: "/changelog/proposal-3.png",
+        variant: "1x1",
+      },
+    ],
   },
   {
     date: "2021-01-01",
@@ -347,6 +555,12 @@ export const changelog = [
     desciption: "Accepted an offer from Defter and relocated to Montenegro.",
     icon: "🇲🇪",
     dateFormatOptions: dateFormat.month,
+    photos: [
+      {
+        src: "/changelog/montenegro 4x3.png",
+        variant: "4x3",
+      },
+    ],
   },
   {
     date: "2018-10-01",
@@ -356,6 +570,28 @@ export const changelog = [
       "I served in the Turkish Armed Forces for 21 days as a short-term military service.",
     icon: "🎖️",
     dateFormatOptions: dateFormat.month,
+    photos: [
+      {
+        src: "/changelog/asker-1.jpg",
+        variant: "1x1",
+      },
+      {
+        src: "/changelog/asker-2.jpg",
+        variant: "1x1",
+      },
+      {
+        src: "/changelog/asker-3.jpg",
+        variant: "1x1",
+      },
+      {
+        src: "/changelog/asker-4.jpg",
+        variant: "1x1",
+      },
+      {
+        src: "/changelog/asker-5.jpg",
+        variant: "1x1",
+      },
+    ],
   },
   {
     date: "2015-09-01",
@@ -372,6 +608,12 @@ export const changelog = [
     title: "The big city",
     desciption: "Moved to Istanbul to work for Efabrika.",
     icon: "🚌",
+    photos: [
+      {
+        src: "/changelog/efabrika.png",
+        variant: "1x1",
+      },
+    ],
   },
   {
     date: "2012-01-28",
@@ -418,6 +660,12 @@ export const changelog = [
     desciption:
       "My family moved to Turkey when I was 2 years old. I grew up in Izmir.",
     icon: "🇹🇷",
+    photos: [
+      {
+        src: "/changelog/family.png",
+        variant: "1x1",
+      },
+    ],
   },
   {
     date: "1988-02-10",
@@ -426,8 +674,26 @@ export const changelog = [
     desciption: "2nd child of the family. I have an older sister.",
     icon: "👶🏻",
     dateFormatOptions: dateFormat.day,
+    photos: [
+      {
+        src: "/changelog/bg.png",
+        variant: "1x1",
+      },
+      {
+        src: "/changelog/bg-2 4x3.png",
+        variant: "4x3",
+      },
+      {
+        src: "/changelog/bg-3 4x3.png",
+        variant: "4x3",
+      },
+    ],
   },
-].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+] as const;
+
+export const changelog = changelogItems.sort(
+  (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+);
 
 export const projects = [
   {

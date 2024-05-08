@@ -1,5 +1,6 @@
 "use client";
 
+import PolaroidGallery from "@/components/blocks/polaroid-gallery";
 import { changelog, cn, formattedDateTimeline } from "@/lib/utils";
 import { Variants, motion } from "framer-motion";
 import React from "react";
@@ -28,7 +29,7 @@ export function ChangelogList(): React.ReactElement {
       animate="show"
     >
       {changelog.map((log, index) => (
-        <motion.div variants={item} key={index} className="relative group">
+        <motion.div variants={item} key={index} className="relative group/item">
           <div className="flex gap-x-3">
             <div className="relative last:after:hidden after:absolute after:top-7 after:bottom-0 after:start-3.5 after:w-px after:-translate-x-[0.5px] after:bg-zinc-200/50 dark:after:bg-zinc-700/50">
               <div className="relative z-10 size-7 flex justify-center items-center">
@@ -38,7 +39,7 @@ export function ChangelogList(): React.ReactElement {
                     !log.icon && "bg-zinc-400 dark:bg-zinc-600"
                   )}
                 >
-                  <div className="relative whitespace-nowrap w-11 text-center text-xl -top-2.5 -left-[18px]">
+                  <div className="relative z-0 whitespace-nowrap w-11 text-center text-xl -top-2.5 -left-[18px]">
                     {log.icon && log.icon}
                   </div>
                 </div>
@@ -66,6 +67,9 @@ export function ChangelogList(): React.ReactElement {
                     </span>
                   ))}
                 </p>
+              )}
+              {log.photos && log.photos.length && (
+                <PolaroidGallery images={log.photos} />
               )}
             </div>
           </div>
