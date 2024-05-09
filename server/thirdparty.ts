@@ -1789,6 +1789,7 @@ export const getGithubInfo = cache(
 }
 `;
 
+      console.log("API HIT: github");
       const res = await fetch("https://api.github.com/graphql", {
         method: "POST",
         headers: {
@@ -1831,6 +1832,7 @@ export const getXInfo = cache(
         accessSecret: process.env.X_MY_ACCESS_TOKEN_SECRET!,
       });
 
+      console.log("API HIT: X");
       const user = await client.v2.me({
         "user.fields": "public_metrics",
       });
