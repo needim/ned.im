@@ -1,5 +1,6 @@
 "use server";
 
+import { TwitterApiRateLimitPlugin } from "@twitter-api-v2/plugin-rate-limit";
 import { unstable_cache as cache } from "next/cache";
 import { TwitterApi } from "twitter-api-v2";
 
@@ -1741,6 +1742,19 @@ const DEFAULT_GITHUB_RESPONSE = {
   },
 };
 
+const rateLimitPlugin = new TwitterApiRateLimitPlugin();
+const client = new TwitterApi(
+  {
+    appKey: process.env.X_API_KEY!,
+    appSecret: process.env.X_API_SECRET!,
+    accessToken: process.env.X_MY_ACCESS_TOKEN!,
+    accessSecret: process.env.X_MY_ACCESS_TOKEN_SECRET!,
+  },
+  {
+    plugins: [rateLimitPlugin],
+  }
+);
+
 export const getGithubInfo = cache(
   async (): Promise<Externals.Github.ApiResponse> => {
     try {
@@ -1825,17 +1839,16 @@ export const getXInfo = cache(
         return DEFAULT_X_RESPONSE;
       }
 
-      const client = new TwitterApi({
-        appKey: process.env.X_API_KEY!,
-        appSecret: process.env.X_API_SECRET!,
-        accessToken: process.env.X_MY_ACCESS_TOKEN!,
-        accessSecret: process.env.X_MY_ACCESS_TOKEN_SECRET!,
-      });
+      const currentRateLimitForMe = await rateLimitPlugin.v2.getRateLimit(
+        "users/me"
+      );
+      console.log("API RATES: X", currentRateLimitForMe);
 
       console.log("API HIT: X");
       const user = await client.v2.me({
         "user.fields": "public_metrics",
       });
+      console.log("API RESPONSE: X", user);
 
       return user;
     } catch (error) {
@@ -1845,6 +1858,6 @@ export const getXInfo = cache(
   },
   ["ned-im-x-data"],
   {
-    revalidate: CACHE_DURATION,
+    revalidate: false,
   }
 );

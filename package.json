@@ -17,6 +17,7 @@
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-tooltip": "^1.0.7",
     "@tabler/icons-react": "^3.3.0",
+    "@twitter-api-v2/plugin-rate-limit": "^1.1.0",
     "@types/mdx": "^2.0.13",
     "@uidotdev/usehooks": "^2.4.1",
     "class-variance-authority": "^0.7.0",
@@ -43,5 +44,9 @@
     "tailwindcss": "^3.4.1",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "^5"
+  },
+  "packageManager": "pnpm@9.1.0+sha256.22e36fba7f4880ecf749a5ca128b8435da085ecd49575e7fb9e64d6bf4fad394",
+  "volta": {
+    "node": "20.12.2"
   }
 }
