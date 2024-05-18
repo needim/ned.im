@@ -141,7 +141,7 @@ export default function RootLayout({
             on Patreon!
             <br />
             <Link
-              href="https://patreon.com/nedim"
+              href="https://patreon.com/needim"
               className={cn(buttonVariants(), "inline-block mt-2")}
             >
               <IconBrandPatreonFilled className="inline-block text-sm mr-2 -ml-1" />{" "}
