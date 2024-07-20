@@ -169,7 +169,7 @@ const changelogItems: Array<{
 	},
 	{
 		date: "2024-07-02",
-		event: "Visit to Barcelona",
+		event: "Visit to Spain",
 		title: "Begur & Barcelona",
 		icon: "🇪🇸",
 		dateFormatOptions: dateFormat.month,
