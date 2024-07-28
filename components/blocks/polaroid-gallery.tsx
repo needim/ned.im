@@ -1,5 +1,6 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
+
+/* eslint-disable @next/next/no-img-element */
 
 import {
 	Dialog,
