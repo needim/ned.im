@@ -1,6 +1,5 @@
-"use client";
-
 /* eslint-disable @next/next/no-img-element */
+"use client";
 
 import {
 	Dialog,
@@ -18,7 +17,6 @@ import {
 	CarouselPrevious,
 } from "@/components/ui/carousel";
 import Polaroid, { type polaroidVariants } from "@/components/blocks/polaroid";
-import { useMediaQuery } from "usehooks-ts";
 
 type TImage = {
 	src: string;
@@ -30,10 +28,9 @@ const PolaroidGallery = ({
 	event,
 	title,
 }: { images: Array<TImage>; event: string; title?: string }) => {
-	const isMobile = useMediaQuery("(max-width: 640px)");
 	return (
 		<Dialog>
-			<DialogTrigger disabled={!isMobile}>
+			<DialogTrigger>
 				<div className="grid grid-cols-12 items-center -gap-10 mt-2">
 					{images.map((image) => (
 						<Polaroid key={image.src} variant={image.variant} src={image.src} />
@@ -51,7 +48,7 @@ const PolaroidGallery = ({
 							{images.map((image) => (
 								<CarouselItem
 									key={image.src}
-									className="md:basis-1/2 lg:basis-1/3"
+									// className="md:basis-1/2 lg:basis-1/2"
 								>
 									<img src={image.src} alt="" />
 								</CarouselItem>

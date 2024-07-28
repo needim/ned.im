@@ -33,8 +33,7 @@
     "react-dom": "^18",
     "remark-gfm": "^4.0.0",
     "tailwind-merge": "^2.3.0",
-    "twitter-api-v2": "^1.16.3",
-    "usehooks-ts": "^3.1.0"
+    "twitter-api-v2": "^1.16.3"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.13",
