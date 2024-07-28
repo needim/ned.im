@@ -18,7 +18,7 @@ import {
 	CarouselPrevious,
 } from "@/components/ui/carousel";
 import Polaroid, { type polaroidVariants } from "@/components/blocks/polaroid";
-import { useMediaQuery } from "@uidotdev/usehooks";
+import { useMediaQuery } from "usehooks-ts";
 
 type TImage = {
 	src: string;
