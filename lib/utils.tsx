@@ -134,7 +134,7 @@ const changelogItems: Array<{
 	date: string;
 	event: string;
 	title: string;
-	desciption?: string;
+	description?: string;
 	icon?: string;
 	dateFormatOptions?: (typeof dateFormat)[keyof typeof dateFormat];
 	photos?: Array<{ src: string; variant: "1x1" | "4x3" | "4x5" }>;
@@ -143,7 +143,7 @@ const changelogItems: Array<{
 		date: "2024-06-02",
 		event: "100 upvotes",
 		title: "on Peerlist",
-		desciption: "gider.im is on the top of the list.",
+		description: "gider.im is on the top of the list.",
 		icon: "💯",
 		dateFormatOptions: dateFormat.day,
 		// photos: [
@@ -157,7 +157,7 @@ const changelogItems: Array<{
 		date: "2024-05-27",
 		event: "Lauched gider.im",
 		title: "Public beta",
-		desciption: "gider.im is a personal finance tracker.",
+		description: "gider.im is a personal finance tracker.",
 		icon: "🚀",
 		dateFormatOptions: dateFormat.day,
 		// photos: [
@@ -341,7 +341,7 @@ const changelogItems: Array<{
 		date: "2023-04-21",
 		event: "Visit to Greece",
 		title: "Chios Island",
-		desciption: "Big family trip.",
+		description: "Big family trip.",
 		icon: "🇬🇷",
 		dateFormatOptions: dateFormat.day,
 		photos: [
@@ -359,7 +359,7 @@ const changelogItems: Array<{
 		date: "2022-07-08",
 		event: "Visit to Egypt",
 		title: "Sharm El-Sheikh",
-		desciption: "Food was terrible for me.",
+		description: "Food was terrible for me.",
 		icon: "🇪🇬",
 		dateFormatOptions: dateFormat.day,
 		photos: [
@@ -385,7 +385,7 @@ const changelogItems: Array<{
 		date: "2021-06-16",
 		event: "Honeymoon",
 		title: "Zanzibar",
-		desciption: "We went to Zanzibar for our honeymoon.",
+		description: "We went to Zanzibar for our honeymoon.",
 		icon: "🏝️",
 		dateFormatOptions: dateFormat.day,
 		photos: [
@@ -487,7 +487,7 @@ const changelogItems: Array<{
 		date: "2023-12-01",
 		event: "Visit to Hungary",
 		title: "Budapest",
-		desciption: "Beautiful city. I loved it.",
+		description: "Beautiful city. I loved it.",
 		icon: "🇭🇺",
 		dateFormatOptions: dateFormat.month,
 		photos: [
@@ -501,7 +501,7 @@ const changelogItems: Array<{
 		date: "2023-02-01",
 		event: "Visit to Checz",
 		title: "Prague",
-		desciption: "My dream city.",
+		description: "My dream city.",
 		icon: "🇨🇿",
 		dateFormatOptions: dateFormat.month,
 		photos: [
@@ -527,7 +527,7 @@ const changelogItems: Array<{
 		date: "2023-09-08",
 		event: "Become an uncle",
 		title: "His name is Atlas",
-		desciption: "My sister gave birth to a handsome boy.",
+		description: "My sister gave birth to a handsome boy.",
 		icon: "👶🏻",
 		dateFormatOptions: dateFormat.day,
 		photos: [
@@ -548,7 +548,7 @@ const changelogItems: Array<{
 		date: "2022-07-10",
 		event: "First squba diving",
 		title: "It was amazing!",
-		desciption: "I did my first squba diving in Sharm El-Sheikh, Egypt.",
+		description: "I did my first squba diving in Sharm El-Sheikh, Egypt.",
 		icon: "🤿",
 		dateFormatOptions: dateFormat.day,
 		photos: [
@@ -581,7 +581,7 @@ const changelogItems: Array<{
 		date: "2014-01-01",
 		event: "First HTML5 game",
 		title: "Pixel Race Game",
-		desciption: "I created my first HTML5 game.",
+		description: "I created my first HTML5 game.",
 		icon: "🎮",
 		photos: [
 			{
@@ -607,7 +607,7 @@ const changelogItems: Array<{
 		date: "2010-05-24",
 		event: "Lost my dad",
 		title: "It was a hard time for me.",
-		desciption: "Show your love to your parents while you can.",
+		description: "Show your love to your parents while you can.",
 		icon: "🕯️",
 		dateFormatOptions: dateFormat.day,
 		photos: [
@@ -635,7 +635,7 @@ const changelogItems: Array<{
 		date: "2024-05-06",
 		event: "New website",
 		title: "ned.im",
-		desciption: "Finally, I have published own personal website.",
+		description: "Finally, I have published own personal website.",
 		icon: "🚀",
 		dateFormatOptions: dateFormat.day,
 	},
@@ -643,7 +643,7 @@ const changelogItems: Array<{
 		date: "2024-03-01",
 		event: "Bought a house",
 		title: "I bought a house in Antalya, Turkey",
-		desciption: "First big achievement in my life.",
+		description: "First big achievement in my life.",
 		icon: "🏠",
 		dateFormatOptions: dateFormat.month,
 	},
@@ -651,7 +651,7 @@ const changelogItems: Array<{
 		date: "2021-06-12",
 		event: "Married",
 		title: "I got married",
-		desciption: "I married the love of my life.",
+		description: "I married the love of my life.",
 		icon: "💍",
 		dateFormatOptions: dateFormat.day,
 		photos: [
@@ -665,7 +665,7 @@ const changelogItems: Array<{
 		date: "2021-02-21",
 		event: "Engaged",
 		title: "I got engaged",
-		desciption: "I proposed to my girlfriend. She said yes.",
+		description: "I proposed to my girlfriend. She said yes.",
 		icon: "💍",
 		dateFormatOptions: dateFormat.day,
 		photos: [
@@ -691,7 +691,7 @@ const changelogItems: Array<{
 		date: "2021-01-01",
 		event: "Relocate",
 		title: "Return to Turkey",
-		desciption:
+		description:
 			"I returned to Turkey to work for Defter as a Software Manager & Lead Developer.",
 		icon: "🇹🇷",
 		dateFormatOptions: dateFormat.month,
@@ -700,7 +700,7 @@ const changelogItems: Array<{
 		date: "2018-12-01",
 		event: "Relocate",
 		title: "Moved to Montenegro",
-		desciption: "Accepted an offer from Defter and relocated to Montenegro.",
+		description: "Accepted an offer from Defter and relocated to Montenegro.",
 		icon: "🇲🇪",
 		dateFormatOptions: dateFormat.month,
 		photos: [
@@ -714,7 +714,7 @@ const changelogItems: Array<{
 		date: "2018-10-01",
 		event: "Military Service",
 		title: "Short term military service",
-		desciption:
+		description:
 			"I served in the Turkish Armed Forces for 21 days as a short-term military service.",
 		icon: "🎖️",
 		dateFormatOptions: dateFormat.month,
@@ -745,7 +745,7 @@ const changelogItems: Array<{
 		date: "2015-09-01",
 		event: "First startup",
 		title: "whodidthis.io",
-		desciption:
+		description:
 			"A platform that helps people to find out who did what in their projects.",
 		icon: "💡",
 		dateFormatOptions: dateFormat.year,
@@ -754,7 +754,7 @@ const changelogItems: Array<{
 		date: "2012-08-01",
 		event: "Moved to Istanbul",
 		title: "The big city",
-		desciption: "Moved to Istanbul to work for Efabrika.",
+		description: "Moved to Istanbul to work for Efabrika.",
 		icon: "🚌",
 		photos: [
 			{
@@ -767,7 +767,7 @@ const changelogItems: Array<{
 		date: "2012-01-28",
 		event: "First commit",
 		title: "First commit on GitHub",
-		desciption: "My open source journey started.",
+		description: "My open source journey started.",
 		icon: "🎉",
 		dateFormatOptions: dateFormat.day,
 	},
@@ -782,7 +782,7 @@ const changelogItems: Array<{
 		date: "2008-01-01",
 		event: "Education",
 		title: "Drop out from Ege University",
-		desciption:
+		description:
 			"I decided to drop out from university to pursue my career in software development.",
 		icon: "🎓",
 	},
@@ -790,14 +790,14 @@ const changelogItems: Array<{
 		date: "2005-01-01",
 		event: "Education",
 		title: "I started my university education at Ege University",
-		desciption: "My major was football trainer 😀",
+		description: "My major was football trainer 😀",
 		icon: "🎓",
 	},
 	{
 		date: "2002-01-01",
 		event: "Football",
 		title: "I started playing football",
-		desciption:
+		description:
 			"I played football for 6 years. I was actually very good at it.",
 		icon: "⚽",
 	},
@@ -805,7 +805,7 @@ const changelogItems: Array<{
 		date: "1990-01-01",
 		event: "Relocate",
 		title: "A journey to Turkey",
-		desciption:
+		description:
 			"My family moved to Turkey when I was 2 years old. I grew up in Izmir.",
 		icon: "🇹🇷",
 		photos: [
@@ -819,7 +819,7 @@ const changelogItems: Array<{
 		date: "1988-02-10",
 		event: "Born",
 		title: "I was born in 🇧🇬 Bulgaria, Khardzali.",
-		desciption: "2nd child of the family. I have an older sister.",
+		description: "2nd child of the family. I have an older sister.",
 		icon: "👶🏻",
 		dateFormatOptions: dateFormat.day,
 		photos: [

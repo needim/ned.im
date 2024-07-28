@@ -59,9 +59,9 @@ export function ChangelogList(): React.ReactElement {
 							<h2 className="mt-0.5 sm:mt-0 font-sans text-md !font-normal">
 								<span className="font-semibold">{log.event}</span> — {log.title}
 							</h2>
-							{log.desciption && (
+							{log.description && (
 								<p className="mt-0.5 sm:mt-1 text-sm text-muted-foreground">
-									{log.desciption.split("\n").map((line, index) => (
+									{log.description.split("\n").map((line, index) => (
 										// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
 										<span key={index}>
 											{line}
@@ -72,7 +72,11 @@ export function ChangelogList(): React.ReactElement {
 							)}
 							{/* biome-ignore lint/complexity/useOptionalChain: <explanation> */}
 							{log.photos && log.photos.length && (
-								<PolaroidGallery images={log.photos} />
+								<PolaroidGallery
+									images={log.photos}
+									event={log.event}
+									title={log.title}
+								/>
 							)}
 						</div>
 					</div>
