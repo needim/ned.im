@@ -37,7 +37,7 @@ importers:
         version: 3.11.0(react@18.3.1)
       '@twitter-api-v2/plugin-rate-limit':
         specifier: ^1.1.0
-        version: 1.1.0(twitter-api-v2@1.16.3)
+        version: 1.1.0(twitter-api-v2@1.17.2)
       '@types/mdx':
         specifier: ^2.0.13
         version: 2.0.13
@@ -82,7 +82,7 @@ importers:
         version: 2.4.0
       twitter-api-v2:
         specifier: ^1.16.3
-        version: 1.16.3
+        version: 1.17.2
     devDependencies:
       '@tailwindcss/typography':
         specifier: ^0.5.13
@@ -2524,8 +2524,8 @@ packages:
   tslib@2.6.2:
     resolution: {integrity: sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==}
 
-  twitter-api-v2@1.16.3:
-    resolution: {integrity: sha512-T9Wbq1y3IrTshBvtVawpWp1GmL3mduF4RhieSfM1HsL10Qda0EeJMDUwr5C6IeelnSZ65tiiXzs0xUS8FHM9XA==}
+  twitter-api-v2@1.17.2:
+    resolution: {integrity: sha512-V8QvCkuQ+ydIakwYbVC4cuQxGlvjdRZI0L7TT5v9zGsf+SwX40rv3IFRHB8Z1cXJLcRFT0FI3xG3/f4zwS6cRA==}
 
   type-check@0.4.0:
     resolution: {integrity: sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew==}
@@ -3202,9 +3202,9 @@ snapshots:
 
   '@tanstack/virtual-core@3.5.0': {}
 
-  '@twitter-api-v2/plugin-rate-limit@1.1.0(twitter-api-v2@1.16.3)':
+  '@twitter-api-v2/plugin-rate-limit@1.1.0(twitter-api-v2@1.17.2)':
     dependencies:
-      twitter-api-v2: 1.16.3
+      twitter-api-v2: 1.17.2
 
   '@types/acorn@4.0.6':
     dependencies:
@@ -5647,7 +5647,7 @@ snapshots:
 
   tslib@2.6.2: {}
 
-  twitter-api-v2@1.16.3: {}
+  twitter-api-v2@1.17.2: {}
 
   type-check@0.4.0:
     dependencies:
