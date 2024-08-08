@@ -57,7 +57,7 @@ export default async function Readme() {
 				</div>
 				<div className="mt-6 flex gap-6">
 					<SocialLink
-						href="https://twitter.com/needim"
+						href="https://x.com/needim"
 						aria-label="Follow on X"
 						count={xResponse.data?.public_metrics?.followers_count}
 						label="followers"
