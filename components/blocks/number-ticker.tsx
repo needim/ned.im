@@ -12,7 +12,7 @@ export default function NumberTicker({
   label,
   play,
 }: {
-  value: number | string;
+  value: number;
   direction?: "up" | "down";
   className?: string;
   label?: string;
@@ -20,7 +20,6 @@ export default function NumberTicker({
   play?: boolean;
 }) {
   const ref = useRef<HTMLSpanElement>(null);
-  value = typeof value === "string" ? parseInt(value) : value;
   const motionValue = useMotionValue(direction === "down" ? value : 0);
   const springValue = useSpring(motionValue, {
     damping: 100,
@@ -39,7 +38,7 @@ export default function NumberTicker({
       springValue.on("change", (latest) => {
         if (ref.current) {
           ref.current.textContent = `${Intl.NumberFormat("en-US").format(
-            latest
+            parseInt(latest.toFixed(0))
           )} ${label ? label : ""}`;
         }
       }),
