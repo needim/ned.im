@@ -37,7 +37,7 @@ export default function Notes() {
       imageSrc: "/stack/phone.png",
     },
     {
-      name: "MacBook Pro 13” M1",
+      name: "MacBook M3 Pro 14” - 18 GB",
       brand: "Apple",
       category: "Laptop",
       imageSrc: "/stack/laptop.png",
