@@ -863,17 +863,7 @@ export const projects = [
     released: "2023-01-01",
     description: "Hayatı kolaylaştıran teknolojik defter.",
     link: { href: "https://birdefter.com", label: "birdefter.com" },
-    // logo: logoPlanetaria,
   },
-  // {
-  //   name: "Radix UI & Tailwind",
-  //   description: "Radix UI Themes Integration with Tailwind CSS",
-  //   link: {
-  //     href: "https://ned.im/radix-ui-themes-with-tailwind",
-  //     label: "ned.im/radix-ui-theme...",
-  //   },
-  //   logo: <></>,
-  // },
   {
     name: "Noty (Deprecated)",
     released: "2023-01-01",
@@ -888,25 +878,5 @@ export const projects = [
     description:
       "Calculates monthly payments and total loan repayment based on entered details.",
     link: { href: "https://yenievimkredisi.com", label: "yenievimkredisi.com" },
-    // logo: ,
   },
-  // {
-  //   name: "useOverlay",
-  //   description: "If Floating UI and Framer Motion were to merge.",
-  //   link: {
-  //     href: "https://ned.im/react-useoverlay",
-  //     label: "ned.im/react-useoverlay",
-  //   },
-  //   logo: <IconBalloonFilled className="size-10" />,
-  // },
-  // {
-  //   name: "Pixel Race Game",
-  //   description:
-  //     "A simple HTML5 game that I created in 2014. It was my first game.",
-  //   link: {
-  //     href: "https://ned.im/pixel-race-game",
-  //     label: "ned.im/pixel-race-game",
-  //   },
-  //   logo: <IconCarCrash className="size-10" />,
-  // },
 ];
