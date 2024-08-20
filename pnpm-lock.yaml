@@ -52,7 +52,7 @@ importers:
         version: 2.1.1
       embla-carousel-react:
         specifier: ^8.1.8
-        version: 8.1.8(react@18.3.1)
+        version: 8.2.0(react@18.3.1)
       framer-motion:
         specifier: ^11.3.24
         version: 11.3.24(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -712,6 +712,9 @@ packages:
   '@types/node@22.1.0':
     resolution: {integrity: sha512-AOmuRF0R2/5j1knA3c6G3HOk523Ga+l+ZXltX8SF1+5oqcXijjfTd8fY3XRZqSihEu9XhtQnKYLmkFaoxgsJHw==}
 
+  '@types/node@22.4.1':
+    resolution: {integrity: sha512-1tbpb9325+gPnKK0dMm+/LMriX0vKxf6RnB0SZUqfyVkQ4fMgUSySqhxE/y8Jvs4NyF1yHzTfG9KlnkIODxPKg==}
+
   '@types/prop-types@15.7.12':
     resolution: {integrity: sha512-5zvhXYtRNRluoE/jAp4GVsSduVUzNWKkOZrCDBWYtE7biZywwdC2AcEzg+cSMLFRfVgeAFqpfNabiPjxFddV1Q==}
 
@@ -1139,21 +1142,21 @@ packages:
   eastasianwidth@0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
 
-  electron-to-chromium@1.5.5:
-    resolution: {integrity: sha512-QR7/A7ZkMS8tZuoftC/jfqNkZLQO779SSW3YuZHP4eXpj3EffGLFcB/Xu9AAZQzLccTiCV+EmUo3ha4mQ9wnlA==}
+  electron-to-chromium@1.5.12:
+    resolution: {integrity: sha512-tIhPkdlEoCL1Y+PToq3zRNehUaKp3wBX/sr7aclAWdIWjvqAe/Im/H0SiCM4c1Q8BLPHCdoJTol+ZblflydehA==}
 
-  embla-carousel-react@8.1.8:
-    resolution: {integrity: sha512-b8DcmC+j1vqVWSM6rU/GYGyY6Kp9LX8OoikZPBKmV6qL8s94sSPGl6jtDLLUtV8TTIQGMYOlOKUgoMAt/0TwOQ==}
+  embla-carousel-react@8.2.0:
+    resolution: {integrity: sha512-dWqbmaEBQjeAcy/EKrcAX37beVr0ubXuHPuLZkx27z58V1FIvRbbMb4/c3cLZx0PAv/ofngX2QFrwUB+62SPnw==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.1 || ^18.0.0
 
-  embla-carousel-reactive-utils@8.1.8:
-    resolution: {integrity: sha512-bwV/23WD3Ecm0YuQ4I6Syzs3tdVJw0Oj3VCZlEODv1kH8LZ5kNDLgX2Uvx5brvoe2hpifBHPBQ8gYlxNL5kMPA==}
+  embla-carousel-reactive-utils@8.2.0:
+    resolution: {integrity: sha512-ZdaPNgMydkPBiDRUv+wRIz3hpZJ3LKrTyz+XWi286qlwPyZFJDjbzPBiXnC3czF9N/nsabSc7LTRvGauUzwKEg==}
     peerDependencies:
-      embla-carousel: 8.1.8
+      embla-carousel: 8.2.0
 
-  embla-carousel@8.1.8:
-    resolution: {integrity: sha512-KuHPA8qcAts6YE6ELtt38XYAb26hnKw8Ga0lSXmrhm1oI97t6oACFkqSsy33dfeZQEhaZB6VwWvaWQJRJVgSgA==}
+  embla-carousel@8.2.0:
+    resolution: {integrity: sha512-rf2GIX8rab9E6ZZN0Uhz05746qu2KrDje9IfFyHzjwxLwhvGjUt6y9+uaY1Sf+B0OPSa3sgas7BE2hWZCtopTA==}
 
   emoji-regex@8.0.0:
     resolution: {integrity: sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==}
@@ -2513,8 +2516,8 @@ packages:
       uglify-js:
         optional: true
 
-  terser@5.31.5:
-    resolution: {integrity: sha512-YPmas0L0rE1UyLL/llTWA0SiDOqIcAQYLeUj7cJYzXHlRTAnMSg9pPe4VJ5PlKvTrPQsdVFuiRiwyeNlYgwh2Q==}
+  terser@5.31.6:
+    resolution: {integrity: sha512-PQ4DAriWzKj+qgehQ7LK5bQqCFNMmlhjR2PFFLuqGCpuCAauxemVBWwWOxo3UIwWQx8+Pr61Df++r76wDmkQBg==}
     engines: {node: '>=10'}
     hasBin: true
 
@@ -2591,6 +2594,9 @@ packages:
   undici-types@6.13.0:
     resolution: {integrity: sha512-xtFJHudx8S2DSoujjMd1WeWvn7KKWFRESZTMeL1RptAYERu29D6jphMjjY+vn96jvN3kVPDNxU/E13VTaXj6jg==}
 
+  undici-types@6.19.8:
+    resolution: {integrity: sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw==}
+
   unified@11.0.4:
     resolution: {integrity: sha512-apMPnyLjAX+ty4OrNap7yumyVAMlKx5IWU2wlzzUdYJO9A8f1p9m/gywF/GM2ZDFcjQPrx59Mc90KwmxsoklxQ==}
 
@@ -2653,8 +2659,8 @@ packages:
   vfile@6.0.1:
     resolution: {integrity: sha512-1bYqc7pt6NIADBJ98UiG0Bn/CHIVOoZ/IyEkqIruLg0mE1BKzkOXY2D6CSqQIcKqgadppE5lrxgWXJmXd7zZJw==}
 
-  watchpack@2.4.1:
-    resolution: {integrity: sha512-8wrBCMtVhqcXP2Sup1ctSkga6uc2Bx0IIvKyT7yTFier5AXHooSI+QyQQAtTb7+E0IUCCKyTFmXqdqgum2XWGg==}
+  watchpack@2.4.2:
+    resolution: {integrity: sha512-TnbFSbcOCcDgjZ4piURLCbJ3nJhznVh9kw6F6iokjiFPl8ONxe9A6nMDVXDiNbrSfLILs6vB07F7wLBrwPYzJw==}
     engines: {node: '>=10.13.0'}
 
   webpack-sources@3.2.3:
@@ -3329,6 +3335,10 @@ snapshots:
     dependencies:
       undici-types: 6.13.0
 
+  '@types/node@22.4.1':
+    dependencies:
+      undici-types: 6.19.8
+
   '@types/prop-types@15.7.12': {}
 
   '@types/react-dom@18.3.0':
@@ -3637,7 +3647,7 @@ snapshots:
   browserslist@4.23.3:
     dependencies:
       caniuse-lite: 1.0.30001651
-      electron-to-chromium: 1.5.5
+      electron-to-chromium: 1.5.12
       node-releases: 2.0.18
       update-browserslist-db: 1.1.0(browserslist@4.23.3)
 
@@ -3798,19 +3808,19 @@ snapshots:
 
   eastasianwidth@0.2.0: {}
 
-  electron-to-chromium@1.5.5: {}
+  electron-to-chromium@1.5.12: {}
 
-  embla-carousel-react@8.1.8(react@18.3.1):
+  embla-carousel-react@8.2.0(react@18.3.1):
     dependencies:
-      embla-carousel: 8.1.8
-      embla-carousel-reactive-utils: 8.1.8(embla-carousel@8.1.8)
+      embla-carousel: 8.2.0
+      embla-carousel-reactive-utils: 8.2.0(embla-carousel@8.2.0)
       react: 18.3.1
 
-  embla-carousel-reactive-utils@8.1.8(embla-carousel@8.1.8):
+  embla-carousel-reactive-utils@8.2.0(embla-carousel@8.2.0):
     dependencies:
-      embla-carousel: 8.1.8
+      embla-carousel: 8.2.0
 
-  embla-carousel@8.1.8: {}
+  embla-carousel@8.2.0: {}
 
   emoji-regex@8.0.0: {}
 
@@ -4548,7 +4558,7 @@ snapshots:
 
   jest-worker@27.5.1:
     dependencies:
-      '@types/node': 22.1.0
+      '@types/node': 22.4.1
       merge-stream: 2.0.0
       supports-color: 8.1.1
 
@@ -5677,10 +5687,10 @@ snapshots:
       jest-worker: 27.5.1
       schema-utils: 3.3.0
       serialize-javascript: 6.0.2
-      terser: 5.31.5
+      terser: 5.31.6
       webpack: 5.91.0
 
-  terser@5.31.5:
+  terser@5.31.6:
     dependencies:
       '@jridgewell/source-map': 0.3.6
       acorn: 8.12.1
@@ -5771,6 +5781,8 @@ snapshots:
 
   undici-types@6.13.0: {}
 
+  undici-types@6.19.8: {}
+
   unified@11.0.4:
     dependencies:
       '@types/unist': 3.0.2
@@ -5851,7 +5863,7 @@ snapshots:
       unist-util-stringify-position: 4.0.0
       vfile-message: 4.0.2
 
-  watchpack@2.4.1:
+  watchpack@2.4.2:
     dependencies:
       glob-to-regexp: 0.4.1
       graceful-fs: 4.2.11
@@ -5882,7 +5894,7 @@ snapshots:
       schema-utils: 3.3.0
       tapable: 2.2.1
       terser-webpack-plugin: 5.3.10(webpack@5.91.0)
-      watchpack: 2.4.1
+      watchpack: 2.4.2
       webpack-sources: 3.2.3
     transitivePeerDependencies:
       - '@swc/core'
