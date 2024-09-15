@@ -4,7 +4,6 @@ import { OpenSourceCard } from "@/components/blocks/opensource-card";
 import { ProjectCard } from "@/components/blocks/project-card";
 import { GitHubIcon, XIcon } from "@/components/blocks/social-icons";
 import { SocialLink } from "@/components/blocks/social-link";
-import { IconSmashing } from "@/components/icons/smashing";
 import { careerItems } from "@/lib/utils";
 import { getGithubInfo, getXInfo } from "@/server/thirdparty";
 import Link from "next/link";
@@ -111,10 +110,7 @@ export default async function Readme() {
 							</p>
 							{careerItems.map((item, index) => (
 								<div
-									key={`career-${
-										// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-										index
-									}`}
+									key={`career-${index}`}
 									className="flex flex-col sm:flex-row items-baseline gap-2 sm:gap-4"
 								>
 									<div className="font-mono flex min-w-24 text-sm text-muted-foreground">

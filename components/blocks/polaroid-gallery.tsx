@@ -1,6 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
+import Polaroid, { type polaroidVariants } from "@/components/blocks/polaroid";
+import {
+	Carousel,
+	CarouselContent,
+	CarouselItem,
+	CarouselNext,
+	CarouselPrevious,
+} from "@/components/ui/carousel";
 import {
 	Dialog,
 	DialogContent,
@@ -9,14 +17,6 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/dialog";
-import {
-	Carousel,
-	CarouselContent,
-	CarouselItem,
-	CarouselNext,
-	CarouselPrevious,
-} from "@/components/ui/carousel";
-import Polaroid, { type polaroidVariants } from "@/components/blocks/polaroid";
 
 type TImage = {
 	src: string;

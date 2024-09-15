@@ -3,154 +3,154 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    --background: 210 40% 98%;
-    --foreground: 240 10% 3.9%;
+	:root {
+		--background: 210 40% 98%;
+		--foreground: 240 10% 3.9%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
+		--card: 0 0% 100%;
+		--card-foreground: 240 10% 3.9%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
+		--popover: 0 0% 100%;
+		--popover-foreground: 240 10% 3.9%;
 
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
+		--primary: 240 5.9% 10%;
+		--primary-foreground: 0 0% 98%;
 
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
+		--secondary: 240 4.8% 95.9%;
+		--secondary-foreground: 240 5.9% 10%;
 
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
+		--muted: 240 4.8% 95.9%;
+		--muted-foreground: 240 3.8% 46.1%;
 
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
+		--accent: 240 4.8% 95.9%;
+		--accent-foreground: 240 5.9% 10%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
+		--destructive: 0 84.2% 60.2%;
+		--destructive-foreground: 0 0% 98%;
 
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 10% 3.9%;
+		--border: 240 5.9% 90%;
+		--input: 240 5.9% 90%;
+		--ring: 240 10% 3.9%;
 
-    --radius: 0.5rem;
-  }
+		--radius: 0.5rem;
+	}
 
-  .dark {
-    --background: 240 10% 4%;
-    --foreground: 0 0% 98%;
+	.dark {
+		--background: 240 10% 4%;
+		--foreground: 0 0% 98%;
 
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
+		--card: 240 10% 3.9%;
+		--card-foreground: 0 0% 98%;
 
-    --popover: 240 3.7% 15.9%;
-    --popover-foreground: 0 0% 98%;
+		--popover: 240 3.7% 15.9%;
+		--popover-foreground: 0 0% 98%;
 
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
+		--primary: 0 0% 98%;
+		--primary-foreground: 240 5.9% 10%;
 
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
+		--secondary: 240 3.7% 15.9%;
+		--secondary-foreground: 0 0% 98%;
 
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
+		--muted: 240 3.7% 15.9%;
+		--muted-foreground: 240 5% 64.9%;
 
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
+		--accent: 240 3.7% 15.9%;
+		--accent-foreground: 0 0% 98%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
+		--destructive: 0 62.8% 30.6%;
+		--destructive-foreground: 0 0% 98%;
 
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
-  }
+		--border: 240 3.7% 15.9%;
+		--input: 240 3.7% 15.9%;
+		--ring: 240 4.9% 83.9%;
+	}
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
-  html {
-    @apply antialiased min-h-screen bg-background text-foreground font-sans;
-  }
-  body {
-    @apply min-h-screen font-sans bg-background text-foreground;
-  }
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    @apply font-serif !font-medium tracking-tight;
-  }
+	* {
+		@apply border-border;
+	}
+	html {
+		@apply antialiased min-h-screen bg-background text-foreground font-sans;
+	}
+	body {
+		@apply min-h-screen font-sans bg-background text-foreground;
+	}
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		@apply font-serif !font-medium tracking-tight;
+	}
 
-  .pro {
-    @apply prose prose-zinc dark:prose-invert;
-  }
+	.pro {
+		@apply prose prose-zinc dark:prose-invert;
+	}
 
-  a {
-    @apply underline-offset-4;
-  }
+	a {
+		@apply underline-offset-4;
+	}
 
-  blockquote {
-    @apply !not-italic !font-normal;
-  }
+	blockquote {
+		@apply !not-italic !font-normal;
+	}
 }
 
 @layer utilities {
-  .debug {
-    @apply outline-dashed outline-red-500/75;
-  }
+	.debug {
+		@apply outline-dashed outline-red-500/75;
+	}
 
-  .shadow-polaroid {
-    @apply shadow-[0px_0px_0px_1px_rgba(0,0,0,0.06),0px_1px_1px_-0.5px_rgba(0,0,0,0.06),0px_3px_3px_-1.5px_rgba(0,0,0,0.06),_0px_6px_6px_-3px_rgba(0,0,0,0.06),0px_12px_12px_-6px_rgba(0,0,0,0.06),0px_24px_24px_-12px_rgba(0,0,0,0.06)];
-  }
+	.shadow-polaroid {
+		@apply shadow-[0px_0px_0px_1px_rgba(0,0,0,0.06),0px_1px_1px_-0.5px_rgba(0,0,0,0.06),0px_3px_3px_-1.5px_rgba(0,0,0,0.06),_0px_6px_6px_-3px_rgba(0,0,0,0.06),0px_12px_12px_-6px_rgba(0,0,0,0.06),0px_24px_24px_-12px_rgba(0,0,0,0.06)];
+	}
 
-  .faded-border {
-    background: radial-gradient(
-      49.41% 64.58% at 49.4% 0,
-      hsla(0, 0%, 50%, 0.03) 0,
-      hsla(0, 0%, 50%, 0) 100%
-    );
-    border-top: 1px solid;
-    border-image-source: linear-gradient(
-      90deg,
-      transparent 0,
-      hsla(0, 0%, 50%, 0.19) 30%,
-      hsla(0, 0%, 50%, 0.19) 70%,
-      transparent
-    );
-    border-image-slice: 1;
-  }
-  .dark .faded-border {
-    background: radial-gradient(
-      49.41% 64.58% at 49.4% 0,
-      hsla(0, 0%, 50%, 0.03) 0,
-      hsla(0, 0%, 50%, 0) 100%
-    );
-    border-top: 1px solid;
-    border-image-source: linear-gradient(
-      90deg,
-      transparent 0,
-      hsla(0, 0%, 50%, 0.19) 30%,
-      hsla(0, 0%, 50%, 0.19) 70%,
-      transparent
-    );
-    border-image-slice: 1;
-  }
+	.faded-border {
+		background: radial-gradient(
+			49.41% 64.58% at 49.4% 0,
+			hsla(0, 0%, 50%, 0.03) 0,
+			hsla(0, 0%, 50%, 0) 100%
+		);
+		border-top: 1px solid;
+		border-image-source: linear-gradient(
+			90deg,
+			transparent 0,
+			hsla(0, 0%, 50%, 0.19) 30%,
+			hsla(0, 0%, 50%, 0.19) 70%,
+			transparent
+		);
+		border-image-slice: 1;
+	}
+	.dark .faded-border {
+		background: radial-gradient(
+			49.41% 64.58% at 49.4% 0,
+			hsla(0, 0%, 50%, 0.03) 0,
+			hsla(0, 0%, 50%, 0) 100%
+		);
+		border-top: 1px solid;
+		border-image-source: linear-gradient(
+			90deg,
+			transparent 0,
+			hsla(0, 0%, 50%, 0.19) 30%,
+			hsla(0, 0%, 50%, 0.19) 70%,
+			transparent
+		);
+		border-image-slice: 1;
+	}
 }
 
 #carbon-responsive .carbon-responsive-wrap {
-  border-radius: var(--radius);
-  border: 1px solid hsl(var(--border)) !important;
+	border-radius: var(--radius);
+	border: 1px solid hsl(var(--border)) !important;
 }
 
 .dark #carbon-responsive .carbon-responsive-wrap {
-  background: hsl(var(--background));
+	background: hsl(var(--background));
 }
 
 .dark #carbon-responsive a,
 #carbon-responsive a:hover {
-  color: var(--primary);
+	color: var(--primary);
 }

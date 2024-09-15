@@ -29,7 +29,6 @@ export function ChangelogList(): React.ReactElement {
 			animate="show"
 		>
 			{changelog.map((log, index) => (
-				// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
 				<motion.div variants={item} key={index} className="relative group/item">
 					<div className="flex gap-x-3">
 						<div className="relative last:after:hidden after:absolute after:top-7 after:bottom-0 after:start-3.5 after:w-px after:-translate-x-[0.5px] after:bg-zinc-200/50 dark:after:bg-zinc-700/50">
@@ -62,7 +61,6 @@ export function ChangelogList(): React.ReactElement {
 							{log.description && (
 								<p className="mt-0.5 sm:mt-1 text-sm text-muted-foreground">
 									{log.description.split("\n").map((line, index) => (
-										// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
 										<span key={index}>
 											{line}
 											<br />

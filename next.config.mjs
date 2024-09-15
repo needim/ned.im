@@ -3,23 +3,23 @@ import remarkGfm from "remark-gfm";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  pageExtensions: ["mdx", "ts", "tsx"],
-  reactStrictMode: false,
-  logging: {
-    fetches: {
-      fullUrl: true,
-    },
-  },
-  experimental: {
-    mdxRs: true,
-  },
+	pageExtensions: ["mdx", "ts", "tsx"],
+	reactStrictMode: false,
+	logging: {
+		fetches: {
+			fullUrl: true,
+		},
+	},
+	experimental: {
+		mdxRs: true,
+	},
 };
 
 const withMDX = createMDX({
-  options: {
-    remarkPlugins: [remarkGfm],
-    rehypePlugins: [],
-  },
+	options: {
+		remarkPlugins: [remarkGfm],
+		rehypePlugins: [],
+	},
 });
 
 export default withMDX(nextConfig);
