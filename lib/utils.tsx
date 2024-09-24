@@ -1,5 +1,7 @@
 import GiderimLogo from "@/components/blocks/giderim-logo";
+import IconGithub from "@/components/icons/github";
 import { IconSmashing } from "@/components/icons/smashing";
+import { IconExternalLink } from "@tabler/icons-react";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -40,16 +42,29 @@ export const careerItems = [
 		title: "Software Manager & Lead Developer",
 		company: { name: "Defter", url: "https://birdefter.com" },
 		location: "Istanbul, Turkey",
-		description: null,
+		description:
+			"I am currently working at Defter as a Software Manager & Lead Developer.",
+		subRoles: [
+			{
+				from: 2019,
+				to: 2021,
+				title: "Full Stack Developer",
+				company: { name: "Defter", url: "https://birdefter.com" },
+				location: "Podgorica, Montenegro",
+				description:
+					"I was responsible for the development of the company's CRM products.",
+			},
+		],
 	},
-	{
-		from: 2019,
-		to: 2021,
-		title: "Full Stack Developer",
-		company: { name: "Defter", url: "https://birdefter.com" },
-		location: "Podgorica, Montenegro",
-		description: null,
-	},
+	// {
+	// 	from: 2019,
+	// 	to: 2021,
+	// 	title: "Full Stack Developer",
+	// 	company: { name: "Defter", url: "https://birdefter.com" },
+	// 	location: "Podgorica, Montenegro",
+	// 	description:
+	// 		"I was responsible for the development of the company's CRM products.",
+	// },
 	{
 		from: 2018,
 		to: 2018,
@@ -64,7 +79,7 @@ export const careerItems = [
 		to: 2018,
 		title: "Full Stack Developer",
 		company: { name: "Freelancer", url: null },
-		location: "Turkey",
+		location: "Izmir, Turkey",
 		description:
 			"I took a gap year to pursue my passion for freelance work. This experience allowed me to gain invaluable skills and provided the opportunity to work with a diverse range of clients.",
 	},
@@ -73,7 +88,7 @@ export const careerItems = [
 		to: 2017,
 		title: "Co Founder",
 		company: { name: "whodidthis.io", url: null },
-		location: "Turkey",
+		location: "Izmir, Turkey",
 		description:
 			"I created usable web interfaces, front-end coding, and almost everything required to build a startup. After sharing this entrepreneurship passion for nearly 2 years, sadly my partners and I had to say goodbye to our lovely startup for now.",
 	},
@@ -846,37 +861,72 @@ export const changelog = changelogItems.sort(
 export const projects = [
 	{
 		name: "gider.im",
+		githubSlug: "needim/gider.im-pwa",
 		released: "2024-05-26",
 		description: "Privacy focused income & expense tracking app.",
-		link: { href: "https://gider.im", label: "gider.im" },
 		logo: <GiderimLogo className="size-10" />,
+		links: [
+			{
+				href: "https://gider.im",
+				label: "Website",
+				icon: IconExternalLink,
+			},
+			{
+				href: "https://github.com/needim/gider.im-pwa",
+				label: "GitHub",
+				icon: IconGithub,
+			},
+		],
+		metrics: [],
+		featured: true,
 	},
 	{
 		name: "smashing.tools",
+		githubSlug: "smashing-tools/smashing.tools",
 		released: "2023-01-01",
-		description: "Curated best starter kits, UI components & resources.",
-		link: { href: "https://smashing.tools", label: "smashing.tools" },
 		logo: <IconSmashing className="size-10" />,
+		description: "Curated best starter kits, UI components & resources.",
+		links: [
+			{
+				href: "https://smashing.tools",
+				label: "Website",
+				icon: IconExternalLink,
+			},
+		],
+		featured: true,
+		metrics: [],
 	},
 	{
-		name: "Defter",
+		name: "Noty",
+		githubSlug: "needim/noty",
 		released: "2023-01-01",
-		description: "Hayatı kolaylaştıran teknolojik defter.",
-		link: { href: "https://birdefter.com", label: "birdefter.com" },
-	},
-	{
-		name: "Noty (Deprecated)",
-		released: "2023-01-01",
-		deprecated: "2023-01-01",
+		logo: <></>,
+		deprecated: true,
 		description:
 			"A dependency-free, simple notification plugin with no dependencies.",
-		link: { href: "/noty", label: "ned.im/noty" },
-		logo: <></>,
+		links: [{ href: "/noty", label: "Visit website", icon: IconExternalLink }],
+		featured: false,
+		metrics: [
+			{ label: "VISITORS / MO", value: 1000 },
+			{ label: "GITHUB STARS", value: 2000 },
+		],
 	},
 	{
 		name: "Yeni Evim Kredisi",
+		githubSlug: null,
 		description:
 			"Calculates monthly payments and total loan repayment based on entered details.",
-		link: { href: "https://yenievimkredisi.com", label: "yenievimkredisi.com" },
+		links: [
+			{
+				href: "https://yenievimkredisi.com",
+				label: "Website",
+				icon: IconExternalLink,
+			},
+		],
+		featured: false,
+		metrics: [
+			{ label: "VISITORS / MO", value: 1000 },
+			{ label: "GITHUB STARS", value: 2000 },
+		],
 	},
 ];

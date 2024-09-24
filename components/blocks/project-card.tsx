@@ -80,6 +80,12 @@ export function ProjectCard({
 					)}
 				/>
 
+				{/* <GithubStars
+					play={hovering}
+					totalStars={11}
+					// repoStats={repoStats}
+				/> */}
+
 				{extra?.({ hovering })}
 			</div>
 		</Link>

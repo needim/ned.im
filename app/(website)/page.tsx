@@ -24,6 +24,10 @@ export default async function Readme() {
 		.slice(-14);
 
 	const githubFollowers = githubResponse.data.viewer.followers.totalCount;
+	const githubStars = githubResponse.data.viewer.repositories.nodes.reduce(
+		(acc, repo) => acc + repo.stargazerCount,
+		0,
+	);
 
 	return (
 		<>
@@ -92,41 +96,64 @@ export default async function Readme() {
 						link="https://github.com/needim"
 						contributions={last14days}
 						repoStats={githubResponse.data.viewer.repositories.nodes}
-						totalStars={githubResponse.data.viewer.repositories.nodes.reduce(
-							(acc, repo) => acc + repo.stargazerCount,
-							0,
-						)}
+						totalStars={githubStars}
 					/>
 				</div>
 			</Container>
 			<Container className="mt-24 md:mt-20">
-				<div className="mx-auto max-w-xl gap-y-20 lg:max-w-none">
+				<div className="mx-auto max-w-2xl gap-y-20">
 					<div className="flex flex-col gap-3">
 						<h2 className="text-3xl sm:text-4xl mb-1">Career</h2>
 						<div className="flex flex-col gap-8">
 							<p className="text-muted-foreground">
-								Overall I have {lastPosition}+ years of experience in software
-								development.
+								Overall I have{" "}
+								<span className="font-semibold">
+									{lastPosition}+ years of experience
+								</span>{" "}
+								in software development.
 							</p>
 							{careerItems.map((item, index) => (
 								<div
 									key={`career-${index}`}
-									className="flex flex-col sm:flex-row items-baseline gap-2 sm:gap-4"
+									className="overflow-hidden rounded-3xl shadow-[rgba(0,_0,_0,_0.15)_0px_20px_40px_-12px] bg-card/20 p-6 ring-2 hover:ring-3 ring-zinc-900/5 dark:ring-zinc-800 transition-all duration-500 hover:ring-zinc-600/20 dark:hover:ring-zinc-700"
 								>
-									<div className="font-mono flex min-w-24 text-sm text-muted-foreground">
-										{item.from} — {item.to}
-									</div>
-									<div>
-										{item.title} @{item.company.name}
-										<span className="block text-muted-foreground text-sm">
-											{item.location}
+									<div className="mb-2 flex items-center justify-between text-xs text-muted-foreground">
+										<span>{item.location}</span>{" "}
+										<span>
+											{item.from} — {item.to || "Present"}
 										</span>
-										{item.description && (
-											<p className="mt-2 text-muted-foreground text-base text-balance">
-												{item.description}
-											</p>
-										)}
 									</div>
+									<div className="mb-3 flex flex-col items-start justify-between gap-2 text-balance text-lg sm:flex-row sm:items-center">
+										<div className="font-medium">
+											{item.title}{" "}
+											<span className="text-muted-foreground">at</span>{" "}
+											{item.company.name}
+										</div>
+									</div>
+									<div className="flex flex-col gap-2 text-sm leading-normal sm:gap-3 sm:text-base text-muted-foreground">
+										{item.description}
+									</div>
+
+									{item.subRoles?.length && (
+										<blockquote className="mt-5 text-sm text-muted-foreground border-l-[3px] border-border/70 rounded-l-lg pl-4">
+											{item.subRoles.map((role, index) => (
+												<div key={`role-${index}`}>
+													<div className="mb-2 flex items-center justify-between text-xs sm:text-sm text-muted-foreground">
+														<span>{role.location}</span>{" "}
+														<span>
+															{role.from} — {role.to || "Present"}
+														</span>
+													</div>
+													<div className="mb-3 flex flex-col items-start text-foreground justify-between gap-2 text-balance text-lg sm:flex-row sm:items-center">
+														<div className="font-medium">{role.title} </div>
+													</div>
+													<div className="flex flex-col gap-2 text-sm leading-normal sm:gap-3 sm:text-base text-muted-foreground">
+														{role.description}
+													</div>
+												</div>
+											))}
+										</blockquote>
+									)}
 								</div>
 							))}
 						</div>

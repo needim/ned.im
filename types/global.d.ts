@@ -12,10 +12,13 @@ declare namespace Externals {
 					repositories: {
 						totalCount: number;
 						nodes: {
-							name: string;
 							nameWithOwner: string;
+							name: string;
+							description: string | null;
 							forkCount: number;
 							stargazerCount: number;
+							createdAt: string;
+							updatedAt: string;
 						}[];
 					};
 					followers: {

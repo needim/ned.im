@@ -17,18 +17,18 @@ export function GithubStars({
 }: {
 	play: boolean;
 	totalStars: number;
-	repoStats: Externals.Github.ApiResponse["data"]["viewer"]["repositories"]["nodes"];
+	repoStats?: Externals.Github.ApiResponse["data"]["viewer"]["repositories"]["nodes"];
 }): React.ReactElement {
 	return (
 		<Tooltip>
 			<TooltipTrigger asChild>
-				<motion.div className="absolute top-1 -right-24 group-hover:right-0 opacity-10 transition-all duration-150 group-hover:opacity-100 text-sm flex gap-1 items-center font-mono delay-300">
-					<NumberTicker play={play} value={totalStars} />
+				<motion.div className="absolute top-1 right-0  transition-all duration-150 opacity-100 text-sm flex gap-1 items-center font-mono delay-300">
+					<NumberTicker play={true} value={totalStars} />
 					<IconStarFilled className="size-4" />
 				</motion.div>
 			</TooltipTrigger>
 			<TooltipContent align="center" side="top">
-				{repoStats.map((repo, index) => (
+				{repoStats?.slice(0, 5).map((repo, index) => (
 					<div
 						key={`repo-${index}`}
 						className="flex items-center gap-2 text-xs"
