@@ -138,7 +138,7 @@ export default async function Readme() {
 										<blockquote className="mt-5 text-sm text-muted-foreground border-l-[3px] border-border/70 rounded-l-lg pl-4">
 											{item.subRoles.map((role, index) => (
 												<div key={`role-${index}`}>
-													<div className="mb-2 flex items-center justify-between text-xs sm:text-sm text-muted-foreground">
+													<div className="mb-2 flex items-center justify-between text-xs text-muted-foreground">
 														<span>{role.location}</span>{" "}
 														<span>
 															{role.from} — {role.to || "Present"}
