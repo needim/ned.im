@@ -935,7 +935,7 @@ export const projects = [
 		metrics: [],
 	},
 	{
-		name: "Noty",
+		name: "noty",
 		githubSlug: "needim/noty",
 		released: "2023-01-01",
 		logo: <></>,
