@@ -1,7 +1,7 @@
 import GiderimLogo from "@/components/blocks/giderim-logo";
 import IconGithub from "@/components/icons/github";
 import { IconSmashing } from "@/components/icons/smashing";
-import { IconExternalLink } from "@tabler/icons-react";
+import { IconWorld } from "@tabler/icons-react";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -860,7 +860,7 @@ export const changelog = changelogItems.sort(
 
 export const projects = [
 	{
-		name: "gider.im",
+		name: "gider.im (PWA)",
 		githubSlug: "needim/gider.im-pwa",
 		released: "2024-05-26",
 		description: "Privacy focused income & expense tracking app.",
@@ -869,7 +869,7 @@ export const projects = [
 			{
 				href: "https://gider.im",
 				label: "Website",
-				icon: IconExternalLink,
+				icon: IconWorld,
 			},
 			{
 				href: "https://github.com/needim/gider.im-pwa",
@@ -881,19 +881,57 @@ export const projects = [
 		featured: true,
 	},
 	{
+		name: "gider.im (Website)",
+		githubSlug: "needim/gider.im-website",
+		released: "2024-05-26",
+		description: "Privacy focused income & expense tracking app.",
+		logo: <GiderimLogo className="size-10" />,
+		links: [
+			{
+				href: "https://gider.im",
+				label: "Website",
+				icon: IconWorld,
+			},
+			{
+				href: "https://github.com/needim/gider.im-website",
+				label: "GitHub",
+				icon: IconGithub,
+			},
+		],
+		metrics: [],
+		featured: true,
+	},
+	{
 		name: "smashing.tools",
 		githubSlug: "smashing-tools/smashing.tools",
-		released: "2023-01-01",
+		released: "2023-12-25",
 		logo: <IconSmashing className="size-10" />,
 		description: "Curated best starter kits, UI components & resources.",
 		links: [
 			{
 				href: "https://smashing.tools",
 				label: "Website",
-				icon: IconExternalLink,
+				icon: IconWorld,
+			},
+			{
+				href: "https://github.com/smashing-team/smashing.tools",
+				label: "GitHub",
+				icon: IconGithub,
 			},
 		],
 		featured: true,
+		metrics: [],
+	},
+
+	{
+		name: "ned.im",
+		githubSlug: "needim/ned.im",
+		released: "2023-01-01",
+		logo: <></>,
+		deprecated: true,
+		description: "You're currently browsing my personal website.",
+		links: [{ href: "/", label: "Website", icon: IconWorld }],
+		featured: false,
 		metrics: [],
 	},
 	{
@@ -903,13 +941,34 @@ export const projects = [
 		logo: <></>,
 		deprecated: true,
 		description:
-			"A dependency-free, simple notification plugin with no dependencies.",
-		links: [{ href: "/noty", label: "Visit website", icon: IconExternalLink }],
-		featured: false,
-		metrics: [
-			{ label: "VISITORS / MO", value: 1000 },
-			{ label: "GITHUB STARS", value: 2000 },
+			"A dependency-free, notification plugin with no deps. ⛔️ Deprecated.",
+		links: [
+			{ href: "/noty", label: "Website", icon: IconWorld },
+			{
+				href: "https://github.com/needim/noty",
+				label: "GitHub",
+				icon: IconGithub,
+			},
 		],
+		featured: true,
+		metrics: [],
+	},
+	{
+		name: "Kit 2.5D",
+		githubSlug: "needim/Kit25D",
+		released: "2017-11-16",
+		logo: <></>,
+		description:
+			"Creating fake 3D world with 2D colliders and sprites in Unity.",
+		links: [
+			{
+				href: "https://github.com/needim/Kit25D",
+				label: "GitHub",
+				icon: IconGithub,
+			},
+		],
+		featured: false,
+		metrics: [],
 	},
 	{
 		name: "Yeni Evim Kredisi",
@@ -920,7 +979,7 @@ export const projects = [
 			{
 				href: "https://yenievimkredisi.com",
 				label: "Website",
-				icon: IconExternalLink,
+				icon: IconWorld,
 			},
 		],
 		featured: false,

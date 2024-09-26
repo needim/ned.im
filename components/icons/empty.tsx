@@ -6,9 +6,9 @@ const IconEmpty = (props: SVGProps<SVGSVGElement>) => (
 		height="1em"
 		fill="none"
 		stroke="currentColor"
-		stroke-width="2"
-		stroke-linecap="round"
-		stroke-linejoin="round"
+		strokeWidth="2"
+		strokeLinecap="round"
+		strokeLinejoin="round"
 		xmlns="http://www.w3.org/2000/svg"
 		preserveAspectRatio="xMidYMid"
 		{...props}

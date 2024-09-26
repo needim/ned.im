@@ -116,6 +116,16 @@ export default function Notes() {
 						<li>
 							<a
 								target="_blank"
+								href="https://kamranahmed.info/"
+								rel="noreferrer"
+							>
+								https://kamranahmed.info/
+							</a>{" "}
+							by Kamran Ahmed
+						</li>
+						<li>
+							<a
+								target="_blank"
 								href="https://www.raycast.com"
 								rel="noreferrer"
 							>
