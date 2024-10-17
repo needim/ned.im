@@ -38,7 +38,7 @@
 		"twitter-api-v2": "^1.17.2"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "1.9.0",
+		"@biomejs/biome": "1.9.4",
 		"@tailwindcss/typography": "^0.5.15",
 		"@types/node": "^22",
 		"@types/react": "^18",
