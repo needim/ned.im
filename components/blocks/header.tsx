@@ -9,7 +9,6 @@ import { Fragment, useEffect, useRef } from "react";
 
 import { Container } from "@/components/blocks/container";
 import { ThemeToggle } from "@/components/blocks/theme-toggle";
-import avatarImage from "@/images/avatar-new.png";
 import { navItems } from "@/lib/utils";
 
 function CloseIcon(props: React.ComponentPropsWithoutRef<"svg">) {
@@ -140,7 +139,7 @@ function NavItem({
 			>
 				{children}
 				{isActive && (
-					<span className="absolute inset-x-1 -bottom-px h-px bg-gradient-to-r from-transparent via-amber-700 to-transparent dark:from-zinc-400/0 dark:via-amber-400/40 dark:to-transparent" />
+					<span className="absolute inset-x-1 -bottom-px h-px bg-gradient-to-r from-transparent via-indigo-700 to-transparent dark:from-zinc-400/0 dark:via-indigo-400/40 dark:to-transparent" />
 				)}
 			</Link>
 		</li>
@@ -197,9 +196,11 @@ export function Avatar({
 			{...props}
 		>
 			<Image
-				src={avatarImage}
+				src="https://avatars.githubusercontent.com/needim"
 				alt=""
 				sizes={large ? "4rem" : "2.25rem"}
+				width="140"
+				height="140"
 				className={clsx(
 					"rounded-full bg-zinc-100 object-cover dark:bg-zinc-800",
 					large ? "h-16 w-16" : "h-9 w-9",
