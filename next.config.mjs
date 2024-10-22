@@ -25,14 +25,14 @@ const nextConfig = {
 	async redirects() {
 		return [
 			{
-				source: "/.well-known/host-meta*",
-				destination: "https://fed.brid.gy/.well-known/host-meta:splat", // Using :splat to capture dynamic parts
-				permanent: false, // Equivalent to 302 redirect
+				source: "/.well-known/host-meta/:slug*",
+				destination: "https://fed.brid.gy/.well-known/host-meta/:slug*",
+				permanent: true,
 			},
 			{
-				source: "/.well-known/webfinger*",
-				destination: "https://fed.brid.gy/.well-known/webfinger",
-				permanent: false, // Equivalent to 302 redirect
+				source: "/.well-known/webfinger:slug*",
+				destination: "https://fed.brid.gy/.well-known/webfinger:slug*",
+				permanent: true,
 			},
 		];
 	},
