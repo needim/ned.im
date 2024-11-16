@@ -155,18 +155,23 @@ const changelogItems: Array<{
 	photos?: Array<{ src: string; variant: "1x1" | "4x3" | "4x5" }>;
 }> = [
 	{
+		date: "2024-11-26",
+		event: "Visit to Denmark & Sweden",
+		title: "Copenhagen & Malmö",
+		icon: "🇩🇰",
+		dateFormatOptions: dateFormat.month,
+		photos: [...new Array(8)].map((_, index) => ({
+			src: `/changelog/copenhagen-malmo/${index + 1}.png`,
+			variant: "4x5" as const,
+		})),
+	},
+	{
 		date: "2024-06-02",
 		event: "100 upvotes",
 		title: "on Peerlist",
 		description: "gider.im is on the top of the list.",
 		icon: "💯",
 		dateFormatOptions: dateFormat.day,
-		// photos: [
-		//   {
-		//     src: "/changelog/kavala  4x5.png",
-		//     variant: "4x5",
-		//   },
-		// ],
 	},
 	{
 		date: "2024-05-27",
@@ -175,12 +180,6 @@ const changelogItems: Array<{
 		description: "gider.im is a personal finance tracker.",
 		icon: "🚀",
 		dateFormatOptions: dateFormat.day,
-		// photos: [
-		//   {
-		//     src: "/changelog/kavala  4x5.png",
-		//     variant: "4x5",
-		//   },
-		// ],
 	},
 	{
 		date: "2024-07-02",
