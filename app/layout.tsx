@@ -5,6 +5,7 @@ import { Lexend } from "next/font/google";
 
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import Script from "next/script";
 import "./globals.css";
 
 const LexendFont = Lexend({
@@ -79,6 +80,10 @@ export default function RootLayout({
 						</div>
 					</TooltipProvider>
 				</ThemeProvider>
+				<Script
+					data-domain="ned.im"
+					src="https://stats.ned.im/js/script.pageview-props.tagged-events.js"
+				/>
 			</body>
 		</html>
 	);
