@@ -45,7 +45,7 @@ export default async function Home() {
           {featuredProjects.map((project, index) => (
             <div
               key={`project-${index}`}
-              className="overflow-hidden rounded-3xl shadow-[rgba(0,_0,_0,_0.15)_0px_20px_40px_-12px] dark:bg-zinc-950 p-6 ring-2 hover:ring-3 ring-zinc-900/5 dark:ring-zinc-800 transition-all duration-500 hover:ring-zinc-600/20 dark:hover:ring-zinc-700 relative"
+              className="overflow-hidden bg-card/20 rounded-3xl shadow-[rgba(0,_0,_0,_0.15)_0px_20px_40px_-12px] dark:bg-zinc-950 p-6 ring-2 hover:ring-3 ring-zinc-900/5 dark:ring-zinc-800 transition-all duration-500 hover:ring-zinc-600/20 dark:hover:ring-zinc-700 relative"
             >
               <div className="absolute right-5 top-5 hidden sm:block">
                 {project.logo}
