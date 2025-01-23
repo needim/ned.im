@@ -25,13 +25,13 @@ export function StackList({
                 {product.category}
               </div>
               <div className="ml-0 sm:ml-4 flex flex-col sm:flex-row min-w-0 flex-1 gap-0 sm:gap-2">
-                <span className="flex-shrink-0 text-muted-foreground">
+                <span className="shrink-0 text-muted-foreground">
                   {product.brand}
                 </span>
                 <span className="truncate font-medium">{product.name}</span>
               </div>
             </div>
-            <div className="ml-4 flex-shrink-0">
+            <div className="ml-4 shrink-0">
               <Image
                 src={product.imageSrc}
                 alt={product.name}

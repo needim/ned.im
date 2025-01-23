@@ -57,7 +57,7 @@ export default async function Home() {
 									{project.metrics.map((metric, index) => (
 										<div
 											key={`metric-${index}`}
-											className="rouded-md rounded-b-none flex items-center rounded-lg bg-gradient-to-b from-zinc-200/40 dark:from-zinc-900 dark:to-zinc-950 px-3 py-1.5 shadow-inner gap-3"
+											className="rouded-md rounded-b-none flex items-center rounded-lg bg-linear-to-b from-zinc-200/40 dark:from-zinc-900 dark:to-zinc-950 px-3 py-1.5 shadow-inner gap-3"
 										>
 											<span className="text-xs uppercase tracking-wide font-medium text-muted-foreground">
 												{metric.label}

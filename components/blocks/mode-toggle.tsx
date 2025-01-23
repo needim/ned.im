@@ -19,7 +19,7 @@ export function ModeToggle({
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
-				<button className="flex size-11 shrink-0 items-center justify-center rounded-3xl transition-colors hover:bg-zinc-100 duration-300 dark:hover:bg-zinc-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
+				<button className="flex size-11 shrink-0 items-center justify-center rounded-3xl transition-colors hover:bg-zinc-100 duration-300 dark:hover:bg-zinc-800 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						className="size-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"

@@ -13,7 +13,7 @@ export function SocialLink({
 }) {
 	return (
 		<Link
-			className="group -m-1 p-1 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded flex items-center gap-2"
+			className="group -m-1 p-1 ring-offset-background focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded flex items-center gap-2"
 			{...props}
 			target="_blank"
 		>

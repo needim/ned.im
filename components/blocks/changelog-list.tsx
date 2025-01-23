@@ -55,7 +55,7 @@ export function ChangelogList(): React.ReactElement {
               <p className="text-xs block mt-1 sm:absolute sm:mt-0 sm:top-1.5 right-0 text-muted-foreground">
                 {formattedDateTimeline(log.date, log?.dateFormatOptions)}
               </p>
-              <h2 className="mt-0.5 sm:mt-0 font-sans text-md !font-normal">
+              <h2 className="mt-0.5 sm:mt-0 font-sans text-md font-normal!">
                 <span className="font-semibold">{log.event}</span> — {log.title}
               </h2>
               {log.description && (

@@ -1,6 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-
 import Polaroid, { type polaroidVariants } from "@/components/blocks/polaroid";
 import {
   Carousel,
@@ -18,6 +17,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useInView } from "motion/react";
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 type TImage = {
@@ -79,7 +79,13 @@ const PolaroidGallery = ({
             <CarouselContent>
               {images.map((image) => (
                 <CarouselItem key={image.src}>
-                  <img src={image.src} alt="" />
+                  <Image
+                    alt=""
+                    src={image.src}
+                    width={image.variant === "1x1" ? 640 : 480}
+                    height={image.variant === "1x1" ? 640 : 960}
+                    // className="object-contain"
+                  />
                 </CarouselItem>
               ))}
             </CarouselContent>
