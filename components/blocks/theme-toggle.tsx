@@ -107,10 +107,7 @@ export function ThemeToggle({
             transition: { duration: 0.1, easings: ["easeInOut"] },
           }}
           className={cn(
-            "rounded-full size-4 transition-all duration-300 ease-in-out relative",
-            theme === "light" && "translate-x-1",
-            theme === "system" && "translate-x-3",
-            theme === "dark" && "translate-x-5"
+            "rounded-full size-4 transition-all duration-300 ease-in-out relative"
           )}
         >
           <motion.div
