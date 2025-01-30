@@ -12,6 +12,34 @@ interface Song {
     name: string;
     picUrl: string;
   };
+  url?: string; // 添加url字段用于缓存
+}
+
+interface Comment {
+  commentId: number;
+  content: string;
+  time: number;
+  likedCount: number;
+  user: {
+    userId: number;
+    nickname: string;
+    avatarUrl: string;
+  };
+}
+
+interface MusicDetail {
+  br: number; // 比特率
+  size: number; // 文件大小
+  level: string; // 音质等级
+  encodeType: string; // 编码类型
+  time: number; // 时长
+  type: string; // 文件类型
+}
+
+interface UrlInfo {
+  id: string;
+  url: string;
+  code: number;
 }
 
 const DEFAULT_VOLUME = 0.5; // 定义默认音量为 50%
@@ -60,11 +88,130 @@ export function MusicPlayer() {
   const [previewTimeLeft, setPreviewTimeLeft] = useState<number | null>(null);
   const [showPreviewEndWarning, setShowPreviewEndWarning] = useState(false);
   const [isBuffering, setIsBuffering] = useState(false);
+  const [currentLyrics, setCurrentLyrics] = useState<{
+    lrc: string;
+    tlyric: string;
+    yrc: string;
+  } | null>(null);
+  const [similarSongs, setSimilarSongs] = useState<Song[]>([]);
+  const [songComments, setSongComments] = useState<{
+    hotComments: Comment[];
+    comments: Comment[];
+    total: number;
+  }>({
+    hotComments: [],
+    comments: [],
+    total: 0
+  });
+  const [musicDetail, setMusicDetail] = useState<MusicDetail | null>(null);
+  const [songList, setSongList] = useState<Song[]>([]);
+
+  // 获取API基础URL
+  const API_BASE = process.env.NEXT_PUBLIC_NETEASE_API_BASE;
+  if (!API_BASE) {
+    throw new Error('NEXT_PUBLIC_NETEASE_API_BASE environment variable is not set');
+  }
 
   // 检测是否为Safari浏览器
   const isSafari = useCallback(() => {
     return /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
   }, []);
+
+  const fetchLyrics = useCallback(async (songId: string) => {
+    try {
+      const res = await fetch(`${API_BASE}/lyric/new?id=${songId}&realIP=${userIP}`, {
+        mode: 'cors',
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+      
+      if (!res.ok) {
+        throw new Error(`获取歌词失败: ${res.status}`);
+      }
+      
+      const data = await res.json();
+      return {
+        lrc: data.lrc?.lyric || '',
+        tlyric: data.tlyric?.lyric || '',
+        yrc: data.yrc?.lyric || '' // 逐字歌词
+      };
+    } catch (error) {
+      console.error('获取歌词失败:', error);
+      return null;
+    }
+  }, [userIP, API_BASE]);
+
+  const fetchSimilarSongs = useCallback(async (songId: string) => {
+    try {
+      const res = await fetch(`${API_BASE}/simi/song?id=${songId}&realIP=${userIP}`, {
+        mode: 'cors',
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+      
+      if (!res.ok) {
+        throw new Error(`获取相似歌曲失败: ${res.status}`);
+      }
+      
+      const data = await res.json();
+      return data.songs || [];
+    } catch (error) {
+      console.error('获取相似歌曲失败:', error);
+      return [];
+    }
+  }, [userIP, API_BASE]);
+
+  const fetchSongComments = useCallback(async (songId: string, limit = 20) => {
+    try {
+      const res = await fetch(`${API_BASE}/comment/music?id=${songId}&limit=${limit}&realIP=${userIP}`, {
+        mode: 'cors',
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+      
+      if (!res.ok) {
+        throw new Error(`获取歌曲评论失败: ${res.status}`);
+      }
+      
+      const data = await res.json();
+      return {
+        hotComments: data.hotComments || [],
+        comments: data.comments || [],
+        total: data.total || 0
+      };
+    } catch (error) {
+      console.error('获取歌曲评论失败:', error);
+      return {
+        hotComments: [],
+        comments: [],
+        total: 0
+      };
+    }
+  }, [userIP, API_BASE]);
+
+  const fetchMusicDetail = useCallback(async (songId: string) => {
+    try {
+      const res = await fetch(`${API_BASE}/song/music/detail?id=${songId}&realIP=${userIP}`, {
+        mode: 'cors',
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+      
+      if (!res.ok) {
+        throw new Error(`获取音乐详情失败: ${res.status}`);
+      }
+      
+      const data = await res.json();
+      return data;
+    } catch (error) {
+      console.error('获取音乐详情失败:', error);
+      return null;
+    }
+  }, [userIP, API_BASE]);
 
   const switchSong = useCallback(async (targetSong: Song) => {
     if (switchingRef.current) {
@@ -84,11 +231,31 @@ export function MusicPlayer() {
         audioRef.current.pause();
       }
 
-      // 获取新歌曲的URL
-      const API_BASE = process.env.NEXT_PUBLIC_NETEASE_API_BASE;
+      // 并行获取所有需要的数据
+      const [songDetail, lyrics, similarSongs, comments, musicDetail] = await Promise.all([
+        // 原有的歌曲详情获取逻辑
+        fetch(`${API_BASE}/song/detail?ids=${targetSong.id}&realIP=${userIP}`).then(res => res.json()),
+        fetchLyrics(targetSong.id),
+        fetchSimilarSongs(targetSong.id),
+        fetchSongComments(targetSong.id),
+        fetchMusicDetail(targetSong.id)
+      ]);
+
+      const songDetailData = songDetail.songs?.[0];
+      
+      if (!songDetailData) {
+        throw new Error('无法获取歌曲详情');
+      }
+      
+      // 根据歌曲类型选择合适的音质
+      let level = 'standard';
+      if (songDetailData.fee === 1) {
+        level = 'higher'; // VIP 歌曲尝试更高品质
+      }
       
       // 获取音频URL
-      const res = await fetch(`${API_BASE}/song/url/v1?id=${targetSong.id}&level=standard&realIP=${userIP}`, {
+      const res = await fetch(
+        `${API_BASE}/song/url/v1?id=${targetSong.id}&level=${level}&realIP=${userIP}`, {
         mode: 'cors',
         headers: {
           'Accept': 'application/json'
@@ -102,7 +269,29 @@ export function MusicPlayer() {
       const data = await res.json();
       
       if (!data.data?.[0]?.url) {
-        throw new Error('NO_URL');
+        // 如果高品质获取失败，尝试其他品质
+        if (level === 'higher') {
+          const fallbackRes = await fetch(
+            `${API_BASE}/song/url/v1?id=${targetSong.id}&level=standard&realIP=${userIP}`, {
+            mode: 'cors',
+            headers: {
+              'Accept': 'application/json'
+            }
+          });
+          
+          if (!fallbackRes.ok) {
+            throw new Error(`HTTP error! status: ${fallbackRes.status}`);
+          }
+          
+          const fallbackData = await fallbackRes.json();
+          if (!fallbackData.data?.[0]?.url) {
+            throw new Error('NO_URL');
+          }
+          
+          data.data[0] = fallbackData.data[0];
+        } else {
+          throw new Error('NO_URL');
+        }
       }
 
       if (audioRef.current) {
@@ -112,24 +301,54 @@ export function MusicPlayer() {
           setIsPlaying(true);
         }
       }
+
+      // 更新歌曲相关信息
+      if (lyrics) {
+        setCurrentLyrics(lyrics);
+      }
+      if (similarSongs.length > 0) {
+        setSimilarSongs(similarSongs);
+      }
+      if (comments) {
+        setSongComments(comments);
+      }
+      if (musicDetail) {
+        setMusicDetail(musicDetail);
+      }
     } catch (error) {
       console.error('切换歌曲失败:', error);
-      playNextSong();
+      setError(`无法播放歌曲 "${targetSong.name}"，请尝试其他歌曲`);
+      setIsPlaying(false);
     } finally {
       setIsLoading(false);
       switchingRef.current = false;
     }
-  }, [userIP, hasUserInteraction]);
+  }, [userIP, hasUserInteraction, fetchLyrics, fetchSimilarSongs, fetchSongComments, fetchMusicDetail, API_BASE]);
 
   const playNextSong = useCallback(() => {
-    if (!playlist.length || switchingRef.current) return;
+    if (songList.length === 0) return;
     
-    shouldAutoPlay.current = true;
-    setIsPlaying(true);
-    const currentIndex = currentSong ? playlist.findIndex(song => song.id === currentSong.id) : -1;
-    const nextIndex = currentIndex === playlist.length - 1 ? 0 : currentIndex + 1;
-    switchSong(playlist[nextIndex]);
-  }, [playlist, currentSong, switchSong]);
+    const currentIndex = currentSong 
+      ? songList.findIndex(song => song.id === currentSong.id)
+      : -1;
+    
+    // 从当前位置开始查找下一首可播放的歌曲
+    let nextIndex = (currentIndex + 1) % songList.length;
+    let attempts = 0;
+    
+    while (attempts < songList.length) {
+      const nextSong = songList[nextIndex];
+      if (nextSong.url) {
+        setCurrentSong(nextSong);
+        return;
+      }
+      nextIndex = (nextIndex + 1) % songList.length;
+      attempts++;
+    }
+    
+    // 如果所有歌曲都不可播放，显示错误
+    console.error('没有可播放的歌曲');
+  }, [songList, currentSong]);
 
   const playPrevSong = useCallback(() => {
     if (!playlist.length || switchingRef.current) return;
@@ -216,85 +435,120 @@ export function MusicPlayer() {
     getIP();
   }, []);
 
-  // 获取歌单详情
+  // 获取歌单详情和所有歌曲的URL
   useEffect(() => {
-    if (!userIP) return; // 等待 IP 获取完成
+    if (!userIP) return;
     
-    const API_BASE = process.env.NEXT_PUBLIC_NETEASE_API_BASE;
-    const PLAYLIST_ID = process.env.NEXT_PUBLIC_NETEASE_PLAYLIST_ID;
-    
-    const fetchPlaylist = async (retryCount = 0) => {
+    const fetchPlaylist = async () => {
       try {
-        // 先获取歌单基本信息
-        const playlistRes = await fetch(`${API_BASE}/playlist/detail?id=${PLAYLIST_ID}&realIP=${userIP}`, {
-          mode: 'cors',
-          headers: {
-            'Accept': 'application/json'
+        const PLAYLIST_ID = process.env.NEXT_PUBLIC_NETEASE_PLAYLIST_ID;
+        if (!PLAYLIST_ID) {
+          console.error('未配置歌单ID');
+          return;
+        }
+
+        // 获取歌单所有歌曲
+        const playlistRes = await fetch(`${API_BASE}/playlist/track/all?id=${PLAYLIST_ID}`);
+        const playlistData = await playlistRes.json();
+        
+        if (!playlistData.songs) {
+          console.error('获取歌单失败:', playlistData);
+          return;
+        }
+
+        const tracks = playlistData.songs;
+        console.log(`获取到歌单中的${tracks.length}首歌曲`);
+        
+        // 分批获取歌曲URL (每次20首)
+        const batchSize = 20;
+        const songsWithUrls = [];
+        
+        for (let i = 0; i < tracks.length; i += batchSize) {
+          const batch = tracks.slice(i, i + batchSize);
+          const batchIds = batch.map((track: Song) => track.id).join(',');
+          
+          try {
+            const urlRes = await fetch(
+              `${API_BASE}/song/url/v1?id=${batchIds}&level=standard&realIP=${userIP}`,
+              {
+                mode: 'cors',
+                headers: {
+                  'Accept': 'application/json'
+                }
+              }
+            );
+            
+            const urlData = await urlRes.json();
+            
+            // 将URL信息合并到歌曲信息中
+            const batchWithUrls = batch.map((track: Song) => {
+              const urlInfo = urlData.data?.find((item: UrlInfo) => item.id === track.id);
+              return {
+                ...track,
+                url: urlInfo?.url || null
+              };
+            });
+            
+            songsWithUrls.push(...batchWithUrls);
+          } catch (error) {
+            console.error(`获取第${i/batchSize + 1}批歌曲URL失败:`, error);
+            // 即使失败也继续处理其他批次
+            const batchWithoutUrls = batch.map((track: Song) => ({
+              ...track,
+              url: null
+            }));
+            songsWithUrls.push(...batchWithoutUrls);
           }
-        });
-        
-        if (!playlistRes.ok) {
-          throw new Error(`获取歌单失败: ${playlistRes.status}`);
         }
+
+        // 过滤掉没有URL的歌曲
+        const validSongs = songsWithUrls.filter(song => song.url);
+        console.log(`成功获取到${validSongs.length}/${songsWithUrls.length}首歌的URL`);
         
-        const data = await playlistRes.json();
-        if (!data.playlist) {
-          throw new Error('歌单数据格式错误');
+        setSongList(songsWithUrls);
+        setPlaylist(songsWithUrls);
+        
+        // 设置第一首有效的歌曲
+        if (validSongs.length > 0 && !currentSong) {
+          setCurrentSong(validSongs[0]);
         }
-        
-        const trackCount = data.playlist.trackCount;
-        console.log('歌单总曲目数:', trackCount);
-        
-        // 使用 track_count 获取完整歌单
-        const fullPlaylistRes = await fetch(
-          `${API_BASE}/playlist/track/all?id=${PLAYLIST_ID}&realIP=${userIP}`,
-          {
-            mode: 'cors',
-            headers: {
-              'Accept': 'application/json'
-            }
-          }
-        );
-        
-        if (!fullPlaylistRes.ok) {
-          throw new Error(`获取完整歌单失败: ${fullPlaylistRes.status}`);
-        }
-        
-        const fullPlaylistData = await fullPlaylistRes.json();
-        if (!fullPlaylistData.songs || !Array.isArray(fullPlaylistData.songs)) {
-          throw new Error('完整歌单数据格式错误');
-        }
-        
-        // 过滤掉无效歌曲
-        const validSongs = fullPlaylistData.songs.filter((song: { id: number; name: string; fee?: number }) => 
-          song?.id && song?.name && 
-          (!song?.fee || song.fee === 0 || song.fee === 8)  // 免费或 VIP 可试听
-        );
-        
-        if (validSongs.length === 0) {
-          throw new Error('没有可播放的歌曲');
-        }
-        
-        console.log('可播放歌曲数:', validSongs.length);
-        setPlaylist(validSongs);
-        setCurrentSong(validSongs[0]);
-        setError(null); // 清除错误状态
-        
       } catch (error) {
         console.error('获取歌单失败:', error);
-        
-        // 最多重试3次
-        if (retryCount < 3) {
-          console.log(`重试获取歌单 (${retryCount + 1}/3)...`);
-          setTimeout(() => fetchPlaylist(retryCount + 1), 1000 * (retryCount + 1));
-        } else {
-          setError('获取歌单失败，请稍后再试');
-        }
       }
     };
-    
+
     fetchPlaylist();
-  }, [userIP]);
+  }, [userIP, API_BASE, currentSong]);
+
+  // 切换歌曲时的处理逻辑
+  useEffect(() => {
+    if (!currentSong || !audioRef.current) return;
+    
+    if (currentSong.url) {
+      audioRef.current.src = currentSong.url;
+      if (shouldAutoPlay.current && !isFirstLoad.current && hasUserInteraction) {
+        audioRef.current.play()
+          .then(() => {
+            setIsPlaying(true);
+          })
+          .catch(error => {
+            if (error.name !== 'AbortError') {
+              console.error('播放失败:', error);
+              setIsPlaying(false);
+              shouldAutoPlay.current = false;
+              // 如果播放失败，尝试下一首
+              playNextSong();
+            }
+          });
+      }
+    } else {
+      console.error('歌曲URL不存在:', currentSong.name);
+      // 如果当前歌曲没有URL，尝试下一首
+      playNextSong();
+    }
+    
+    isFirstLoad.current = false;
+  }, [currentSong, hasUserInteraction, playNextSong]);
 
   // 检测文本是否溢出
   const isTextOverflow = useCallback((text: string) => {
@@ -325,184 +579,6 @@ export function MusicPlayer() {
       setTextWidths({}); // 切换歌曲时重置状态
     }
   }, [currentSong]);
-
-  // 获取音频URL
-  useEffect(() => {
-    if (!currentSong || !userIP) return;
-    const API_BASE = process.env.NEXT_PUBLIC_NETEASE_API_BASE;
-    
-    const fetchAudioUrl = async () => {
-      try {
-        console.log('正在获取歌曲详情:', currentSong.name);
-        // 先获取歌曲详情
-        const detailRes = await fetch(`${API_BASE}/song/detail?ids=${currentSong.id}&realIP=${userIP}`, {
-          mode: 'cors',
-          headers: {
-            'Accept': 'application/json'
-          }
-        });
-        
-        if (!detailRes.ok) {
-          throw new Error(`获取歌曲详情失败! status: ${detailRes.status}`);
-        }
-        
-        const detailData = await detailRes.json();
-        console.log('歌曲详情:', detailData);
-        
-        // 检查歌曲是否为VIP
-        const songDetail = detailData.songs?.[0];
-        if (!songDetail) {
-          throw new Error('无法获取歌曲详情');
-        }
-        
-        const isVip = songDetail.fee === 1;
-        setIsVipSong(isVip);
-        console.log('是否为VIP歌曲:', isVip);
-        
-        // 获取音频URL，对VIP歌曲尝试更高品质
-        const quality = isVip ? 'higher' : 'standard';
-        const res = await fetch(
-          `${API_BASE}/song/url/v1?id=${currentSong.id}&level=${quality}&realIP=${userIP}`, {
-          mode: 'cors',
-          headers: {
-            'Accept': 'application/json'
-          }
-        });
-        
-        if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
-        }
-        
-        const data = await res.json();
-        console.log('音频URL响应:', data);
-        
-        // 检查返回的数据结构
-        if (!data.data || !Array.isArray(data.data) || data.data.length === 0) {
-          console.error('无效的API响应格式:', data);
-          throw new Error('INVALID_RESPONSE');
-        }
-        
-        const songData = data.data[0];
-        
-        // 检查返回的音频信息
-        console.log('音频详细信息:', {
-          url: songData.url,
-          type: songData.type,
-          size: songData.size,
-          level: songData.level,
-          fee: songData.fee,
-          freeTrialInfo: songData.freeTrialInfo
-        });
-
-        if (!songData.url) {
-          if (songData.code === -110) {
-            throw new Error('REGION_RESTRICTED');
-          }
-          
-          // VIP 歌曲特殊处理
-          if (isVip) {
-            setVipSongInfo({
-              canPreview: false,
-              message: '此 VIP 歌曲暂不支持试听'
-            });
-            throw new Error('VIP_NO_PREVIEW');
-          }
-          
-          console.error('API响应中没有音频URL:', songData);
-          throw new Error('NO_URL');
-        }
-        
-        // 处理 VIP 歌曲的试听信息
-        if (isVip) {
-          if (songData.freeTrialInfo) {
-            const { start, end } = songData.freeTrialInfo;
-            const previewTime = end - start;
-            setPreviewDuration(previewTime);
-            setVipSongInfo({
-              canPreview: true,
-              previewStart: start,
-              previewEnd: end,
-              message: `VIP 歌曲 ${previewTime} 秒试听`
-            });
-            console.log('预览时长:', previewTime, '秒');
-          } else {
-            // 某些 VIP 歌曲可能没有 freeTrialInfo 但仍可以播放
-            const defaultPreviewTime = 30;
-            setPreviewDuration(defaultPreviewTime);
-            setVipSongInfo({
-              canPreview: true,
-              message: `VIP 歌曲 ${defaultPreviewTime} 秒试听`
-            });
-            console.log('使用默认预览时长:', defaultPreviewTime, '秒');
-          }
-        } else {
-          setPreviewDuration(null);
-          setVipSongInfo(null);
-        }
-        
-        const audioUrl = songData.url;
-        console.log('获取到音频URL:', audioUrl);
-        
-        if (audioRef.current) {
-          audioRef.current.src = audioUrl;
-          
-          if (shouldAutoPlay.current && !isFirstLoad.current && hasUserInteraction) {
-            try {
-              const playPromise = audioRef.current.play();
-              playPromiseRef.current = playPromise;
-              
-              await playPromise;
-              setIsPlaying(true);
-              console.log('歌曲开始播放:', currentSong.name);
-            } catch (error) {
-              if (error instanceof Error && error.name !== 'AbortError') {
-                console.error('播放失败:', error.message);
-                setIsPlaying(false);
-                shouldAutoPlay.current = false;
-              }
-            }
-          } else {
-            console.log('不满足自动播放条件:', {
-              shouldAutoPlay: shouldAutoPlay.current,
-              isFirstLoad: isFirstLoad.current,
-              hasUserInteraction
-            });
-          }
-        }
-        isFirstLoad.current = false;
-        setRetryCount(0); // 重置重试计数
-      } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-        console.error('获取音频URL失败:', {
-          song: currentSong.name,
-          error: errorMessage
-        });
-        
-        // 特殊错误处理
-        if (errorMessage === 'VIP_NO_PREVIEW') {
-          setRetryCount(MAX_RETRY_COUNT); // 不再重试
-          return;
-        }
-        
-        if (retryCount < MAX_RETRY_COUNT) {
-          const nextRetryDelay = RETRY_DELAY * (retryCount + 1);
-          console.log(`将在 ${nextRetryDelay}ms 后重试 (${retryCount + 1}/${MAX_RETRY_COUNT})`);
-          setTimeout(() => {
-            setRetryCount(prev => prev + 1);
-          }, nextRetryDelay);
-        } else {
-          console.log('达到最大重试次数，跳转到下一首歌');
-          setIsPlaying(false);
-          shouldAutoPlay.current = true;
-          setTimeout(() => {
-            playNextSong();
-          }, 1000);
-        }
-      }
-    };
-    
-    fetchAudioUrl();
-  }, [currentSong, retryCount, hasUserInteraction, playNextSong, userIP]);
 
   // 监听音频加载完成事件
   useEffect(() => {
