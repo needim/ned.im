@@ -34,7 +34,7 @@
 		"react-dom": "19.0.0",
 		"remark-gfm": "^4.0.0",
 		"sharp": "^0.33.5",
-		"tailwind-merge": "^2.6.0",
+		"tailwind-merge": "^3.0.0",
 		"twitter-api-v2": "^1.19.0"
 	},
 	"devDependencies": {
