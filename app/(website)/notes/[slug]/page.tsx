@@ -8,11 +8,12 @@ interface NotePageProps {
   params: {
     slug: string;
   };
+  searchParams: { [key: string]: string | string[] | undefined };
 }
 
-export default async function NotePage({ params }: NotePageProps) {
+export default async function NotePage({ params, searchParams }: NotePageProps) {
   try {
-    const { slug } = await Promise.resolve(params);
+    const { slug } = params;
     const module = await import(`../${slug}.mdx`);
     const Content = module.default;
 
@@ -41,6 +42,6 @@ export default async function NotePage({ params }: NotePageProps) {
     );
   } catch (error) {
     console.error('Error loading note:', error);
-    return <div>Note not found</div>;
+    notFound();
   }
 } 
