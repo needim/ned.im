@@ -135,9 +135,8 @@ export const getXInfo = cache(
 			}
 
 			const response = await client.v1.verifyCredentials();
-			console.log("X API response:", response);
 			
-			if (!response?.followers_count) {
+			if (!response?.followers_count && response?.followers_count !== 0) {
 				console.error("Invalid response from X API:", response);
 				return DEFAULT_X_RESPONSE;
 			}
