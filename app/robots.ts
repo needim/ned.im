@@ -1,11 +1,10 @@
 export default function robots() {
 	return {
-		rules: [
-			{
-				userAgent: "*",
-			},
-		],
-		sitemap: "https://ned.im/sitemap.xml",
-		host: "https://ned.im",
+		rules: {
+			userAgent: "*",
+			allow: "/",
+		},
+		sitemap: "https://www.laogou717.com/sitemap.xml",
+		host: "https://www.laogou717.com",
 	};
 }

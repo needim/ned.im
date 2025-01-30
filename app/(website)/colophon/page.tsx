@@ -71,7 +71,7 @@ export default function Notes() {
 							<a target="_blank" href="https://flowbite.com" rel="noreferrer">
 								https://flowbite.com
 							</a>{" "}
-							by Zoltán Szőgyényi (changelog timeline)
+							by Zoltán Szőgyényi (timeline component)
 						</li>
 						<li>
 							<a

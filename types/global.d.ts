@@ -5,34 +5,36 @@ declare namespace Externals {
 			date: string;
 		};
 
+		type GithubUser = {
+			login: string;
+			repositories: {
+				totalCount: number;
+				nodes: {
+					nameWithOwner: string;
+					name: string;
+					description: string | null;
+					forkCount: number;
+					stargazerCount: number;
+					createdAt: string;
+					updatedAt: string;
+				}[];
+			};
+			followers: {
+				totalCount: number;
+			};
+			contributionsCollection: {
+				contributionCalendar: {
+					totalContributions: number;
+					weeks: {
+						contributionDays: ContributionDay[];
+					}[];
+				};
+			};
+		};
+
 		type ApiResponse = {
 			data: {
-				viewer: {
-					login: string;
-					repositories: {
-						totalCount: number;
-						nodes: {
-							nameWithOwner: string;
-							name: string;
-							description: string | null;
-							forkCount: number;
-							stargazerCount: number;
-							createdAt: string;
-							updatedAt: string;
-						}[];
-					};
-					followers: {
-						totalCount: number;
-					};
-					contributionsCollection: {
-						contributionCalendar: {
-							totalContributions: number;
-							weeks: {
-								contributionDays: ContributionDay[];
-							}[];
-						};
-					};
-				};
+				user: GithubUser;
 			};
 		};
 	}

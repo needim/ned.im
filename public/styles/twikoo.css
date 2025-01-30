@@ -1,0 +1,55 @@
+#twikoo-comments {
+  --tw-bg-opacity: 0.3;
+  --tw-border-opacity: 0.1;
+}
+
+.tk-comments-container {
+  background: transparent !important;
+}
+
+.tk-comment {
+  margin: 1.5rem 0 !important;
+  padding: 1.5rem !important;
+  border-radius: 1rem !important;
+  background: rgb(244 244 245 / var(--tw-bg-opacity)) !important;
+  border: 1px solid rgb(161 161 170 / var(--tw-border-opacity)) !important;
+}
+
+.dark .tk-comment {
+  background: rgb(39 39 42 / var(--tw-bg-opacity)) !important;
+  border-color: rgb(161 161 170 / var(--tw-border-opacity)) !important;
+}
+
+.tk-submit {
+  border-radius: 0.75rem !important;
+  background: rgb(244 244 245 / var(--tw-bg-opacity)) !important;
+  border: 1px solid rgb(161 161 170 / var(--tw-border-opacity)) !important;
+  padding: 1.5rem !important;
+  }
+  
+.dark .tk-submit {
+  background: rgb(39 39 42 / var(--tw-bg-opacity)) !important;
+  }
+  
+.tk-input {
+  border-radius: 0.5rem !important;
+  border: 1px solid rgb(161 161 170 / var(--tw-border-opacity)) !important;
+  background: transparent !important;
+}
+
+.tk-action-btn {
+  border-radius: 9999px !important;
+  padding: 0.5rem 1rem !important;
+  font-size: 0.875rem !important;
+  line-height: 1.25rem !important;
+  background: rgb(244 244 245 / var(--tw-bg-opacity)) !important;
+  border: 1px solid rgb(161 161 170 / var(--tw-border-opacity)) !important;
+}
+
+.dark .tk-action-btn {
+  background: rgb(39 39 42 / var(--tw-bg-opacity)) !important;
+}
+
+.tk-action-btn:hover {
+  --tw-bg-opacity: 0.5;
+} 

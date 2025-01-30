@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/components/providers/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Script from "next/script";
 import "./globals.css";
+import { MusicPlayer } from "@/components/blocks/music-player";
 
 const LexendFont = Lexend({
   subsets: ["latin"],
@@ -14,18 +15,18 @@ const LexendFont = Lexend({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://ned.im"),
+  metadataBase: new URL("https://www.laogou717.com"),
   title: {
-    default: "Nedim Arabacı",
-    template: "Nedim Arabacı | %s",
+    default: "Jonas (老狗)",
+    template: "Jonas (老狗) | %s",
   },
-  description: "Developer, software manager, and creator.",
+  description: "AI enthusiast, video editor, and photographer. Breaking down information barriers in AI technology.",
   openGraph: {
-    title: "Nedim Arabacı",
-    description: "Developer, software manager, and creator.",
-    url: "https://ned.im",
-    siteName: "Nedim Arabacı",
-    locale: "en_US",
+    title: "Jonas (老狗)",
+    description: "AI enthusiast, video editor, and photographer. Breaking down information barriers in AI technology.",
+    url: "https://www.laogou717.com",
+    siteName: "Jonas (老狗)",
+    locale: "zh_CN",
     type: "website",
   },
   robots: {
@@ -40,7 +41,7 @@ export const metadata: Metadata = {
     },
   },
   twitter: {
-    title: "Nedim Arabacı",
+    title: "Jonas (老狗)",
     card: "summary_large_image",
   },
   verification: {
@@ -76,6 +77,7 @@ export default function RootLayout({
             <div className="flex w-full h-full min-h-full">
               <div className="relative flex w-full h-full flex-col">
                 {children}
+                <MusicPlayer />
               </div>
             </div>
           </TooltipProvider>

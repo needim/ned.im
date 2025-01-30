@@ -19,7 +19,20 @@ const nextConfig = {
 				protocol: "https",
 				hostname: "avatars.githubusercontent.com",
 				port: "",
+				pathname: "/**",
 			},
+			{
+				protocol: "https",
+				hostname: "img.laogou717.com",
+				port: "",
+				pathname: "/file/**",
+			},
+			{
+				protocol: "https",
+				hostname: "p1.music.126.net",
+				port: "",
+				pathname: "/**",
+			}
 		],
 	},
 	async redirects() {

@@ -1,49 +1,136 @@
-@import "tailwindcss";
-@plugin 'tailwindcss-animate';
-@plugin "@tailwindcss/typography";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@custom-variant dark (&:is(.dark *));
+@layer base {
+  :root {
+    --background: 210 40% 98%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 10% 3.9%;
+    --radius: 0.5rem;
+  }
 
-@theme {
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-serif: var(--font-lexend);
+  .dark {
+    --background: 240 10% 4%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 3.7% 15.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+  }
 
-  --text-xxs: 0.625rem;
+  * {
+    border-color: hsl(var(--border));
+  }
 
-  --color-border: hsl(var(--border));
-  --color-input: hsl(var(--input));
-  --color-ring: hsl(var(--ring));
-  --color-background: hsl(var(--background));
-  --color-foreground: hsl(var(--foreground));
+  html {
+    @apply antialiased min-h-screen bg-background text-foreground font-sans;
+  }
 
-  --color-primary: hsl(var(--primary));
-  --color-primary-foreground: hsl(var(--primary-foreground));
+  body {
+    @apply min-h-screen font-sans bg-background text-foreground;
+  }
 
-  --color-secondary: hsl(var(--secondary));
-  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif font-medium tracking-tight;
+  }
+}
 
-  --color-destructive: hsl(var(--destructive));
-  --color-destructive-foreground: hsl(var(--destructive-foreground));
+@layer components {
+  .pro {
+    @apply prose prose-zinc dark:prose-invert;
+  }
 
-  --color-muted: hsl(var(--muted));
-  --color-muted-foreground: hsl(var(--muted-foreground));
+  .container {
+    @apply mx-auto px-8;
+    @screen sm {
+      max-width: none;
+    }
+    @screen 2xl {
+      max-width: 1400px;
+    }
+  }
 
-  --color-accent: hsl(var(--accent));
-  --color-accent-foreground: hsl(var(--accent-foreground));
+  .debug {
+    @apply outline-dashed outline-red-500/75;
+  }
 
-  --color-popover: hsl(var(--popover));
-  --color-popover-foreground: hsl(var(--popover-foreground));
+  .shadow-polaroid {
+    @apply shadow-[0px_0px_0px_1px_rgba(0,0,0,0.06),0px_1px_1px_-0.5px_rgba(0,0,0,0.06),0px_3px_3px_-1.5px_rgba(0,0,0,0.06),_0px_6px_6px_-3px_rgba(0,0,0,0.06),0px_12px_12px_-6px_rgba(0,0,0,0.06),0px_24px_24px_-12px_rgba(0,0,0,0.06)];
+  }
 
-  --color-card: hsl(var(--card));
-  --color-card-foreground: hsl(var(--card-foreground));
+  .faded-border {
+    background: radial-gradient(
+      49.41% 64.58% at 49.4% 0,
+      hsla(0, 0%, 50%, 0.03) 0,
+      hsla(0, 0%, 50%, 0) 100%
+    );
+    border-top: 1px solid;
+    border-image-source: linear-gradient(
+      90deg,
+      transparent 0,
+      hsla(0, 0%, 50%, 0.19) 30%,
+      hsla(0, 0%, 50%, 0.19) 70%,
+      transparent
+    );
+    border-image-slice: 1;
+  }
 
-  --radius-lg: var(--radius);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-sm: calc(var(--radius) - 4px);
+  .dark .faded-border {
+    background: radial-gradient(
+      49.41% 64.58% at 49.4% 0,
+      hsla(0, 0%, 50%, 0.03) 0,
+      hsla(0, 0%, 50%, 0) 100%
+    );
+    border-top: 1px solid;
+    border-image-source: linear-gradient(
+      90deg,
+      transparent 0,
+      hsla(0, 0%, 50%, 0.19) 30%,
+      hsla(0, 0%, 50%, 0.19) 70%,
+      transparent
+    );
+    border-image-slice: 1;
+  }
+}
 
-  --animate-accordion-down: accordion-down 0.2s ease-out;
-  --animate-accordion-up: accordion-up 0.2s ease-out;
+@layer utilities {
+  .animate-accordion-down {
+    animation: accordion-down 0.2s ease-out;
+  }
+
+  .animate-accordion-up {
+    animation: accordion-up 0.2s ease-out;
+  }
 
   @keyframes accordion-down {
     from {
@@ -53,6 +140,7 @@
       height: var(--radix-accordion-content-height);
     }
   }
+
   @keyframes accordion-up {
     from {
       height: var(--radix-accordion-content-height);
@@ -63,201 +151,112 @@
   }
 }
 
-@utility container {
-  margin-inline: auto;
-  padding-inline: 2rem;
-  @media (width >= --theme(--breakpoint-sm)) {
-    max-width: none;
-  }
-  @media (width >= 1400px) {
-    max-width: 1400px;
-  }
+/* Twikoo Comments Styles */
+#twikoo-comments {
+  width: 100% !important;
+  max-width: none !important;
 }
 
-/*
-  The default border color has changed to `currentColor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
-
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
-*/
-@layer base {
-  *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    border-color: var(--color-zinc-200, currentColor);
-  }
+#twikoo-comments .tk-content {
+  font-size: 1rem !important;
+  line-height: 1.75 !important;
+  color: hsl(var(--foreground)) !important;
 }
 
-@utility debug {
-  @apply outline-dashed outline-red-500/75;
+#twikoo-comments .tk-row {
+  gap: 1rem !important;
+  align-items: flex-start !important;
+  padding: 1rem 0 !important;
 }
 
-@utility shadow-polaroid {
-  @apply shadow-[0px_0px_0px_1px_rgba(0,0,0,0.06),0px_1px_1px_-0.5px_rgba(0,0,0,0.06),0px_3px_3px_-1.5px_rgba(0,0,0,0.06),_0px_6px_6px_-3px_rgba(0,0,0,0.06),0px_12px_12px_-6px_rgba(0,0,0,0.06),0px_24px_24px_-12px_rgba(0,0,0,0.06)];
+#twikoo-comments .tk-avatar {
+  border-radius: 9999px !important;
+  box-shadow: 0 0 0 2px hsl(var(--primary) / 0.1) !important;
 }
 
-@utility faded-border {
-  background: radial-gradient(
-    49.41% 64.58% at 49.4% 0,
-    hsla(0, 0%, 50%, 0.03) 0,
-    hsla(0, 0%, 50%, 0) 100%
-  );
-  border-top: 1px solid;
-  border-image-source: linear-gradient(
-    90deg,
-    transparent 0,
-    hsla(0, 0%, 50%, 0.19) 30%,
-    hsla(0, 0%, 50%, 0.19) 70%,
-    transparent
-  );
-  border-image-slice: 1;
-  .dark & {
-    background: radial-gradient(
-      49.41% 64.58% at 49.4% 0,
-      hsla(0, 0%, 50%, 0.03) 0,
-      hsla(0, 0%, 50%, 0) 100%
-    );
-    border-top: 1px solid;
-    border-image-source: linear-gradient(
-      90deg,
-      transparent 0,
-      hsla(0, 0%, 50%, 0.19) 30%,
-      hsla(0, 0%, 50%, 0.19) 70%,
-      transparent
-    );
-    border-image-slice: 1;
-  }
+#twikoo-comments .tk-nick {
+  font-weight: 500 !important;
+  color: hsl(var(--primary)) !important;
 }
 
-@utility dark {
-  & .faded-border {
-    background: radial-gradient(
-      49.41% 64.58% at 49.4% 0,
-      hsla(0, 0%, 50%, 0.03) 0,
-      hsla(0, 0%, 50%, 0) 100%
-    );
-    border-top: 1px solid;
-    border-image-source: linear-gradient(
-      90deg,
-      transparent 0,
-      hsla(0, 0%, 50%, 0.19) 30%,
-      hsla(0, 0%, 50%, 0.19) 70%,
-      transparent
-    );
-    border-image-slice: 1;
-  }
+#twikoo-comments .tk-nick:hover {
+  opacity: 0.8 !important;
 }
 
-@layer base {
-  :root {
-    --background: 210 40% 98%;
-    --foreground: 240 10% 3.9%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
-
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 10% 3.9%;
-
-    --radius: 0.5rem;
-  }
-
-  .dark {
-    --background: 240 10% 4%;
-    --foreground: 0 0% 98%;
-
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-
-    --popover: 240 3.7% 15.9%;
-    --popover-foreground: 0 0% 98%;
-
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
-
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
-  }
+#twikoo-comments .tk-action-icon {
+  opacity: 0.6 !important;
+  transition: opacity 0.2s !important;
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-  html {
-    @apply antialiased min-h-screen bg-background text-foreground font-sans;
-  }
-  body {
-    @apply min-h-screen font-sans bg-background text-foreground;
-  }
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    @apply font-serif font-medium! tracking-tight;
-  }
-
-  .pro {
-    @apply prose prose-zinc dark:prose-invert;
-  }
-
-  a {
-    @apply underline-offset-4;
-  }
-
-  blockquote {
-    @apply not-italic! font-normal!;
-  }
+#twikoo-comments .tk-action-icon:hover {
+  opacity: 1 !important;
 }
 
-#carbon-responsive .carbon-responsive-wrap {
-  border-radius: var(--radius);
+#twikoo-comments .tk-tag {
+  background-color: hsl(var(--muted)) !important;
+  color: hsl(var(--muted-foreground)) !important;
+  border-radius: 9999px !important;
+  padding: 0.25rem 0.75rem !important;
+  font-size: 0.875rem !important;
+}
+
+#twikoo-comments .tk-input {
+  background-color: hsl(var(--background)) !important;
   border: 1px solid hsl(var(--border)) !important;
+  border-radius: 0.5rem !important;
+  padding: 0.75rem !important;
+  transition: all 0.2s !important;
 }
 
-.dark #carbon-responsive .carbon-responsive-wrap {
-  background: hsl(var(--background));
+#twikoo-comments .tk-input:hover {
+  border-color: hsl(var(--primary) / 0.5) !important;
 }
 
-.dark #carbon-responsive a,
-#carbon-responsive a:hover {
-  color: var(--primary);
+#twikoo-comments .tk-input:focus {
+  border-color: hsl(var(--primary)) !important;
+  outline: none !important;
+}
+
+#twikoo-comments .tk-submit {
+  background-color: hsl(var(--primary)) !important;
+  color: hsl(var(--primary-foreground)) !important;
+  border-radius: 0.5rem !important;
+  padding: 0.5rem 1.5rem !important;
+  font-weight: 500 !important;
+  transition: opacity 0.2s !important;
+}
+
+#twikoo-comments .tk-submit:hover {
+  opacity: 0.9 !important;
+}
+
+#twikoo-comments .tk-comment {
+  border-radius: 0.5rem !important;
+  transition: background-color 0.2s !important;
+}
+
+#twikoo-comments .tk-comment:hover {
+  background-color: hsl(var(--muted) / 0.5) !important;
+}
+
+#twikoo-comments .tk-meta {
+  font-size: 0.875rem !important;
+  color: hsl(var(--muted-foreground)) !important;
+}
+
+#twikoo-comments .tk-footer {
+  margin-top: 2rem !important;
+  text-align: center !important;
+  font-size: 0.875rem !important;
+  color: hsl(var(--muted-foreground)) !important;
+}
+
+#twikoo-comments .tk-main,
+#twikoo-comments .tk-comments-container,
+#twikoo-comments .tk-comment {
+  background: transparent !important;
+}
+
+#twikoo-comments .tk-extras {
+  display: none !important;
 }

@@ -1,26 +1,22 @@
-export default async function sitemap() {
-	const routes = [
-		"",
-		"/changelog",
-		// "/notes",
-		"/projects",
-		"/stack",
-		"/colophon",
-		// --- noty
-		"/noty",
-		"/noty/installation",
-		"/noty/options",
-		"/noty/types-and-layouts",
-		"/noty/themes",
-		"/noty/animations",
-		"/noty/web-push-notifications",
-		"/noty/confirm-dialogs",
-		"/noty/api-and-callbacks",
-		// --- others
-	].map((route) => ({
-		url: `https://ned.im${route}`,
-		lastModified: new Date().toISOString().split("T")[0],
-	}));
+import type { MetadataRoute } from "next";
 
-	return [...routes];
+export default function sitemap(): MetadataRoute.Sitemap {
+	return [
+		{
+			url: "https://laogou717.com",
+			lastModified: new Date(),
+		},
+		{
+			url: "https://laogou717.com/timeline",
+			lastModified: new Date(),
+		},
+		{
+			url: "https://laogou717.com/notes",
+			lastModified: new Date(),
+		},
+		{
+			url: "https://laogou717.com/colophon",
+			lastModified: new Date(),
+		},
+	];
 }

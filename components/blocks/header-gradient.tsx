@@ -4,7 +4,7 @@ export function HeaderGradient(): React.ReactElement {
   return (
     <div className="fixed inset-0 mx-0 max-w-none overflow-hidden hidden md:block">
       <div className="absolute left-1/2 top-[-14.5px] ml-[-41.5rem] h-[25rem] w-[80rem] dark:[mask-image:linear-gradient(white,transparent)]">
-        <div className="absolute inset-0 bg-linear-to-r from-indigo-600 to-indigo-100 opacity-40 [mask-image:radial-gradient(farthest-side_at_top,white,transparent)] dark:from-indigo-500/30 dark:to-indigo-800/30 dark:opacity-100">
+        <div className="absolute inset-0 bg-linear-to-r from-blue-600 to-blue-100 opacity-40 [mask-image:radial-gradient(farthest-side_at_top,white,transparent)] dark:from-blue-500/30 dark:to-blue-800/30 dark:opacity-100">
           <svg
             aria-hidden="true"
             className="absolute -inset-y-1/2 inset-x-0 h-[200%] w-full skew-x-[18deg] fill-white/10 stroke-transparent mix-blend-overlay dark:fill-black/20"

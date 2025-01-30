@@ -79,13 +79,16 @@ const PolaroidGallery = ({
             <CarouselContent>
               {images.map((image) => (
                 <CarouselItem key={image.src}>
-                  <Image
-                    alt=""
-                    src={image.src}
-                    width={image.variant === "1x1" ? 640 : 480}
-                    height={image.variant === "1x1" ? 640 : 960}
-                    // className="object-contain"
-                  />
+                  <div className="flex items-center justify-center w-full h-full max-h-[80vh]">
+                    <Image
+                      alt=""
+                      src={image.src}
+                      width={1200}
+                      height={800}
+                      className="object-contain w-auto h-auto max-h-[80vh]"
+                      priority
+                    />
+                  </div>
                 </CarouselItem>
               ))}
             </CarouselContent>

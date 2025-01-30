@@ -6,9 +6,9 @@ import Image from "next/image";
 import { useMemo } from "react";
 
 export const polaroidVariants = {
-  "1x1": "w-20 h-20",
-  "4x5": "w-20 h-24",
-  "4x3": "w-20 h-16",
+  "1x1": "aspect-square w-20",
+  "4x5": "aspect-[4/5] w-20",
+  "4x3": "aspect-[4/3] w-20",
 };
 
 const Polaroid = ({
@@ -63,20 +63,19 @@ const Polaroid = ({
         transitionEnd: { zIndex: total - index },
       }}
       className={cn(
-        "w-20 h-auto shadow-polaroid rounded-lg z-10 relative",
-        fullscreen && "w-full h-full"
+        "w-20 shadow-polaroid rounded-lg z-10 relative",
+        fullscreen && "w-full"
       )}
     >
       <motion.div
         className={cn(
-          "w-auto h-auto relative",
+          "relative",
           fullscreen ? "h-auto min-w-72" : variantClasses
         )}
       >
         <Image
-          width={480}
-          height={640}
-          className="object-contain rounded-lg bg-white p-1.5"
+          fill
+          className="object-cover rounded-lg bg-white p-1.5"
           src={src}
           alt=""
         />

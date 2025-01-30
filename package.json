@@ -1,5 +1,5 @@
 {
-	"name": "ned.im",
+	"name": "laogou717.com",
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
@@ -7,7 +7,8 @@
 		"build": "next build",
 		"start": "next start",
 		"check": "biome check --write .",
-		"lint": "next lint"
+		"lint": "next lint",
+		"new-post": "node scripts/create-post.mjs"
 	},
 	"dependencies": {
 		"@headlessui/react": "^2.2.0",
@@ -24,7 +25,10 @@
 		"@uidotdev/usehooks": "^2.4.1",
 		"class-variance-authority": "^0.7.1",
 		"clsx": "^2.1.1",
+		"color-thief-ts": "^1.1.1",
 		"embla-carousel-react": "^8.5.2",
+		"fast-average-color": "^9.4.0",
+		"framer-motion": "^12.0.5",
 		"geist": "^1.3.1",
 		"lucide-react": "^0.474.0",
 		"motion": "^12.0.3",
@@ -39,13 +43,13 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
-		"@tailwindcss/postcss": "^4.0.0",
-		"@tailwindcss/typography": "^0.5.16",
+		"@tailwindcss/typography": "^0.5.10",
 		"@types/node": "^22.10.10",
 		"@types/react": "19.0.8",
 		"@types/react-dom": "19.0.3",
-		"postcss": "^8.5.1",
-		"tailwindcss": "^4.0.0",
+		"autoprefixer": "^10.4.17",
+		"postcss": "^8.4.35",
+		"tailwindcss": "^3.4.1",
 		"tailwindcss-animate": "^1.0.7",
 		"typescript": "^5.7.3"
 	},

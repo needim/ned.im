@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ContainerInner, ContainerOuter } from "@/components/blocks/container";
 import { ThemeToggle } from "@/components/blocks/theme-toggle";
 import IconNextjs from "@/components/icons/nextjs";
-import { navItems } from "@/lib/utils";
+import { navigation } from "@/lib/utils";
 import { IconBrandGithubFilled, IconBrandVercel } from "@tabler/icons-react";
 
 function NavLink({
@@ -31,7 +31,7 @@ export function Footer() {
         <div className="pb-16 pt-10 ">
           <ContainerInner>
             <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm font-medium text-muted-foreground mb-4">
-              {navItems.map((item) => (
+              {navigation.map((item) => (
                 <NavLink key={item.href} href={item.href}>
                   {item.label}
                 </NavLink>

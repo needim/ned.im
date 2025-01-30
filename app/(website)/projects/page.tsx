@@ -7,24 +7,34 @@ export const metadata: Metadata = {
   title: "Projects",
 };
 
-export default async function Home() {
+export default async function Projects() {
   const githubResponse = await getGithubInfo();
+
+  const repositories = githubResponse.data.user.repositories.nodes
+    .sort((a, b) => b.stargazerCount - a.stargazerCount)
+    .map((repo) => ({
+      name: repo.name,
+      description: repo.description,
+      stars: repo.stargazerCount,
+      forks: repo.forkCount,
+      url: `https://github.com/${repo.nameWithOwner}`,
+      createdAt: repo.createdAt,
+    }));
+
   const featuredProjects = projects.filter((project) => project.featured);
   const otherProjects = projects.filter((project) => !project.featured);
   projects.forEach((project) => {
-    const repo = githubResponse.data.viewer.repositories.nodes.find(
-      (repo) => repo.nameWithOwner === project.githubSlug
-    );
+    const repo = repositories.find((repo) => repo.name === project.name);
     if (repo) {
       project.released = repo.createdAt;
       project.metrics = [
         {
           label: "Stars",
-          value: repo.stargazerCount,
+          value: repo.stars,
         },
         {
           label: "Forks",
-          value: repo.forkCount,
+          value: repo.forks,
         },
       ];
     }

@@ -6,10 +6,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Fragment, useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 
 import { Container } from "@/components/blocks/container";
 import { ThemeToggle } from "@/components/blocks/theme-toggle";
-import { navItems } from "@/lib/utils";
+import { navigation } from "@/lib/utils";
+
+type NavigationItem = {
+	href: string;
+	label: string;
+};
 
 function CloseIcon(props: React.ComponentPropsWithoutRef<"svg">) {
 	return (
@@ -100,7 +106,7 @@ function MobileNavigation(
 						</div>
 						<nav className="mt-6">
 							<ul className="-my-2 divide-y divide-zinc-100 text-base text-zinc-800 dark:divide-zinc-100/5 dark:text-zinc-300">
-								{navItems.map((item) => (
+								{navigation.map((item: NavigationItem) => (
 									<MobileNavItem key={item.href} href={item.href}>
 										{item.label}
 									</MobileNavItem>
@@ -150,7 +156,7 @@ function DesktopNavigation(props: React.ComponentPropsWithoutRef<"nav">) {
 	return (
 		<nav {...props}>
 			<ul className="flex rounded-full bg-zinc-0 px-3 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur-sm dark:bg-zinc-800/30 dark:text-zinc-200 dark:ring-white/10">
-				{navItems.map((item) => (
+				{navigation.map((item) => (
 					<NavItem key={item.href} href={item.href}>
 						{item.label}
 					</NavItem>
@@ -188,22 +194,29 @@ export function Avatar({
 }: Omit<React.ComponentPropsWithoutRef<typeof Link>, "href"> & {
 	large?: boolean;
 }) {
+	const isHomePage = usePathname() === "/";
+
 	return (
 		<Link
 			href="/"
 			aria-label="Home"
-			className={clsx(className, "pointer-events-auto")}
+			className={clsx(
+				className,
+				"pointer-events-auto will-change-transform",
+				"transition-all duration-300 ease-in-out",
+				isHomePage ? "translate-x-0 translate-y-0 scale-100" : "-translate-x-4 -translate-y-4 scale-75"
+			)}
 			{...props}
 		>
 			<Image
-				src="https://avatars.githubusercontent.com/needim"
+				src="https://avatars.githubusercontent.com/laogou717"
 				alt=""
 				sizes={large ? "4rem" : "2.25rem"}
 				width="140"
 				height="140"
 				className={clsx(
 					"rounded-full bg-zinc-100 object-cover dark:bg-zinc-800",
-					large ? "h-16 w-16" : "h-9 w-9",
+					large ? "h-16 w-16" : "h-9 w-9"
 				)}
 				priority
 			/>

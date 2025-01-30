@@ -1,23 +1,16 @@
-import { ChangelogList } from "@/components/blocks/changelog-list";
+import { TimelineList } from "@/components/blocks/timeline-list";
 import { Container } from "@/components/blocks/container";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Changelog",
+  title: "时间线",
+  description: "我的生活轨迹",
 };
 
-export default function Changelog() {
+export default function Timeline() {
   return (
-    <Container className="mt-16">
-      <div className="max-w-2xl">
-        <h1 className="tracking-tight text-5xl">Changelog</h1>
-        <div className="pro text-muted-foreground text-balance">
-          <p className="mt-2">
-            Here you can find the major updates and changes to my life.
-          </p>
-        </div>
-        <ChangelogList />
-      </div>
+    <Container>
+      <TimelineList />
     </Container>
   );
-}
+} 
