@@ -50,10 +50,10 @@ const DEFAULT_GITHUB_RESPONSE = {
 
 const rateLimitPlugin = new TwitterApiRateLimitPlugin();
 const client = new TwitterApi({
-	appKey: process.env.X_API_KEY!,
-	appSecret: process.env.X_API_SECRET!,
-	accessToken: process.env.X_MY_ACCESS_TOKEN!,
-	accessSecret: process.env.X_MY_ACCESS_TOKEN_SECRET!,
+		appKey: process.env.X_API_KEY!,
+		appSecret: process.env.X_API_SECRET!,
+		accessToken: process.env.X_MY_ACCESS_TOKEN!,
+		accessSecret: process.env.X_MY_ACCESS_TOKEN_SECRET!,
 }, {
 	plugins: [rateLimitPlugin]
 });
