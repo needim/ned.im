@@ -17,7 +17,7 @@ export function OpenSourceCard({
   totalStars: number;
   debug?: boolean;
   contributions: Externals.Github.ContributionDay[];
-  repoStats: Externals.Github.ApiResponse["data"]["viewer"]["repositories"]["nodes"];
+  repoStats: Externals.Github.ApiResponse["data"]["user"]["repositories"]["nodes"];
 }): React.ReactElement {
   return (
     <ProjectCard
