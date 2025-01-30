@@ -192,7 +192,7 @@ export function MusicPlayer() {
     const fetchAudioUrl = async () => {
       try {
         console.log(`正在获取歌曲 ${currentSong.name} 的URL...`);
-        const res = await fetch(`${API_BASE}/song/url?id=${currentSong.id}&realIP=${userIP}`, {
+        const res = await fetch(`${API_BASE}/song/url/v1?id=${currentSong.id}&level=standard&realIP=${userIP}`, {
           mode: 'cors',
           headers: {
             'Accept': 'application/json'
@@ -217,7 +217,7 @@ export function MusicPlayer() {
             // 1. shouldAutoPlay 为 true
             // 2. 不是首次加载
             // 3. 用户已交互或不是Safari
-            if (shouldAutoPlay.current && !isFirstLoad.current && (hasUserInteraction || !isSafari())) {
+            if (shouldAutoPlay.current && !isFirstLoad.current && hasUserInteraction) {
               try {
                 const playPromise = audioRef.current.play();
                 playPromiseRef.current = playPromise;
@@ -232,22 +232,30 @@ export function MusicPlayer() {
                   shouldAutoPlay.current = false;
                 }
               }
+            } else {
+              console.log('不满足自动播放条件:', {
+                shouldAutoPlay: shouldAutoPlay.current,
+                isFirstLoad: isFirstLoad.current,
+                hasUserInteraction
+              });
             }
           }
           isFirstLoad.current = false;
           setRetryCount(0); // 重置重试计数
         } else {
+          console.error('API响应中没有音频URL:', data);
           throw new Error('No audio URL in response');
         }
       } catch (error) {
         console.error(`获取音频URL失败 (${currentSong.name}):`, error);
         
         if (retryCount < MAX_RETRY_COUNT) {
-          console.log(`将在 ${RETRY_DELAY}ms 后重试 (${retryCount + 1}/${MAX_RETRY_COUNT})`);
+          const nextRetryDelay = RETRY_DELAY * (retryCount + 1); // 递增重试延迟
+          console.log(`将在 ${nextRetryDelay}ms 后重试 (${retryCount + 1}/${MAX_RETRY_COUNT})`);
           // 延迟重试
           setTimeout(() => {
             setRetryCount(prev => prev + 1);
-          }, RETRY_DELAY);
+          }, nextRetryDelay);
         } else {
           console.log(`达到最大重试次数 (${MAX_RETRY_COUNT})，跳转到下一首歌`);
           setIsPlaying(false);
@@ -261,7 +269,7 @@ export function MusicPlayer() {
     };
     
     fetchAudioUrl();
-  }, [currentSong, retryCount, hasUserInteraction, playNextSong, userIP, isSafari]);
+  }, [currentSong, retryCount, hasUserInteraction, playNextSong, userIP]);
 
   // 监听音频加载完成事件
   useEffect(() => {
@@ -273,7 +281,7 @@ export function MusicPlayer() {
       audio.volume = volume;
       
       // 如果正在播放状态，确保音频开始播放
-      if (isPlaying && audio.readyState >= 3) {
+      if (isPlaying && audio.readyState >= 3 && hasUserInteraction) {
         try {
           const playPromise = audio.play();
           playPromiseRef.current = playPromise;
@@ -295,7 +303,10 @@ export function MusicPlayer() {
     const handleError = (e: ErrorEvent) => {
       console.error("音频错误:", e);
       if (retryCount < MAX_RETRY_COUNT) {
-        setRetryCount(prev => prev + 1);
+        const nextRetryDelay = RETRY_DELAY * (retryCount + 1);
+        setTimeout(() => {
+          setRetryCount(prev => prev + 1);
+        }, nextRetryDelay);
       } else {
         setIsPlaying(false);
         shouldAutoPlay.current = true;
@@ -312,7 +323,7 @@ export function MusicPlayer() {
       audio.removeEventListener('canplay', handleCanPlay);
       audio.removeEventListener('error', handleError);
     };
-  }, [volume, isPlaying, retryCount, playNextSong]);
+  }, [volume, isPlaying, retryCount, playNextSong, hasUserInteraction]);
 
   // 处理点击外部收起
   useEffect(() => {
