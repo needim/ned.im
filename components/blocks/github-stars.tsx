@@ -17,7 +17,7 @@ export function GithubStars({
 }: {
   play: boolean;
   totalStars: number;
-  repoStats?: Externals.Github.ApiResponse["data"]["viewer"]["repositories"]["nodes"];
+  repoStats?: Externals.Github.ApiResponse["data"]["user"]["repositories"]["nodes"];
 }): React.ReactElement {
   return (
     <Tooltip>
