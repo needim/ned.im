@@ -36,9 +36,6 @@ export function Footer() {
                   {item.label}
                 </NavLink>
               ))}
-              <NavLink key={"/colophon"} href="/colophon">
-                Colophon
-              </NavLink>
             </div>
             <div className="text-sm text-muted-foreground">
               <div className="items-center flex flex-wrap gap-4">

@@ -213,117 +213,11 @@ export function MusicPlayer() {
     }
   }, [userIP, API_BASE]);
 
-  const switchSong = useCallback(async (targetSong: Song) => {
-    if (switchingRef.current) {
-      console.log('正在切换歌曲中，忽略新的切换请求');
-      return;
-    }
-
-    try {
-      switchingRef.current = true;
-      setIsLoading(true);
-      
-      // 立即更新UI显示
-      setCurrentSong(targetSong);
-      
-      // 暂停当前音频
-      if (audioRef.current) {
-        audioRef.current.pause();
-      }
-
-      // 并行获取所有需要的数据
-      const [songDetail, lyrics, similarSongs, comments, musicDetail] = await Promise.all([
-        // 原有的歌曲详情获取逻辑
-        fetch(`${API_BASE}/song/detail?ids=${targetSong.id}&realIP=${userIP}`).then(res => res.json()),
-        fetchLyrics(targetSong.id),
-        fetchSimilarSongs(targetSong.id),
-        fetchSongComments(targetSong.id),
-        fetchMusicDetail(targetSong.id)
-      ]);
-
-      const songDetailData = songDetail.songs?.[0];
-      
-      if (!songDetailData) {
-        throw new Error('无法获取歌曲详情');
-      }
-      
-      // 根据歌曲类型选择合适的音质
-      let level = 'standard';
-      if (songDetailData.fee === 1) {
-        level = 'higher'; // VIP 歌曲尝试更高品质
-      }
-      
-      // 获取音频URL
-      const res = await fetch(
-        `${API_BASE}/song/url/v1?id=${targetSong.id}&level=${level}&realIP=${userIP}`, {
-        mode: 'cors',
-        headers: {
-          'Accept': 'application/json'
-        }
-      });
-      
-      if (!res.ok) {
-        throw new Error(`HTTP error! status: ${res.status}`);
-      }
-      
-      const data = await res.json();
-      
-      if (!data.data?.[0]?.url) {
-        // 如果高品质获取失败，尝试其他品质
-        if (level === 'higher') {
-          const fallbackRes = await fetch(
-            `${API_BASE}/song/url/v1?id=${targetSong.id}&level=standard&realIP=${userIP}`, {
-            mode: 'cors',
-            headers: {
-              'Accept': 'application/json'
-            }
-          });
-          
-          if (!fallbackRes.ok) {
-            throw new Error(`HTTP error! status: ${fallbackRes.status}`);
-          }
-          
-          const fallbackData = await fallbackRes.json();
-          if (!fallbackData.data?.[0]?.url) {
-            throw new Error('NO_URL');
-          }
-          
-          data.data[0] = fallbackData.data[0];
-        } else {
-          throw new Error('NO_URL');
-        }
-      }
-
-      if (audioRef.current) {
-        audioRef.current.src = data.data[0].url;
-        if (shouldAutoPlay.current && hasUserInteraction) {
-          await audioRef.current.play();
-          setIsPlaying(true);
-        }
-      }
-
-      // 更新歌曲相关信息
-      if (lyrics) {
-        setCurrentLyrics(lyrics);
-      }
-      if (similarSongs.length > 0) {
-        setSimilarSongs(similarSongs);
-      }
-      if (comments) {
-        setSongComments(comments);
-      }
-      if (musicDetail) {
-        setMusicDetail(musicDetail);
-      }
-    } catch (error) {
-      console.error('切换歌曲失败:', error);
-      setError(`无法播放歌曲 "${targetSong.name}"，请尝试其他歌曲`);
-      setIsPlaying(false);
-    } finally {
-      setIsLoading(false);
-      switchingRef.current = false;
-    }
-  }, [userIP, hasUserInteraction, fetchLyrics, fetchSimilarSongs, fetchSongComments, fetchMusicDetail, API_BASE]);
+  // 定义错误类型
+  type ApiError = {
+    name?: string;
+    message: string;
+  };
 
   const playNextSong = useCallback(() => {
     if (songList.length === 0) return;
@@ -349,6 +243,117 @@ export function MusicPlayer() {
     // 如果所有歌曲都不可播放，显示错误
     console.error('没有可播放的歌曲');
   }, [songList, currentSong]);
+
+  const switchSong = useCallback(async (targetSong: Song) => {
+    if (switchingRef.current) {
+      console.log('正在切换歌曲中，忽略新的切换请求');
+      return;
+    }
+
+    try {
+      switchingRef.current = true;
+      setIsLoading(true);
+      
+      // 立即更新UI显示
+      setCurrentSong(targetSong);
+      
+      // 如果当前歌曲已经有URL，先开始播放，同时获取其他信息
+      if (targetSong.url) {
+        if (audioRef.current) {
+          audioRef.current.src = targetSong.url;
+          if (shouldAutoPlay.current && hasUserInteraction) {
+            try {
+              await audioRef.current.play();
+              setIsPlaying(true);
+            } catch (error: unknown) {
+              if (error instanceof Error && error.name !== 'AbortError') {
+                console.error('播放失败:', error);
+                setIsPlaying(false);
+                shouldAutoPlay.current = false;
+              }
+            }
+          }
+        }
+      }
+
+      // 并行获取所有需要的数据
+      const [songDetail, lyrics, similarSongs, comments, musicDetail] = await Promise.all([
+        fetch(`${API_BASE}/song/detail?ids=${targetSong.id}&realIP=${userIP}`).then(res => res.json()),
+        fetchLyrics(targetSong.id),
+        fetchSimilarSongs(targetSong.id),
+        fetchSongComments(targetSong.id),
+        fetchMusicDetail(targetSong.id)
+      ]);
+
+      const songDetailData = songDetail.songs?.[0];
+      
+      if (!songDetailData) {
+        throw new Error('无法获取歌曲详情');
+      }
+
+      // 只有当歌曲没有URL时才重新获取
+      if (!targetSong.url) {
+        // 获取音频URL
+        const res = await fetch(
+          `${API_BASE}/song/url/v1?id=${targetSong.id}&level=standard&realIP=${userIP}`, {
+          mode: 'cors',
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
+        
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        
+        const data = await res.json();
+        
+        if (!data.data?.[0]?.url) {
+          throw new Error('NO_URL');
+        }
+
+        if (audioRef.current) {
+          audioRef.current.src = data.data[0].url;
+          if (shouldAutoPlay.current && hasUserInteraction) {
+            try {
+              await audioRef.current.play();
+              setIsPlaying(true);
+            } catch (error: unknown) {
+              if (error instanceof Error && error.name !== 'AbortError') {
+                console.error('播放失败:', error);
+                setIsPlaying(false);
+                shouldAutoPlay.current = false;
+              }
+            }
+          }
+        }
+      }
+
+      // 更新歌曲相关信息
+      if (lyrics) {
+        setCurrentLyrics(lyrics);
+      }
+      if (similarSongs.length > 0) {
+        setSimilarSongs(similarSongs);
+      }
+      if (comments) {
+        setSongComments(comments);
+      }
+      if (musicDetail) {
+        setMusicDetail(musicDetail);
+      }
+    } catch (error: unknown) {
+      console.error('切换歌曲失败:', error);
+      setError(`无法播放歌曲 "${targetSong.name}"，请尝试其他歌曲`);
+      setIsPlaying(false);
+      shouldAutoPlay.current = false;
+      // 如果当前歌曲播放失败，尝试下一首
+      playNextSong();
+    } finally {
+      setIsLoading(false);
+      switchingRef.current = false;
+    }
+  }, [userIP, hasUserInteraction, fetchLyrics, fetchSimilarSongs, fetchSongComments, fetchMusicDetail, API_BASE, playNextSong]);
 
   const playPrevSong = useCallback(() => {
     if (!playlist.length || switchingRef.current) return;
@@ -406,30 +411,18 @@ export function MusicPlayer() {
   // 获取用户IP
   useEffect(() => {
     const getIP = async () => {
-      const ipServices = [
-        'https://api.ipify.org?format=json',
-        'https://api.myip.com',
-        'https://api.ip.sb/jsonip'
+      // 中国大陆IP池
+      const cnIPs = [
+        '116.25.146.177',  // 广东
+        '211.136.150.66',  // 北京
+        '223.104.63.35',   // 上海
+        '120.241.0.0',     // 深圳
+        '183.192.196.1'    // 杭州
       ];
       
-      for (const service of ipServices) {
-        try {
-          const res = await fetch(service);
-          const data = await res.json();
-          // Different services return IP in different formats
-          const ip = data.ip || data.IP;
-          if (ip) {
-            setUserIP(ip);
-            return;
-          }
-        } catch (error) {
-          console.error(`获取IP失败 (${service}):`, error);
-        }
-      }
-      
-      // If all services fail, use fallback IP
-      console.warn('所有IP服务均失败，使用备用IP');
-      setUserIP('116.25.146.177');
+      // 随机选择一个IP
+      const randomIP = cnIPs[Math.floor(Math.random() * cnIPs.length)];
+      setUserIP(randomIP);
     };
 
     getIP();
@@ -448,7 +441,7 @@ export function MusicPlayer() {
         }
 
         // 获取歌单所有歌曲
-        const playlistRes = await fetch(`${API_BASE}/playlist/track/all?id=${PLAYLIST_ID}`);
+        const playlistRes = await fetch(`${API_BASE}/playlist/track/all?id=${PLAYLIST_ID}&realIP=${userIP}`);
         const playlistData = await playlistRes.json();
         
         if (!playlistData.songs) {
@@ -490,7 +483,7 @@ export function MusicPlayer() {
             });
             
             songsWithUrls.push(...batchWithUrls);
-          } catch (error) {
+          } catch (error: unknown) {
             console.error(`获取第${i/batchSize + 1}批歌曲URL失败:`, error);
             // 即使失败也继续处理其他批次
             const batchWithoutUrls = batch.map((track: Song) => ({
@@ -508,17 +501,18 @@ export function MusicPlayer() {
         setSongList(songsWithUrls);
         setPlaylist(songsWithUrls);
         
-        // 设置第一首有效的歌曲
-        if (validSongs.length > 0 && !currentSong) {
+        // 只在初始化时设置第一首歌曲
+        if (validSongs.length > 0 && isFirstLoad.current) {
           setCurrentSong(validSongs[0]);
+          isFirstLoad.current = false;
         }
-      } catch (error) {
+      } catch (error: unknown) {
         console.error('获取歌单失败:', error);
       }
     };
 
     fetchPlaylist();
-  }, [userIP, API_BASE, currentSong]);
+  }, [userIP, API_BASE]);
 
   // 切换歌曲时的处理逻辑
   useEffect(() => {
@@ -526,7 +520,7 @@ export function MusicPlayer() {
     
     if (currentSong.url) {
       audioRef.current.src = currentSong.url;
-      if (shouldAutoPlay.current && !isFirstLoad.current && hasUserInteraction) {
+      if (shouldAutoPlay.current && hasUserInteraction) {
         audioRef.current.play()
           .then(() => {
             setIsPlaying(true);
@@ -546,8 +540,6 @@ export function MusicPlayer() {
       // 如果当前歌曲没有URL，尝试下一首
       playNextSong();
     }
-    
-    isFirstLoad.current = false;
   }, [currentSong, hasUserInteraction, playNextSong]);
 
   // 检测文本是否溢出
@@ -709,24 +701,24 @@ export function MusicPlayer() {
   }, [expanded]);
 
   const resetExpandTimeout = useCallback(() => {
-    if (expandTimeout) {
-      window.clearTimeout(expandTimeout);
+    if (expandTimeoutRef.current) {
+      window.clearTimeout(expandTimeoutRef.current);
     }
     if (!isUserInteracting) {
-      const newTimeout = window.setTimeout(() => {
+      const timeoutId = window.setTimeout(() => {
         setExpanded(false);
-      }, 3000);
-      setExpandTimeout(newTimeout);
+      }, 3000) as unknown as NodeJS.Timeout;
+      expandTimeoutRef.current = timeoutId;
     }
-  }, [expandTimeout, isUserInteracting]);
+  }, [isUserInteracting]);
 
   // 处理用户交互状态
   const handleInteractionStart = useCallback(() => {
     setIsUserInteracting(true);
-    if (expandTimeout) {
-      window.clearTimeout(expandTimeout);
+    if (expandTimeoutRef.current) {
+      window.clearTimeout(expandTimeoutRef.current);
     }
-  }, [expandTimeout]);
+  }, []);
 
   const handleInteractionEnd = useCallback(() => {
     setIsUserInteracting(false);
@@ -739,11 +731,11 @@ export function MusicPlayer() {
       resetExpandTimeout();
     }
     return () => {
-      if (expandTimeout) {
-        window.clearTimeout(expandTimeout);
+      if (expandTimeoutRef.current) {
+        window.clearTimeout(expandTimeoutRef.current);
       }
     };
-  }, [expanded, expandTimeout, resetExpandTimeout]);
+  }, [expanded, resetExpandTimeout]);
 
   const toggleMute = () => {
     if (!audioRef.current) return;

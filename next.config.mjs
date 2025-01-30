@@ -11,7 +11,7 @@ const nextConfig = {
 		},
 	},
 	experimental: {
-		mdxRs: true,
+		mdxRs: false,
 	},
 	images: {
 		remotePatterns: [
@@ -58,4 +58,7 @@ const withMDX = createMDX({
 	},
 });
 
-export default withMDX(nextConfig);
+export default withMDX({
+	...nextConfig,
+	pageExtensions: ["ts", "tsx", "js", "jsx", "md", "mdx"],
+});

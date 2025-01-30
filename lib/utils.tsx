@@ -30,10 +30,9 @@ export const formattedDateTimeline = (
 export const navigation = [
   { href: "/", label: "Home" },
   { href: "/timeline", label: "Timeline" },
-  { href: "/projects", label: "Projects" },
-  { href: "/stack", label: "Stack" },
   { href: "/notes", label: "Notes" },
-  { href: "/colophon", label: "Colophon" },
+  { href: "/geek", label: "Geek" },
+  { href: "/qa", label: "Q&A" },
 ];
 
 export const careerItems = [

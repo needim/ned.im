@@ -74,7 +74,7 @@ export default async function Readme() {
         </h1>
         <div className="pro text-muted-foreground text-balance">
           <p className="mt-6">
-            Hi <span className="text-xl">👋🏻</span>, I'm an AI enthusiast, video editor, and photographer. Check out my AI navigation site<br/>你好 👋🏻，我是一名人工智能爱好者、视频编辑和摄影师。欢迎访问我的AI工具导航网站{" "}
+            Hi <span className="text-xl">👋🏻</span>, I'm an AI enthusiast, video editor, and photographer. Check out my AI navigation site<br/>你好 👋🏻，我是一名人工智能爱好者、视频编辑和摄影师-神烦老狗。欢迎访问我的AI工具导航网站{" "}
             <Link
               href="https://nav.laogou717.com"
               target="_blank"

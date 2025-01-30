@@ -4,7 +4,8 @@ import useNextValue from "@/components/hooks/use-next-value";
 import { cn } from "@/lib/utils";
 import {
   IconContrastFilled,
-  IconMoonFilled,
+  IconMoon,
+  IconSun,
   IconSunFilled,
 } from "@tabler/icons-react";
 import { motion, useAnimation } from "motion/react";
@@ -97,21 +98,24 @@ export function ThemeToggle({
       <motion.div
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.9 }}
+        style={{ height: 24, width: 40 }}
         className={cn(
-          "h-6 w-10 flex items-center bg-zinc-0 ring-1 ring-zinc-900/5 backdrop-blur-sm dark:bg-zinc-800/30 dark:ring-white/10 rounded-full shadow-inner dark:shadow-black/10 relative"
+          "flex items-center bg-zinc-0 ring-1 ring-zinc-900/5 backdrop-blur-sm dark:bg-zinc-800/30 dark:ring-white/10 rounded-full shadow-inner dark:shadow-black/10 relative"
         )}
       >
         <motion.div
           animate={{
             x: theme === "light" ? 4 : theme === "system" ? 12 : 20,
-            transition: { duration: 0.1, easings: ["easeInOut"] },
+            transition: { duration: 0.1, ease: "easeInOut" },
           }}
+          style={{ height: 16, width: 16 }}
           className={cn(
-            "rounded-full size-4 transition-all duration-300 ease-in-out relative"
+            "rounded-full transition-all duration-300 ease-in-out relative"
           )}
         >
           <motion.div
-            className="size-4 absolute top-0 left-0"
+            style={{ height: 16, width: 16 }}
+            className="absolute top-0 left-0"
             variants={iconVariants}
             initial="hidden"
             animate={controlsSun}
@@ -120,7 +124,8 @@ export function ThemeToggle({
             <IconSunFilled className="size-4" />
           </motion.div>
           <motion.div
-            className="size-4 absolute top-0 left-0"
+            style={{ height: 16, width: 16 }}
+            className="absolute top-0 left-0"
             variants={iconVariants}
             initial="hidden"
             animate={controlsContrast}
@@ -129,13 +134,14 @@ export function ThemeToggle({
             <IconContrastFilled className="size-4 dark:rotate-180" />
           </motion.div>
           <motion.div
-            className="size-4 absolute top-0 left-0"
+            style={{ height: 16, width: 16 }}
+            className="absolute top-0 left-0"
             variants={iconVariants}
             initial="hidden"
             animate={controlsMoon}
             transition={{ duration: 0.2, ease: "easeInOut" }}
           >
-            <IconMoonFilled className="size-4" />
+            <IconMoon className="size-4" />
           </motion.div>
         </motion.div>
       </motion.div>

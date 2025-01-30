@@ -260,3 +260,67 @@
 #twikoo-comments .tk-extras {
   display: none !important;
 }
+
+/* Q&A Styles */
+.qa-wrapper {
+  --tw-bg-opacity: 0.3;
+  --tw-border-opacity: 0.1;
+}
+
+.qa-wrapper .giscus {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+.qa-wrapper .giscus-frame {
+  border: none !important;
+  background: transparent !important;
+}
+
+.qa-wrapper .giscus-comments {
+  background: transparent !important;
+}
+
+.qa-wrapper .giscus-comment {
+  margin: 1.5rem 0 !important;
+  padding: 1.5rem !important;
+  border-radius: 1rem !important;
+  background: rgb(244 244 245 / var(--tw-bg-opacity)) !important;
+  border: 1px solid rgb(161 161 170 / var(--tw-border-opacity)) !important;
+  transition: all 0.2s !important;
+}
+
+.dark .qa-wrapper .giscus-comment {
+  background: rgb(39 39 42 / var(--tw-bg-opacity)) !important;
+  border-color: rgb(161 161 170 / var(--tw-border-opacity)) !important;
+}
+
+.qa-wrapper .giscus-comment:hover {
+  --tw-bg-opacity: 0.4;
+  --tw-border-opacity: 0.2;
+}
+
+.qa-wrapper .giscus-reactions {
+  display: flex !important;
+  gap: 0.5rem !important;
+  margin-top: 1rem !important;
+}
+
+.qa-wrapper .giscus-button {
+  border-radius: 9999px !important;
+  padding: 0.5rem 1rem !important;
+  font-size: 0.875rem !important;
+  line-height: 1.25rem !important;
+  background: rgb(244 244 245 / var(--tw-bg-opacity)) !important;
+  border: 1px solid rgb(161 161 170 / var(--tw-border-opacity)) !important;
+  transition: all 0.2s !important;
+}
+
+.dark .qa-wrapper .giscus-button {
+  background: rgb(39 39 42 / var(--tw-bg-opacity)) !important;
+}
+
+.qa-wrapper .giscus-button:hover {
+  --tw-bg-opacity: 0.5;
+  --tw-border-opacity: 0.3;
+}

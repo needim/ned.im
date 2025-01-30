@@ -2,6 +2,7 @@ import { Container } from "@/components/blocks/container";
 import Link from "next/link";
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
+import matter from 'gray-matter';
 import { formattedDate } from "@/lib/utils";
 import { IconClock } from "@tabler/icons-react";
 
@@ -22,18 +23,26 @@ function estimateReadingTime(content: string): number {
 }
 
 async function getPosts(): Promise<Post[]> {
-	const postsDirectory = path.join(process.cwd(), 'app/(website)/notes');
+	const postsDirectory = path.join(process.cwd(), 'content/notes');
 	const files = await fs.readdir(postsDirectory);
 	
 	const posts = await Promise.all(
 		files
-			.filter(file => file.endsWith('.mdx') && !file.startsWith('page'))
+			.filter(file => file.endsWith('.mdx'))
 			.map(async (file) => {
 				const slug = file.replace(/\.mdx$/, '');
-				const module = await import(`./${file}`);
+				const filePath = path.join(postsDirectory, file);
+				const fileContent = await fs.readFile(filePath, 'utf8');
+				const { data } = matter(fileContent);
+				
 				return {
 					slug,
-					metadata: module.metadata || {}
+					metadata: {
+						title: data.title as string,
+						date: data.date as string,
+						description: data.description as string | undefined,
+						tags: data.tags as string[] | undefined,
+					}
 				};
 			})
 	);

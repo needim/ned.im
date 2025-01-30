@@ -1,53 +1,46 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { useMotionValue, useSpring } from "motion/react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function NumberTicker({
   value,
-  direction = "up",
-  delay = 0,
   className,
-  label,
-  play,
 }: {
   value: number;
-  direction?: "up" | "down";
   className?: string;
-  label?: string;
-  delay?: number; // delay in s
-  play?: boolean;
 }) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const motionValue = useMotionValue(direction === "down" ? value : 0);
-  const springValue = useSpring(motionValue, {
-    damping: 100,
-    stiffness: 1000,
-  });
+  const [displayValue, setDisplayValue] = useState(value);
+  const previousValue = useRef(value);
 
   useEffect(() => {
-    play &&
-      setTimeout(() => {
-        motionValue.set(direction === "down" ? 0 : value);
-      }, delay * 1000);
-  }, [motionValue, play, delay, value, direction]);
-
-  useEffect(
-    () =>
-      springValue.on("change", (latest) => {
-        if (ref.current) {
-          ref.current.textContent = `${Intl.NumberFormat("en-US").format(
-            Number.parseInt(latest.toFixed(0))
-          )} ${label ? label : ""}`;
+    const animationDuration = 500; // 500ms
+    const steps = 20;
+    const stepDuration = animationDuration / steps;
+    
+    if (value !== previousValue.current) {
+      const diff = value - previousValue.current;
+      const increment = diff / steps;
+      
+      let currentStep = 0;
+      const interval = setInterval(() => {
+        currentStep++;
+        if (currentStep >= steps) {
+          setDisplayValue(value);
+          clearInterval(interval);
+        } else {
+          setDisplayValue(previousValue.current + (increment * currentStep));
         }
-      }),
-    [springValue, label]
-  );
+      }, stepDuration);
 
-  return typeof value === "string" ? (
-    <>{value}</>
-  ) : (
-    <span className={cn("inline-block tabular-nums", className)} ref={ref} />
+      previousValue.current = value;
+      return () => clearInterval(interval);
+    }
+  }, [value]);
+
+  return (
+    <span className={cn("tabular-nums", className)}>
+      {Math.round(displayValue).toLocaleString()}
+    </span>
   );
 }
