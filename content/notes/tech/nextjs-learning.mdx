@@ -1,0 +1,35 @@
+---
+title: "Next.js 14 学习笔记：App Router 和 Server Components"
+date: "2024-01-27"
+description: "深入理解 Next.js 14 的新特性和最佳实践。"
+tags: ["Next.js", "React", "Web开发"]
+column: "tech"
+---
+
+最近在学习 Next.js 14 的新特性，特别是 App Router 和 Server Components 这两个重要的概念。这里记录一下我的理解和实践经验。
+
+## App Router
+
+App Router 是 Next.js 13 引入的新路由系统，在 14 版本中得到了进一步完善。它基于文件系统路由，但提供了更强大的功能：
+
+- 支持嵌套路由和布局
+- 提供了更好的加载状态处理
+- 支持并行路由和拦截路由
+
+## Server Components
+
+Server Components 是 React 的一个重要创新，它让我们可以在服务器端渲染复杂的组件，带来了几个重要优势：
+
+- 减少客户端 JavaScript 体积
+- 直接在服务器端访问数据
+- 改善首屏加载性能
+
+## 实践心得
+
+在实际项目中，我发现合理使用 Server Components 和 Client Components 的组合非常重要。一般的原则是：
+
+- 默认使用 Server Components
+- 需要交互或浏览器 API 时使用 Client Components
+- 将状态管理限制在需要的最小范围内
+
+这样可以在性能和开发体验之间取得很好的平衡。 

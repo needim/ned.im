@@ -498,12 +498,15 @@ export function MusicPlayer() {
         const validSongs = songsWithUrls.filter(song => song.url);
         console.log(`成功获取到${validSongs.length}/${songsWithUrls.length}首歌的URL`);
         
-        setSongList(songsWithUrls);
-        setPlaylist(songsWithUrls);
+        // 随机打乱歌曲顺序
+        const shuffledSongs = [...validSongs].sort(() => Math.random() - 0.5);
+        
+        setSongList(shuffledSongs);
+        setPlaylist(shuffledSongs);
         
         // 只在初始化时设置第一首歌曲
-        if (validSongs.length > 0 && isFirstLoad.current) {
-          setCurrentSong(validSongs[0]);
+        if (shuffledSongs.length > 0 && isFirstLoad.current) {
+          setCurrentSong(shuffledSongs[0]);
           isFirstLoad.current = false;
         }
       } catch (error: unknown) {
@@ -890,7 +893,7 @@ export function MusicPlayer() {
   const fullPlayer = (
     <div 
       ref={playerRef}
-      className={`fixed ${expanded ? 'scale-100 opacity-100' : 'scale-0 opacity-0'} bottom-20 right-8 backdrop-blur-sm border rounded-2xl p-4 shadow-lg flex flex-col gap-4 w-[320px] transition-all duration-300 origin-bottom-right`}
+      className={`fixed ${expanded ? 'scale-100 opacity-100' : 'scale-0 opacity-0'} bottom-20 right-4 sm:right-8 backdrop-blur-sm border rounded-2xl p-3 sm:p-4 shadow-lg flex flex-col gap-3 sm:gap-4 w-[calc(100vw-2rem)] sm:w-[320px] max-w-[320px] transition-all duration-300 origin-bottom-right`}
       style={generateBackgroundStyle()}
       onMouseEnter={handleInteractionStart}
       onMouseLeave={handleInteractionEnd}
@@ -917,22 +920,22 @@ export function MusicPlayer() {
       </audio>
       
       {/* 封面和信息区域 */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-3 sm:gap-4">
         <div className="relative">
           <img 
             ref={imgRef}
             src={currentSong.al.picUrl} 
             alt={`${currentSong.name} 封面`}
-            className={`w-24 h-24 flex-shrink-0 rounded-xl shadow-lg ${isLoading ? 'opacity-50' : ''}`}
+            className={`w-20 h-20 sm:w-24 sm:h-24 flex-shrink-0 rounded-xl shadow-lg ${isLoading ? 'opacity-50' : ''}`}
           />
           {isLoading && (
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-8 h-8 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+              <div className="w-6 h-6 sm:w-8 sm:h-8 border-2 border-white/20 border-t-white rounded-full animate-spin" />
             </div>
           )}
         </div>
         <div className="flex-1 min-w-0 overflow-hidden">
-          <div className={`font-medium text-base whitespace-nowrap ${isTextOverflow(currentSong.name) ? 'animate-marquee hover:pause' : ''}`}>
+          <div className={`font-medium text-sm sm:text-base whitespace-nowrap ${isTextOverflow(currentSong.name) ? 'animate-marquee hover:pause' : ''}`}>
             {currentSong.name}
             {isVipSong && <span className="ml-1 text-xs text-yellow-400">(VIP预览)</span>}
             {previewTimeLeft !== null && previewTimeLeft <= 5 && (
@@ -941,12 +944,12 @@ export function MusicPlayer() {
               </span>
             )}
           </div>
-          <div className={`text-sm text-muted-foreground whitespace-nowrap ${isTextOverflow(currentSong.ar.map(artist => artist.name).join(", ")) ? 'animate-marquee hover:pause' : ''} mt-1`}>
+          <div className={`text-xs sm:text-sm text-muted-foreground whitespace-nowrap ${isTextOverflow(currentSong.ar.map(artist => artist.name).join(", ")) ? 'animate-marquee hover:pause' : ''} mt-1`}>
             {currentSong.ar.map(artist => artist.name).join(", ")}
           </div>
           {/* 进度条 */}
-          <div className="flex items-center gap-2 mt-3">
-            <span className="text-xs text-muted-foreground min-w-[40px]">
+          <div className="flex items-center gap-2 mt-2 sm:mt-3">
+            <span className="text-xs text-muted-foreground min-w-[36px] sm:min-w-[40px]">
               {formatTime(currentTime)}
             </span>
             <div className="flex-1 relative">
@@ -956,20 +959,20 @@ export function MusicPlayer() {
                 max={isVipSong && previewDuration ? previewDuration : (duration || 100)}
                 value={currentTime}
                 onChange={handleProgressChange}
-                className="w-full h-1 bg-white/20 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white"
+                className="w-full h-1 bg-white/20 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-2.5 [&::-webkit-slider-thumb]:h-2.5 sm:[&::-webkit-slider-thumb]:w-3 sm:[&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white"
               />
               {isBuffering && (
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                  <div className="w-3 h-3 sm:w-4 sm:h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
                 </div>
               )}
             </div>
-            <span className="text-xs text-muted-foreground min-w-[40px]">
+            <span className="text-xs text-muted-foreground min-w-[36px] sm:min-w-[40px]">
               {isVipSong && previewDuration ? formatTime(previewDuration) : formatTime(duration)}
             </span>
           </div>
           {vipSongInfo && (
-            <div className="mt-2 text-xs text-yellow-400">
+            <div className="mt-1.5 sm:mt-2 text-xs text-yellow-400">
               {vipSongInfo.message}
             </div>
           )}
@@ -978,17 +981,17 @@ export function MusicPlayer() {
 
       {/* 控制按钮区域 */}
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 sm:gap-2">
           <button
             onClick={toggleMute}
-            className="p-2 hover:bg-white/10 rounded-full transition-colors"
+            className="p-1.5 sm:p-2 hover:bg-white/10 rounded-full transition-colors"
             aria-label={isMuted ? "取消静音" : "静音"}
             disabled={isLoading || isBuffering}
           >
             {isMuted ? (
-              <IconVolume3 className="w-4 h-4" />
+              <IconVolume3 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             ) : (
-              <IconVolume className="w-4 h-4" />
+              <IconVolume className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             )}
           </button>
           <input
@@ -999,49 +1002,49 @@ export function MusicPlayer() {
             value={volume}
             onChange={handleVolumeChange}
             disabled={isLoading || isBuffering}
-            className="w-20 h-1 bg-white/20 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white"
+            className="w-16 sm:w-20 h-1 bg-white/20 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-2.5 [&::-webkit-slider-thumb]:h-2.5 sm:[&::-webkit-slider-thumb]:w-3 sm:[&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white"
           />
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
           <button
             onClick={playPrevSong}
-            className={`p-2 hover:bg-white/10 rounded-full transition-colors ${isLoading || isBuffering ? 'opacity-50 cursor-wait' : ''}`}
+            className={`p-1.5 sm:p-2 hover:bg-white/10 rounded-full transition-colors ${isLoading || isBuffering ? 'opacity-50 cursor-wait' : ''}`}
             disabled={isLoading || isBuffering}
             aria-label="上一首"
           >
-            <IconPlayerTrackPrev className="w-5 h-5" />
+            <IconPlayerTrackPrev className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
           <button
             onClick={togglePlay}
-            className={`p-3 hover:bg-white/10 rounded-full transition-colors ${isLoading || isBuffering ? 'opacity-50 cursor-wait' : ''}`}
+            className={`p-2 sm:p-3 hover:bg-white/10 rounded-full transition-colors ${isLoading || isBuffering ? 'opacity-50 cursor-wait' : ''}`}
             disabled={isLoading || isBuffering}
             aria-label={isPlaying ? "暂停" : "播放"}
           >
             {isLoading || isBuffering ? (
-              <div className="w-6 h-6 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+              <div className="w-5 h-5 sm:w-6 sm:h-6 border-2 border-white/20 border-t-white rounded-full animate-spin" />
             ) : isPlaying ? (
-              <IconPlayerPause className="w-6 h-6" />
+              <IconPlayerPause className="w-5 h-5 sm:w-6 sm:h-6" />
             ) : (
-              <IconPlayerPlay className="w-6 h-6" />
+              <IconPlayerPlay className="w-5 h-5 sm:w-6 sm:h-6" />
             )}
           </button>
           <button
             onClick={playNextSong}
-            className={`p-2 hover:bg-white/10 rounded-full transition-colors ${isLoading || isBuffering ? 'opacity-50 cursor-wait' : ''}`}
+            className={`p-1.5 sm:p-2 hover:bg-white/10 rounded-full transition-colors ${isLoading || isBuffering ? 'opacity-50 cursor-wait' : ''}`}
             disabled={isLoading || isBuffering}
             aria-label="下一首"
           >
-            <IconPlayerTrackNext className="w-5 h-5" />
+            <IconPlayerTrackNext className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
         </div>
 
         <button
           onClick={() => setExpanded(false)}
-          className="p-2 hover:bg-white/10 rounded-full transition-colors"
+          className="p-1.5 sm:p-2 hover:bg-white/10 rounded-full transition-colors"
           aria-label="最小化"
         >
-          <IconArrowsDiagonalMinimize className="w-4 h-4" />
+          <IconArrowsDiagonalMinimize className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
         </button>
       </div>
     </div>

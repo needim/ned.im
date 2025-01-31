@@ -1,33 +1,15 @@
 import { CareerCard } from "@/components/blocks/career-card";
 import { Container } from "@/components/blocks/container";
-import { GitHubIcon, XIcon } from "@/components/blocks/social-icons";
+import { GitHubIcon, XIcon, BilibiliIcon, QQIcon, YouTubeIcon } from "@/components/blocks/social-icons";
 import { SocialLink } from "@/components/blocks/social-link";
-import { getGithubInfo, getXInfo } from "@/server/thirdparty";
+import { ProjectCard } from "@/components/blocks/project-card";
 import type { Metadata } from "next";
-import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Home",
 };
 
-export default async function Readme() {
-  const githubResponse = await getGithubInfo();
-  const xResponse = await getXInfo();
-
-  const last3weeks =
-    githubResponse.data.user.contributionsCollection.contributionCalendar.weeks.slice(
-      -3
-    );
-  const last14days = last3weeks
-    .flatMap((week) => week.contributionDays)
-    .slice(-14);
-
-  const githubFollowers = githubResponse.data.user.followers.totalCount;
-  const githubStars = githubResponse.data.user.repositories.nodes.reduce(
-    (acc, repo) => acc + repo.stargazerCount,
-    0
-  );
-
+export default function Readme() {
   const myCareerItems = [
     {
       from: 2024,
@@ -63,52 +45,83 @@ export default async function Readme() {
     }
   ];
 
+  const myProjects = [
+    {
+      title: "AI Navigation",
+      description: "A curated collection of AI tools and resources",
+      href: "https://nav.laogou717.com",
+      icon: GitHubIcon
+    },
+    {
+      title: "Personal Blog",
+      description: "My personal blog built with Next.js",
+      href: "https://github.com/laogou717/ned.im",
+      icon: GitHubIcon
+    }
+  ];
+
   return (
     <>
-      <Container className="mt-9">
-        <h1 className="tracking-tight text-4xl sm:text-5xl">
-          Jonas (老狗)
-          <span className="text-muted-foreground font-title font-extralight text-3xl sm:text-4xl block text-balance">
-            AI Enthusiast & Content Creator
-          </span>
-        </h1>
-        <div className="pro text-muted-foreground text-balance">
-          <p className="mt-6">
-            Hi <span className="text-xl">👋🏻</span>, I'm an AI enthusiast, video editor, and photographer. Check out my AI navigation site<br/>你好 👋🏻，我是一名人工智能爱好者、视频编辑和摄影师-神烦老狗。欢迎访问我的AI工具导航网站{" "}
-            <Link
-              href="https://nav.laogou717.com"
-              target="_blank"
-              rel="nofollow noreferrer"
-            >
-              @nav.laogou717.com
-            </Link>
+      <Container className="mt-12 md:mt-16">
+        <div className="max-w-2xl">
+          <h1 className="text-2xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-3xl md:text-4xl">
+            Jonas (老狗)
+          </h1>
+          <p className="mt-4 text-base text-zinc-600 dark:text-zinc-400">
+          Hello 👋, I’m Shenfan Laogou, an AI enthusiast, video editor, and photographer. <br/> 你好 👋，我是神烦老狗，一名AI爱好者、视频编辑和摄影师。
           </p>
-          <p>
-            I'm passionate about breaking down information barriers and helping newcomers to AI technology. 
-            My goal is to help others improve their efficiency, just as I would have wanted help when I was starting out. 
-            If I happen to gain followers along the way, I consider it an honor.
-             <br/>我热衷于打破信息壁垒，帮助人工智能技术新手。我的目标是帮助他人提高效率，就像我刚起步时希望别人帮助我一样。如果我在这条路上碰巧获得了追随者，我认为这是一种荣誉。
+          <p className="mt-4 text-base text-zinc-600 dark:text-zinc-400">
+          I’m dedicated to bridging the information gap and helping beginners quickly grasp AI applications. I feel like I’m helping my former self, and it brings me immense joy. If my work gains attention or recognition, that’s truly an honor, and I deeply appreciate every bit of feedback. <br/> 我致力于打破信息差，帮助新手快速掌握AI应用。我一直觉得自己是在帮助曾经的那个自己，做这件事让我感到无比快乐。如果我的分享能得到大家的关注和认可，那真是我的荣幸，我非常感激每一条反馈。
           </p>
-        </div>
-        <div className="mt-6 flex gap-6">
-          <SocialLink
-            href="https://x.com/shenfanlaogou"
-            icon={XIcon}
-            count={xResponse.data?.public_metrics?.followers_count}
-            label="followers"
-          />
-          <SocialLink
-            href="https://github.com/laogou717"
-            aria-label="Follow on GitHub"
-            icon={GitHubIcon}
-            count={githubFollowers}
-            label="followers"
-          />
+          <p className="mt-4 text-base text-zinc-600 dark:text-zinc-400">
+          If you’re interested in following my journey, feel free to visit my blog’s Timeline\Notes, where you’ll find my story, thoughts, struggles, and growth. You can also click the button below to follow my other social media accounts for more updates. <br/> 如果你有兴趣了解我的更多动态，可以访问我的博客 Timeline/Notes，那里有我的生平故事、一些思考、困惑和成长历程。你也可以点击下方的按钮关注我的社交媒体账号，获取更多内容。
+          </p>
+          <div className="mt-4 flex gap-4">
+            <SocialLink
+              href="https://x.com/shenfanlaogou"
+              icon={XIcon}
+              aria-label="Follow on X"
+            />
+            <SocialLink
+              href="https://github.com/laogou717"
+              icon={GitHubIcon}
+              aria-label="Follow on GitHub"
+            />
+            <SocialLink
+              href="https://space.bilibili.com/46377861"
+              icon={BilibiliIcon}
+              aria-label="Follow on Bilibili"
+            />
+            <SocialLink
+              href="https://qm.qq.com/cgi-bin/qm/qr?k=Sy5kzgNsXxWdy66ijJmauHgcT2jL9CKB&jump_from=webapi&authKey=oBzIk0cUqGHl3ihCKLFi7ZnTc5W5Be6LSitr3FF+lOpi8ScyzX2C/39iJBSKtzwf"
+              icon={QQIcon}
+              aria-label="Follow on QQ"
+            />
+            <SocialLink
+              href="https://youtube.com/@shenfanlaogou"
+              icon={YouTubeIcon}
+              aria-label="Follow on YouTube"
+            />
+          </div>
         </div>
       </Container>
-      <Container className="mt-24 md:mt-20">
+
+      <Container className="mt-16 md:mt-12">
+        <h2 className="text-3xl">Projects</h2>
+        <p className="text-muted-foreground mb-6 mt-2">
+          Some of my recent projects and websites
+          <br/>我的一些近期项目和网站
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {myProjects.map((project, index) => (
+            <ProjectCard key={index} {...project} />
+          ))}
+        </div>
+      </Container>
+
+      <Container className="mt-16 md:mt-12">
         <h2 className="text-3xl">Career</h2>
-        <p className="text-muted-foreground mb-8 mt-3">
+        <p className="text-muted-foreground mb-6 mt-2">
           With 14+ years of self-learning experience, most of my skills were acquired through the internet.
           <br/>我有 14 年以上的自学经验，大部分技能都是通过互联网获得的。
         </p>
@@ -120,4 +133,4 @@ export default async function Readme() {
       </Container>
     </>
   );
-}
+} 

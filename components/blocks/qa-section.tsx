@@ -19,10 +19,9 @@ export function QASection({ path }: { path: string }) {
     script.src = 'https://giscus.app/client.js';
     script.setAttribute('data-repo', 'laogou717/NGiscus');
     script.setAttribute('data-repo-id', 'R_kgDOMvw6LA');
-    script.setAttribute('data-category', 'Q&A');
+    script.setAttribute('data-category', 'Announcements');
     script.setAttribute('data-category-id', 'DIC_kwDOMvw6LM4CiXCA');
     script.setAttribute('data-mapping', 'pathname');
-    script.setAttribute('data-strict', '1');
     script.setAttribute('data-reactions-enabled', '1');
     script.setAttribute('data-emit-metadata', '0');
     script.setAttribute('data-input-position', 'top');

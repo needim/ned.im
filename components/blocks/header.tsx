@@ -111,9 +111,6 @@ function MobileNavigation(
 										{item.label}
 									</MobileNavItem>
 								))}
-								<MobileNavItem key="colophon" href="/colophon">
-									Colophon
-								</MobileNavItem>
 							</ul>
 						</nav>
 					</Popover.Panel>
@@ -204,7 +201,7 @@ export function Avatar({
 				className,
 				"pointer-events-auto will-change-transform",
 				"transition-all duration-300 ease-in-out",
-				isHomePage ? "translate-x-0 translate-y-0 scale-100" : "-translate-x-4 -translate-y-4 scale-75"
+				isHomePage ? "translate-x-0 translate-y-0 scale-100" : "-translate-x-4 -translate-y-3 scale-75"
 			)}
 			{...props}
 		>
@@ -241,6 +238,12 @@ export function Header() {
 
 		function removeProperty(property: string) {
 			document.documentElement.style.removeProperty(property);
+		}
+
+		if (isHomePage) {
+			setProperty("--avatar-image-transform", "translate3d(0rem, 1rem, 0) scale(1)");
+			setProperty("--avatar-border-transform", "translate3d(0rem, 1rem, 0) scale(1)");
+			setProperty("--avatar-border-opacity", "0");
 		}
 
 		function updateHeaderStyles() {
@@ -293,6 +296,8 @@ export function Header() {
 			const toScale = 36 / 64;
 			const fromX = 0;
 			const toX = 2 / 16;
+			const fromY = 1;
+			const toY = 0;
 
 			const scrollY = downDelay - window.scrollY;
 
@@ -302,14 +307,18 @@ export function Header() {
 			let x = (scrollY * (fromX - toX)) / downDelay + toX;
 			x = clamp(x, fromX, toX);
 
+			let y = (scrollY * (fromY - toY)) / downDelay + toY;
+			y = clamp(y, fromY, toY);
+
 			setProperty(
 				"--avatar-image-transform",
-				`translate3d(${x}rem, 0, 0) scale(${scale})`,
+				`translate3d(${x}rem, ${y}rem, 0) scale(${scale})`,
 			);
 
 			const borderScale = 1 / (toScale / scale);
 			const borderX = (-toX + x) * borderScale;
-			const borderTransform = `translate3d(${borderX}rem, 0, 0) scale(${borderScale})`;
+			const borderY = (-toY + y) * borderScale;
+			const borderTransform = `translate3d(${borderX}rem, ${borderY}rem, 0) scale(${borderScale})`;
 
 			setProperty("--avatar-border-transform", borderTransform);
 			setProperty("--avatar-border-opacity", scale === toScale ? "1" : "0");
