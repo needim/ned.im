@@ -8,12 +8,14 @@ import { IconX } from "@tabler/icons-react";
 import type { MDXRemoteSerializeResult } from "next-mdx-remote";
 import { MDXRemote } from "next-mdx-remote";
 import { createPortal } from "react-dom";
+import type { Components } from "@mdx-js/react/lib";
 
 interface MDXContentProps {
   content: MDXRemoteSerializeResult;
 }
 
-interface CodeBlockProps extends React.HTMLAttributes<HTMLElement> {
+interface CodeBlockProps {
+  className?: string;
   children?: string;
 }
 
@@ -75,8 +77,8 @@ function ImagePreview({ src, alt, onClose }: { src: string; alt?: string; onClos
   return typeof document !== 'undefined' ? createPortal(content, document.body) : null;
 }
 
-export const components = {
-  table: ({ className, ...props }: React.HTMLAttributes<HTMLTableElement>) => (
+export const components: Components = {
+  table: ({ className, ...props }: React.ComponentPropsWithoutRef<"table">) => (
     <div className="my-6 w-full overflow-y-auto">
       <table
         className={cn(
@@ -87,19 +89,19 @@ export const components = {
       />
     </div>
   ),
-  thead: ({ className, ...props }: React.HTMLAttributes<HTMLTableSectionElement>) => (
+  thead: ({ className, ...props }: React.ComponentPropsWithoutRef<"thead">) => (
     <thead
       className={cn("bg-muted/50 border-b", className)}
       {...props}
     />
   ),
-  tbody: ({ className, ...props }: React.HTMLAttributes<HTMLTableSectionElement>) => (
+  tbody: ({ className, ...props }: React.ComponentPropsWithoutRef<"tbody">) => (
     <tbody
       className={cn("divide-y divide-border bg-card", className)}
       {...props}
     />
   ),
-  tr: ({ className, ...props }: React.HTMLAttributes<HTMLTableRowElement>) => (
+  tr: ({ className, ...props }: React.ComponentPropsWithoutRef<"tr">) => (
     <tr
       className={cn(
         "border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted",
@@ -108,7 +110,7 @@ export const components = {
       {...props}
     />
   ),
-  th: ({ className, ...props }: React.HTMLAttributes<HTMLTableCellElement>) => (
+  th: ({ className, ...props }: React.ComponentPropsWithoutRef<"th">) => (
     <th
       className={cn(
         "h-10 px-4 text-left align-middle font-medium text-muted-foreground border-r last:border-r-0",
@@ -117,7 +119,7 @@ export const components = {
       {...props}
     />
   ),
-  td: ({ className, ...props }: React.HTMLAttributes<HTMLTableCellElement>) => (
+  td: ({ className, ...props }: React.ComponentPropsWithoutRef<"td">) => (
     <td
       className={cn(
         "p-4 align-middle border-r border-border last:border-r-0",
@@ -126,7 +128,7 @@ export const components = {
       {...props}
     />
   ),
-  h1: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
+  h1: ({ className, ...props }: React.ComponentPropsWithoutRef<"h1">) => (
     <h1
       className={cn(
         "font-heading mt-2 scroll-m-20 text-4xl font-bold",
@@ -135,7 +137,7 @@ export const components = {
       {...props}
     />
   ),
-  h2: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
+  h2: ({ className, ...props }: React.ComponentPropsWithoutRef<"h2">) => (
     <h2
       className={cn(
         "font-heading mt-12 scroll-m-20 border-b pb-2 text-2xl font-semibold tracking-tight first:mt-0",
@@ -144,7 +146,7 @@ export const components = {
       {...props}
     />
   ),
-  h3: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
+  h3: ({ className, ...props }: React.ComponentPropsWithoutRef<"h3">) => (
     <h3
       className={cn(
         "font-heading mt-8 scroll-m-20 text-xl font-semibold tracking-tight",
@@ -153,7 +155,7 @@ export const components = {
       {...props}
     />
   ),
-  h4: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
+  h4: ({ className, ...props }: React.ComponentPropsWithoutRef<"h4">) => (
     <h4
       className={cn(
         "font-heading mt-8 scroll-m-20 text-lg font-semibold tracking-tight",
@@ -162,22 +164,22 @@ export const components = {
       {...props}
     />
   ),
-  p: ({ className, ...props }: React.HTMLAttributes<HTMLParagraphElement>) => (
+  p: ({ className, ...props }: React.ComponentPropsWithoutRef<"p">) => (
     <p
       className={cn("leading-7 [&:not(:first-child)]:mt-6", className)}
       {...props}
     />
   ),
-  ul: ({ className, ...props }: React.HTMLAttributes<HTMLUListElement>) => (
+  ul: ({ className, ...props }: React.ComponentPropsWithoutRef<"ul">) => (
     <ul className={cn("my-6 ml-6 list-disc", className)} {...props} />
   ),
-  ol: ({ className, ...props }: React.HTMLAttributes<HTMLOListElement>) => (
+  ol: ({ className, ...props }: React.ComponentPropsWithoutRef<"ol">) => (
     <ol className={cn("my-6 ml-6 list-decimal", className)} {...props} />
   ),
-  li: ({ className, ...props }: React.HTMLAttributes<HTMLLIElement>) => (
+  li: ({ className, ...props }: React.ComponentPropsWithoutRef<"li">) => (
     <li className={cn("mt-2", className)} {...props} />
   ),
-  blockquote: ({ className, ...props }: React.HTMLAttributes<HTMLQuoteElement>) => (
+  blockquote: ({ className, ...props }: React.ComponentPropsWithoutRef<"blockquote">) => (
     <blockquote
       className={cn(
         "mt-6 border-l-2 border-border pl-6 italic [&>*]:text-muted-foreground",
@@ -186,7 +188,7 @@ export const components = {
       {...props}
     />
   ),
-  pre: ({ children, className, ...props }: React.HTMLAttributes<HTMLPreElement> & { children?: React.ReactNode }) => {
+  pre: ({ children, className, ...props }: React.ComponentPropsWithoutRef<"pre">) => {
     const childArray = React.Children.toArray(children);
     const code = childArray.find(
       (child) => React.isValidElement(child) && child.type === "code"
@@ -209,7 +211,7 @@ export const components = {
       </div>
     );
   },
-  code: ({ className, ...props }: CodeBlockProps) => {
+  code: ({ className, children, ...props }: CodeBlockProps) => {
     const isInlineCode = !className;
     return (
       <code
@@ -221,10 +223,12 @@ export const components = {
           className
         )}
         {...props}
-      />
+      >
+        {children}
+      </code>
     );
   },
-  img: ({ className, alt, src, ...props }: React.ImgHTMLAttributes<HTMLImageElement>) => {
+  img: ({ className, alt, src, ...props }: React.ComponentPropsWithoutRef<"img">) => {
     const [showPreview, setShowPreview] = useState(false);
 
     return (
@@ -264,7 +268,7 @@ export const components = {
       </>
     );
   },
-};
+} as Components;
 
 export function MDXContent({ content }: MDXContentProps) {
   const { compiledSource, frontmatter, scope } = content;
