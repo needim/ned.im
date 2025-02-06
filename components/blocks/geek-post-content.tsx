@@ -30,9 +30,7 @@ interface GeekPostContentProps {
     description?: string;
     videoUrl?: string;
   };
-  content: {
-    compiledSource: string;
-  };
+  content: any;
   slug: string;
 }
 
@@ -79,9 +77,7 @@ export function GeekPostContent({ post, content, slug }: GeekPostContentProps) {
             </div>
           )}
 
-          <div className="prose dark:prose-invert max-w-none">
-            <div dangerouslySetInnerHTML={{ __html: content.compiledSource }} />
-          </div>
+          <MDXRemoteContent content={content} />
 
           <div className="mt-16 pt-8 border-t">
             <ClientSideComments path={`/geek/${slug}`} />
