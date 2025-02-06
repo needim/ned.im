@@ -41,10 +41,10 @@ function ImagePreview({ src, alt, onClose }: { src: string; alt?: string; onClos
   };
 
   const content = (
-    <div 
-      role="dialog"
+    <dialog 
+      open
       aria-modal="true"
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-0 m-0" 
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-0 m-0 max-w-none w-full h-full" 
       onClick={handleClick}
       onKeyDown={handleKeyDown}
     >
@@ -71,7 +71,7 @@ function ImagePreview({ src, alt, onClose }: { src: string; alt?: string; onClos
         onClick={(e) => e.stopPropagation()}
         onKeyDown={(e) => e.stopPropagation()}
       />
-    </div>
+    </dialog>
   );
 
   return typeof document !== 'undefined' ? createPortal(content, document.body) : null;
@@ -253,7 +253,6 @@ export const components: Components = {
                 )}
                 src={src}
                 alt={alt || "图片"}
-                {...props}
               />
             </div>
           </button>
