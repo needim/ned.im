@@ -1,15 +1,15 @@
 import { notFound } from "next/navigation";
 import { getGeekPostBySlug } from "@/lib/geek";
 import { GeekPostContent } from "@/components/blocks/geek-post-content";
-import type { Metadata, ResolvingMetadata } from "next";
+import type { Metadata } from "next";
 import { compileMDXContent } from "@/lib/mdx";
 
-type Props = {
+interface PageProps {
   params: { slug: string };
-  searchParams: Record<string, string | string[] | undefined>;
+  searchParams: { [key: string]: string | string[] | undefined };
 }
 
-export default async function GeekPostPage({ params }: Props) {
+export default async function GeekPostPage({ params }: PageProps) {
   if (!params?.slug) {
     notFound();
   }
@@ -27,8 +27,7 @@ export default async function GeekPostPage({ params }: Props) {
 }
 
 export async function generateMetadata(
-  { params }: Props,
-  parent: ResolvingMetadata
+  { params }: PageProps
 ): Promise<Metadata> {
   const post = await getGeekPostBySlug(params.slug);
 
