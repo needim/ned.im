@@ -20,10 +20,10 @@ export function Comments({ showHeader = true, path }: CommentsProps) {
     script.src = "https://giscus.app/client.js";
     script.async = true;
     script.crossOrigin = "anonymous";
-    script.setAttribute("data-repo", "laogou717/ned.im");
-    script.setAttribute("data-repo-id", "R_kgDOLPxQbw");
-    script.setAttribute("data-category", "General");
-    script.setAttribute("data-category-id", "DIC_kwDOLPxQb84CdvXE");
+    script.setAttribute("data-repo", "laogou717/NGiscus");
+    script.setAttribute("data-repo-id", "R_kgDOMvw6LA");
+    script.setAttribute("data-category", "Announcements");
+    script.setAttribute("data-category-id", "DIC_kwDOMvw6LM4CiXCA");
     script.setAttribute("data-mapping", "pathname");
     script.setAttribute("data-strict", "0");
     script.setAttribute("data-reactions-enabled", "1");
