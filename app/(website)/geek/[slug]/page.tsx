@@ -4,14 +4,14 @@ import { GeekPostContent } from "@/components/blocks/geek-post-content";
 import type { Metadata } from "next";
 import { compileMDXContent } from "@/lib/mdx";
 
-interface Props {
+type Props = {
   params: {
     slug: string;
   };
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams?: { [key: string]: string | string[] | undefined };
 }
 
-export default async function GeekPostPage({ params, searchParams }: Props) {
+export default async function GeekPostPage({ params }: Props) {
   if (!params?.slug) {
     notFound();
   }
@@ -28,7 +28,9 @@ export default async function GeekPostPage({ params, searchParams }: Props) {
   return <GeekPostContent post={post} content={compiledContent} slug={params.slug} />;
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata(
+  { params }: Props
+): Promise<Metadata> {
   const post = await getGeekPostBySlug(params.slug);
 
   if (!post) {
