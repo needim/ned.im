@@ -27,8 +27,9 @@ function validateFrontMatter(data: unknown): data is GeekFrontMatter {
 
 export async function GET(
   request: Request,
-  { params }: { params: { slug: string } }
+  context: { params: Promise<{ slug: string }> }
 ) {
+  const params = await context.params;
   const slug = params.slug;
   
   if (!slug) {

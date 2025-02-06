@@ -10,7 +10,8 @@ import { motion } from "framer-motion";
 
 import { Container } from "@/components/blocks/container";
 import { ThemeToggle } from "@/components/blocks/theme-toggle";
-import { navigation } from "@/lib/utils";
+import { cn } from "@/lib/utils";
+import { navigation } from "@/lib/navigation";
 
 type NavigationItem = {
 	href: string;
@@ -53,23 +54,31 @@ function MobileNavItem({
 	href: string;
 	children: React.ReactNode;
 }) {
+	const isActive = usePathname() === href;
+
 	return (
 		<li>
-			<Popover.Button as={Link} href={href} className="block py-2">
+			<Link
+				href={href}
+				className={clsx(
+					"block py-2 text-base transition-colors duration-200",
+					isActive
+						? "text-zinc-900 dark:text-zinc-200"
+						: "text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200"
+				)}
+			>
 				{children}
-			</Popover.Button>
+			</Link>
 		</li>
 	);
 }
 
-function MobileNavigation(
-	props: React.ComponentPropsWithoutRef<typeof Popover>,
-) {
+function MobileNavigation(props: React.HTMLAttributes<HTMLDivElement>) {
 	return (
 		<Popover {...props}>
-			<Popover.Button className="group flex items-center px-4 py-2 text-sm font-medium rounded-full">
+			<Popover.Button className="group flex items-center rounded-full bg-white/90 px-4 py-2 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10">
 				Menu
-				<ChevronDownIcon className="ml-3 h-auto w-2 stroke-primary" />
+				<ChevronDownIcon className="ml-3 h-auto w-2 stroke-zinc-500 group-hover:stroke-zinc-700 dark:group-hover:stroke-zinc-400" />
 			</Popover.Button>
 			<Transition.Root>
 				<Transition.Child
@@ -81,7 +90,7 @@ function MobileNavigation(
 					leaveFrom="opacity-100"
 					leaveTo="opacity-0"
 				>
-					<Popover.Overlay className="fixed inset-0 z-50 bg-zinc-800/40 backdrop-blur-xs dark:bg-black/80" />
+					<Popover.Overlay className="fixed inset-0 z-50 bg-zinc-800/40 backdrop-blur-sm dark:bg-black/80" />
 				</Transition.Child>
 				<Transition.Child
 					as={Fragment}
@@ -105,8 +114,8 @@ function MobileNavigation(
 							</h2>
 						</div>
 						<nav className="mt-6">
-							<ul className="-my-2 divide-y divide-zinc-100 text-base text-zinc-800 dark:divide-zinc-100/5 dark:text-zinc-300">
-								{navigation.map((item: NavigationItem) => (
+							<ul className="divide-y divide-zinc-100 text-base text-zinc-800 dark:divide-zinc-100/5 dark:text-zinc-300">
+								{navigation.map((item) => (
 									<MobileNavItem key={item.href} href={item.href}>
 										{item.label}
 									</MobileNavItem>
@@ -134,25 +143,28 @@ function NavItem({
 			<Link
 				href={href}
 				className={clsx(
-					"relative block px-3 py-2 transition shrink-0",
+					"relative block px-3 py-2 transition",
 					isActive
-						? "text-zinc-950 dark:text-zinc-50 dark:hover:text-zinc-50"
-						: "text-zinc-500 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-zinc-300",
+						? "text-foreground"
+						: "text-muted-foreground hover:text-foreground"
 				)}
 			>
 				{children}
 				{isActive && (
-					<span className="absolute inset-x-1 -bottom-px h-px bg-linear-to-r from-transparent via-indigo-700 to-transparent dark:from-zinc-400/0 dark:via-indigo-400/40 dark:to-transparent" />
+					<motion.span
+						className="absolute inset-x-1 -bottom-px h-px bg-gradient-to-r from-zinc-500/0 via-zinc-500/40 to-zinc-500/0 dark:from-zinc-400/0 dark:via-zinc-400/40 dark:to-zinc-400/0"
+						layoutId="active-nav-item"
+					/>
 				)}
 			</Link>
 		</li>
 	);
 }
 
-function DesktopNavigation(props: React.ComponentPropsWithoutRef<"nav">) {
+function DesktopNavigation(props: React.HTMLAttributes<HTMLDivElement>) {
 	return (
 		<nav {...props}>
-			<ul className="flex rounded-full bg-zinc-0 px-3 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur-sm dark:bg-zinc-800/30 dark:text-zinc-200 dark:ring-white/10">
+			<ul className="flex items-center px-3 text-sm font-medium rounded-full bg-white/5 shadow-[0_0_1px_rgba(0,0,0,0.05)] dark:bg-zinc-800/5 ring-1 ring-zinc-900/5 dark:ring-white/5">
 				{navigation.map((item) => (
 					<NavItem key={item.href} href={item.href}>
 						{item.label}

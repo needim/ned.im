@@ -5,7 +5,8 @@ import { motion } from 'framer-motion';
 import { IconBrandX } from '@tabler/icons-react';
 import type { polaroidVariants } from '@/components/blocks/polaroid';
 import PolaroidGallery from '@/components/blocks/polaroid-gallery';
-import { formattedDateTimeline, timelineItems } from '@/lib/utils';
+import { formattedDateTimeline } from '@/lib/utils';
+import { timelineItems } from '@/lib/timeline';
 import { cn } from '@/lib/utils';
 
 type TImage = {

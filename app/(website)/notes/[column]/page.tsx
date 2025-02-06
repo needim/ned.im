@@ -17,6 +17,14 @@ interface Post {
   };
 }
 
+interface Params {
+  column: string;
+}
+
+interface SearchParams {
+  [key: string]: string | string[] | undefined;
+}
+
 async function getColumnPosts(columnSlug: string): Promise<Post[]> {
   const postsDirectory = path.join(process.cwd(), 'content/notes', columnSlug);
   
@@ -57,9 +65,14 @@ async function getColumnPosts(columnSlug: string): Promise<Post[]> {
   }
 }
 
-export default async function ColumnPage({ params }: { params: { column: string } }) {
-  const { column: columnParam } = await Promise.resolve(params);
-  const columnSlug = columnParam;
+export default async function ColumnPage({ 
+  params 
+}: { 
+  params: Promise<Params>;
+  searchParams: Promise<SearchParams>;
+}) {
+  const resolvedParams = await params;
+  const columnSlug = resolvedParams.column;
   const columnData = columns.find(col => col.slug === columnSlug);
   
   if (!columnData) {

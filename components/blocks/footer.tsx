@@ -1,9 +1,11 @@
+"use client";
+
 import Link from "next/link";
 
 import { ContainerInner, ContainerOuter } from "@/components/blocks/container";
 import { ThemeToggle } from "@/components/blocks/theme-toggle";
 import IconNextjs from "@/components/icons/nextjs";
-import { navigation } from "@/lib/utils";
+import { navigation } from "@/lib/navigation";
 import { IconBrandGithubFilled, IconBrandVercel } from "@tabler/icons-react";
 
 function NavLink({
@@ -32,9 +34,13 @@ export function Footer() {
           <ContainerInner>
             <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm font-medium text-muted-foreground mb-4">
               {navigation.map((item) => (
-                <NavLink key={item.href} href={item.href}>
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="text-sm text-muted-foreground hover:text-foreground"
+                >
                   {item.label}
-                </NavLink>
+                </Link>
               ))}
             </div>
             <div className="text-sm text-muted-foreground">

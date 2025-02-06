@@ -10,6 +10,15 @@ import { TableOfContents } from "@/components/blocks/table-of-contents";
 import { TextSelectionPopover } from "@/components/blocks/text-selection-popover";
 import { MDXContent } from "@/components/mdx-content";
 
+interface Params {
+  column: string;
+  slug: string;
+}
+
+interface SearchParams {
+  [key: string]: string | string[] | undefined;
+}
+
 async function getPost(column: string, slug: string) {
   try {
     const filePath = path.join(process.cwd(), 'content/notes', column, `${slug}.mdx`);
@@ -36,8 +45,14 @@ async function getPost(column: string, slug: string) {
   }
 }
 
-export default async function PostPage({ params }: { params: { column: string; slug: string } }) {
-  const { column: columnParam, slug: slugParam } = await Promise.resolve(params);
+export default async function PostPage({ 
+  params 
+}: { 
+  params: Promise<Params>;
+  searchParams: Promise<SearchParams>;
+}) {
+  const resolvedParams = await params;
+  const { column: columnParam, slug: slugParam } = resolvedParams;
   const columnSlug = columnParam;
   const postSlug = slugParam;
   

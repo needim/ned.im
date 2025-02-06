@@ -4,17 +4,27 @@ import { GeekPostContent } from "@/components/blocks/geek-post-content";
 import type { Metadata } from "next";
 import { compileMDXContent } from "@/lib/mdx";
 
-interface PageProps {
-  params: { slug: string };
-  searchParams: { [key: string]: string | string[] | undefined };
+interface Params {
+  slug: string;
 }
 
-export default async function GeekPostPage({ params }: PageProps) {
-  if (!params?.slug) {
+interface SearchParams {
+  [key: string]: string | string[] | undefined;
+}
+
+export default async function GeekPostPage({
+  params,
+}: {
+  params: Promise<Params>;
+  searchParams: Promise<SearchParams>;
+}) {
+  const resolvedParams = await params;
+  
+  if (!resolvedParams?.slug) {
     notFound();
   }
 
-  const result = await getGeekPostBySlug(params.slug);
+  const result = await getGeekPostBySlug(resolvedParams.slug);
 
   if (!result) {
     notFound();
@@ -23,13 +33,17 @@ export default async function GeekPostPage({ params }: PageProps) {
   const { meta: post, content } = result;
   const compiledContent = await compileMDXContent(content);
 
-  return <GeekPostContent post={post} content={compiledContent} slug={params.slug} />;
+  return <GeekPostContent post={post} content={compiledContent} slug={resolvedParams.slug} />;
 }
 
-export async function generateMetadata(
-  { params }: PageProps
-): Promise<Metadata> {
-  const post = await getGeekPostBySlug(params.slug);
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<Params>;
+  searchParams: Promise<SearchParams>;
+}): Promise<Metadata> {
+  const resolvedParams = await params;
+  const post = await getGeekPostBySlug(resolvedParams.slug);
 
   if (!post) {
     return {

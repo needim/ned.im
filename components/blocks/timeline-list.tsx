@@ -6,7 +6,8 @@ import type { Variants } from "framer-motion";
 import { IconBrandX } from "@tabler/icons-react";
 import type { polaroidVariants } from "@/components/blocks/polaroid";
 import PolaroidGallery from "@/components/blocks/polaroid-gallery";
-import { cn, formattedDateTimeline, timelineItems } from "@/lib/utils";
+import { cn, formattedDateTimeline } from "@/lib/utils";
+import { timelineItems } from "@/lib/timeline";
 
 type TImage = {
   src: string;
