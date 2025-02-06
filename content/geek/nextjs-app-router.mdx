@@ -1,0 +1,44 @@
+---
+title: "深入理解 Next.js App Router"
+description: "详细介绍 Next.js 13+ 的 App Router 架构，包括服务端组件、客户端组件的使用场景和最佳实践"
+date: "2024-02-10"
+videoUrl: "https://www.youtube.com/embed/demo-nextjs"
+attachmentUrl: "/geek/nextjs-app-router"
+---
+
+## 视频内容概要
+
+1. App Router vs Pages Router
+2. 服务端组件和客户端组件
+3. 数据获取和缓存策略
+4. 路由拦截和并行路由
+
+## 重要概念
+
+- Server Components 是默认的，更好的性能
+- Client Components 需要显式声明 "use client"
+- Route Groups 可以更好地组织代码结构
+- Loading、Error、Layout 约定
+
+## 示例代码
+
+```tsx
+// app/layout.tsx
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en">
+      <body>{children}</body>
+    </html>
+  );
+}
+```
+
+## 相关资源
+
+- [Next.js 文档](https://nextjs.org/docs)
+- [React Server Components](https://nextjs.org/docs/app/building-your-application/rendering/server-components)
+- [示例代码仓库](https://github.com/your-username/nextjs-examples) 

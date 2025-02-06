@@ -58,10 +58,11 @@ async function getColumnPosts(columnSlug: string): Promise<Post[]> {
 }
 
 export default async function ColumnPage({ params }: { params: { column: string } }) {
-  const columnSlug = params.column;
-  const column = columns.find(col => col.slug === columnSlug);
+  const { column: columnParam } = await Promise.resolve(params);
+  const columnSlug = columnParam;
+  const columnData = columns.find(col => col.slug === columnSlug);
   
-  if (!column) {
+  if (!columnData) {
     notFound();
   }
 
@@ -74,8 +75,8 @@ export default async function ColumnPage({ params }: { params: { column: string 
           <Link href="/notes" className="text-sm text-muted-foreground hover:text-primary transition-colors">
             ← 返回专栏列表
           </Link>
-          <h1 className="text-4xl font-bold tracking-tight mt-4">{column.title}</h1>
-          <p className="text-muted-foreground mt-2">{column.description}</p>
+          <h1 className="text-4xl font-bold tracking-tight mt-4">{columnData.title}</h1>
+          <p className="text-muted-foreground mt-2">{columnData.description}</p>
         </div>
 
         <div className="space-y-8">

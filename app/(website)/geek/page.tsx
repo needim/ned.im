@@ -1,17 +1,27 @@
-"use client";
-
 import { Container } from "@/components/blocks/container";
+import { GeekCard } from "@/components/blocks/geek-card";
+import { getAllGeekPosts } from "@/lib/geek";
+import { unstable_noStore } from "next/cache";
 
-export default function GeekPage() {
+export default async function GeekPage() {
+  unstable_noStore();
+  const posts = await getAllGeekPosts();
+
   return (
     <Container>
-      <div className="mx-auto max-w-2xl mt-16">
-        <h1 className="text-4xl font-bold tracking-tight mb-8">Geek</h1>
-        <div className="prose dark:prose-invert">
-          <p>这里是我的技术文章和学习笔记。</p>
-          <div className="mt-8">
-            {/* TODO: 这里后续可以添加文章列表 */}
-          </div>
+      <div className="mx-auto max-w-7xl mt-20 mb-16">
+        <div className="flex flex-col gap-6 mb-16">
+          <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-blue-500 to-blue-600 bg-clip-text text-transparent">
+            Geek
+          </h1>
+          <p className="text-lg text-muted-foreground">
+            这里是我的技术文章和学习笔记。
+          </p>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {posts.map((post) => (
+            <GeekCard key={post.slug} post={post} />
+          ))}
         </div>
       </div>
     </Container>

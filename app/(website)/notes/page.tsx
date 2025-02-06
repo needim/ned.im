@@ -48,7 +48,7 @@ export default function NotesPage() {
 						<p className="text-muted-foreground mb-8">
 							欢迎分享你的故事、创作或任何想法。优质内容将会被收录到网友投稿专栏。
 						</p>
-						<Comments path="/notes" />
+						<Comments showHeader={false} path="/notes" />
 					</div>
 				</div>
 			</div>

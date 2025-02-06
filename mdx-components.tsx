@@ -1,6 +1,7 @@
 import { IconExternalLink } from "@tabler/icons-react";
 import type { MDXComponents } from "mdx/types";
 import Image, { type ImageProps } from "next/image";
+import { cn } from "@/lib/utils";
 
 // This file allows you to provide custom React components
 // to be used in MDX files. You can import and use any
@@ -37,6 +38,38 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
 				</a>
 			);
 		},
+		table: ({ className, ...props }) => (
+			<div className="my-6 w-full overflow-y-auto">
+				<table className={cn("w-full border-collapse border border-border bg-card text-sm", className)} {...props} />
+			</div>
+		),
+		thead: ({ className, ...props }) => (
+			<thead className={cn("bg-muted/50 border-b border-border", className)} {...props} />
+		),
+		tbody: ({ className, ...props }) => (
+			<tbody className={cn("divide-y divide-border", className)} {...props} />
+		),
+		tr: ({ className, ...props }) => (
+			<tr className={cn("border-b border-border transition-colors hover:bg-muted/50", className)} {...props} />
+		),
+		th: ({ className, ...props }) => (
+			<th
+				className={cn(
+					"h-10 px-4 text-left align-middle font-medium text-muted-foreground border-r border-border last:border-r-0",
+					className
+				)}
+				{...props}
+			/>
+		),
+		td: ({ className, ...props }) => (
+			<td
+				className={cn(
+					"p-4 align-middle border-r border-border last:border-r-0",
+					className
+				)}
+				{...props}
+			/>
+		),
 		...components,
 	};
 }

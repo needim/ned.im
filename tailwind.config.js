@@ -21,6 +21,10 @@ module.exports = {
         mono: ['var(--font-geist-mono)'],
         serif: ['var(--font-lexend)'],
       },
+      boxShadow: {
+        'custom': '15px 15px 30px #bebebe, -15px -15px 30px #ffffff',
+        'hover': '0px 10px 20px rgba(0,0,0,0.1)',
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

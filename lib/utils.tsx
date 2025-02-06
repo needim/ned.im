@@ -1,5 +1,3 @@
-import IconGithub from "@/components/icons/github";
-import { IconSmashing } from "@/components/icons/smashing";
 import { IconWorld } from "@tabler/icons-react";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
@@ -57,9 +55,9 @@ export const timelineItems = [
 
   {
     date: '',
-    event: '无业游民全职博主',
-    title: '追逐梦想的开始',
-    description: '没办法，我确实不喜欢被人管着，刚好做视频是我喜欢的事情，虽然没什么收入，但偶尔有一些商务和一些打赏,我真的非常感谢他们。',
+    event: '无业游民',
+    title: '继续制作视频',
+    description: '当累计投入达到10000小时，那些看似沉寂的作品会像中子星物质般突然被「点亮」——每克重量都释放出超新星级别的能量。我希望保持这种克制的燃烧，宇宙一定会送来匹配我频率的观众星群。',
     icon: '🎥',
     photos: [
       { src: '/changelog/2024-01-01-全职博主/IMG_2055.JPG', variant: '4x5' },
