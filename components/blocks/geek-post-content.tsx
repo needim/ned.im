@@ -2,10 +2,10 @@
 
 import { Container } from "@/components/blocks/container";
 import { Badge } from "@/components/ui/badge";
-import { IconCalendar, IconArrowLeft } from "@tabler/icons-react";
+import { IconCalendar, IconArrowLeft, IconPaw, IconDownload } from "@tabler/icons-react";
 import Link from "next/link";
 import dynamic from 'next/dynamic';
-import { useMemo } from 'react';
+import { useMemo, useState, useCallback, useEffect } from 'react';
 import * as runtime from 'react/jsx-runtime';
 
 const ClientSideComments = dynamic(
@@ -29,12 +29,43 @@ interface GeekPostContentProps {
     date: string;
     description?: string;
     videoUrl?: string;
+    attachmentUrl?: string;
   };
   content: any;
   slug: string;
 }
 
 export function GeekPostContent({ post, content, slug }: GeekPostContentProps) {
+  const [lastClickTime, setLastClickTime] = useState<number>(0);
+  const [isDownloadDisabled, setIsDownloadDisabled] = useState(false);
+  const COOLDOWN_PERIOD = 2000; // 2秒冷却时间
+
+  const handleDownload = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
+    const currentTime = Date.now();
+    
+    // 如果在冷却期间，阻止下载
+    if (currentTime - lastClickTime < COOLDOWN_PERIOD) {
+      e.preventDefault();
+      return;
+    }
+
+    // 更新最后点击时间
+    setLastClickTime(currentTime);
+    
+    // 临时禁用按钮
+    setIsDownloadDisabled(true);
+    
+    // 2秒后重新启用按钮
+    setTimeout(() => {
+      setIsDownloadDisabled(false);
+    }, COOLDOWN_PERIOD);
+  }, [lastClickTime]);
+
+  const handleDownloadError = (e: React.SyntheticEvent<HTMLAnchorElement, Event>) => {
+    // 如果文件不存在，阻止默认行为并可以选择显示一个提示
+    console.error('Download failed:', e);
+  };
+
   return (
     <Container>
       <div className="mx-auto max-w-4xl mt-16">
@@ -54,10 +85,26 @@ export function GeekPostContent({ post, content, slug }: GeekPostContentProps) {
                   <IconCalendar className="w-4 h-4" />
                   <time dateTime={post.date}>{post.date}</time>
                 </div>
-                <div className="flex gap-2">
-                  <Badge className="bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400">
+                <div className="flex items-center gap-2">
+                  <Badge 
+                    variant="secondary" 
+                    className="bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400 cursor-default"
+                  >
                     技术分享
                   </Badge>
+                  {typeof post.attachmentUrl === 'string' && post.attachmentUrl.trim() !== '' && (
+                    <Link 
+                      href={post.attachmentUrl}
+                      onClick={handleDownload}
+                      className={`inline-flex items-center gap-1.5 bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-500/20 rounded-full text-sm font-medium transition-colors px-3 py-1 ${
+                        isDownloadDisabled ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''
+                      }`}
+                      onError={handleDownloadError}
+                    >
+                      <IconDownload className="w-3.5 h-3.5" />
+                      资源
+                    </Link>
+                  )}
                 </div>
               </div>
               {post.description && (
