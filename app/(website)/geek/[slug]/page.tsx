@@ -2,7 +2,8 @@ import { notFound } from "next/navigation";
 import { getGeekPostBySlug } from "@/lib/geek";
 import { GeekPostContent } from "@/components/blocks/geek-post-content";
 import type { Metadata } from "next";
-import { compileMDXContent } from "@/lib/mdx";
+import { compileMDX } from "@/lib/mdx";
+import { MDXRemoteContent } from "@/components/mdx-remote-content";
 
 interface Params {
   slug: string;
@@ -31,9 +32,15 @@ export default async function GeekPostPage({
   }
 
   const { meta: post, content } = result;
-  const compiledContent = await compileMDXContent(content);
+  const compiledContent = await compileMDX(content);
 
-  return <GeekPostContent post={post} content={compiledContent} slug={resolvedParams.slug} />;
+  return (
+    <GeekPostContent 
+      post={post} 
+      content={<MDXRemoteContent content={compiledContent} />} 
+      slug={resolvedParams.slug} 
+    />
+  );
 }
 
 export async function generateMetadata({

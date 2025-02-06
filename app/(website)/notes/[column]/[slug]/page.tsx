@@ -8,7 +8,9 @@ import Link from 'next/link';
 import { columns } from "@/config/columns";
 import { TableOfContents } from "@/components/blocks/table-of-contents";
 import { TextSelectionPopover } from "@/components/blocks/text-selection-popover";
-import { MDXContent } from "@/components/mdx-content";
+import { MDXRemoteContent } from "@/components/mdx-remote-content";
+import { formattedDate } from "@/lib/utils";
+import { compileMDX } from "@/lib/mdx";
 
 interface Params {
   column: string;
@@ -29,6 +31,8 @@ async function getPost(column: string, slug: string) {
       return null;
     }
 
+    const mdxSource = await compileMDX(content);
+
     return {
       metadata: {
         title: data.title as string,
@@ -37,7 +41,7 @@ async function getPost(column: string, slug: string) {
         tags: data.tags as string[] | undefined,
         column: data.column as string,
       },
-      content
+      content: mdxSource
     };
   } catch (error) {
     console.error(`Error reading file: ${error}`);
@@ -77,7 +81,7 @@ export default async function PostPage({
           <header className="mb-12">
             <h1 className="text-4xl font-bold tracking-tight">{post.metadata.title}</h1>
             <div className="mt-4 flex items-center gap-4 text-sm text-muted-foreground">
-              <time dateTime={post.metadata.date}>{post.metadata.date}</time>
+              <time dateTime={post.metadata.date}>{formattedDate(post.metadata.date)}</time>
               {post.metadata.tags && post.metadata.tags.length > 0 && (
                 <div className="flex gap-2">
                   {post.metadata.tags.map((tag) => (
@@ -89,7 +93,7 @@ export default async function PostPage({
           </header>
 
           <div className="prose dark:prose-invert max-w-none">
-            <MDXContent content={post.content} />
+            <MDXRemoteContent content={post.content} />
           </div>
 
           <div className="mt-16 pt-8 border-t">

@@ -6,14 +6,26 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function formattedDate(date: string, options?: Intl.DateTimeFormatOptions) {
+export function formattedDate(date: string | Date, options?: Intl.DateTimeFormatOptions) {
+  if (!date) return '';
+  
   const defaultOptions: Intl.DateTimeFormatOptions = {
     year: "numeric",
     month: "long",
     day: "numeric",
   };
 
-  return new Date(date).toLocaleDateString("zh-CN", { ...defaultOptions, ...options });
+  try {
+    const dateObj = typeof date === 'string' ? new Date(date) : date;
+    if (Number.isNaN(dateObj.getTime())) {
+      console.warn('Invalid date:', date);
+      return String(date);
+    }
+    return dateObj.toLocaleDateString("zh-CN", { ...defaultOptions, ...options });
+  } catch (error) {
+    console.warn('Error formatting date:', error);
+    return String(date);
+  }
 }
 
 export function formattedDateTimeline(date: string, options?: Intl.DateTimeFormatOptions & { locale?: string }) {
@@ -218,8 +230,12 @@ export const timelineItems = [
   }
 ];
 
-export const changelog = timelineItems.sort(
-  (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-);
+export const changelog = timelineItems
+  .filter(item => item.date) // Filter out items with empty dates
+  .sort((a, b) => {
+    const dateA = new Date(a.date).getTime();
+    const dateB = new Date(b.date).getTime();
+    return dateB - dateA;
+  });
 
 

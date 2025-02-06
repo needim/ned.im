@@ -29,7 +29,7 @@ export function Comments({ showHeader = true, path }: CommentsProps) {
     script.setAttribute("data-reactions-enabled", "1");
     script.setAttribute("data-emit-metadata", "0");
     script.setAttribute("data-input-position", "bottom");
-    script.setAttribute("data-theme", "preferred_color_scheme");
+    script.setAttribute("data-theme", theme === 'dark' ? 'dark' : 'light');
     script.setAttribute("data-lang", "zh-CN");
     script.setAttribute("data-loading", "lazy");
 
@@ -40,7 +40,7 @@ export function Comments({ showHeader = true, path }: CommentsProps) {
         ref.current.innerHTML = "";
       }
     };
-  }, []);
+  }, [theme]);
 
   return (
     <div className="mt-16">
@@ -52,7 +52,7 @@ export function Comments({ showHeader = true, path }: CommentsProps) {
           </p>
         </div>
       )}
-      <div ref={ref} className="giscus qa-wrapper" />
+      <div ref={ref} className={cn("giscus", theme === 'dark' ? 'dark' : 'light')} />
     </div>
   );
 } 

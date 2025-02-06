@@ -1,18 +1,77 @@
 "use client";
 
-import { cn } from "@/lib/utils";
 import * as React from "react";
+import { cn } from "@/lib/utils";
 import { CopyButton } from "@/components/blocks/copy-button";
+import { useState } from "react";
+import { IconX } from "@tabler/icons-react";
+import type { MDXRemoteSerializeResult } from "next-mdx-remote";
+import { MDXRemote } from "next-mdx-remote";
 
 interface MDXContentProps {
-  content: React.ReactNode;
+  content: MDXRemoteSerializeResult;
 }
 
 interface CodeBlockProps extends React.HTMLAttributes<HTMLElement> {
   children?: string;
 }
 
-const components = {
+function ImagePreview({ src, alt, onClose }: { src: string; alt?: string; onClose: () => void }) {
+  React.useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [onClose]);
+
+  const handleClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onClose();
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      e.stopPropagation();
+      onClose();
+    }
+  };
+
+  return (
+    <dialog 
+      open
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-0 m-0 max-w-none w-full h-full" 
+      onClick={handleClick}
+      onKeyDown={handleKeyDown}
+    >
+      <button 
+        className="absolute top-4 right-4 p-2 text-white hover:text-zinc-300 transition-colors"
+        onClick={(e) => {
+          e.stopPropagation();
+          onClose();
+        }}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            e.stopPropagation();
+            onClose();
+          }
+        }}
+        aria-label="关闭预览"
+      >
+        <IconX className="w-6 h-6" />
+      </button>
+      <img
+        src={src}
+        alt={alt || "预览图片"}
+        className="max-w-[90vw] max-h-[90vh] object-contain"
+        onClick={(e) => e.stopPropagation()}
+        onKeyDown={(e) => e.stopPropagation()}
+      />
+    </dialog>
+  );
+}
+
+export const components = {
   table: ({ className, ...props }: React.HTMLAttributes<HTMLTableElement>) => (
     <div className="my-6 w-full overflow-y-auto">
       <table
@@ -161,12 +220,59 @@ const components = {
       />
     );
   },
+  img: ({ className, alt, src, ...props }: React.ImgHTMLAttributes<HTMLImageElement>) => {
+    const [showPreview, setShowPreview] = useState(false);
+
+    return (
+      <>
+        <span className="not-prose relative my-4 first:mt-0 last:mb-0 inline-block">
+          <button 
+            className="group relative inline-block cursor-zoom-in" 
+            onClick={() => setShowPreview(true)}
+            onKeyDown={(e) => e.key === 'Enter' && setShowPreview(true)}
+            aria-label={alt ? `查看${alt}大图` : "查看图片大图"}
+          >
+            <div className="absolute -inset-2 rounded-lg bg-zinc-50/50 opacity-0 transition dark:bg-zinc-800/50 group-hover:opacity-100" />
+            <div className="relative overflow-hidden rounded-lg bg-zinc-100 dark:bg-zinc-800/50">
+              <img
+                className={cn(
+                  "max-w-[500px] w-auto",
+                  "h-auto max-h-[300px]",
+                  "object-contain",
+                  "transition duration-300",
+                  "group-hover:scale-[1.02]",
+                  className
+                )}
+                src={src}
+                alt={alt || "图片"}
+                {...props}
+              />
+            </div>
+          </button>
+        </span>
+        {showPreview && src && (
+          <ImagePreview
+            src={src}
+            alt={alt}
+            onClose={() => setShowPreview(false)}
+          />
+        )}
+      </>
+    );
+  },
 };
 
 export function MDXContent({ content }: MDXContentProps) {
+  const { compiledSource, frontmatter, scope } = content;
+  
   return (
-    <div className="mdx">
-      {content}
-    </div>
+    <article className="prose prose-zinc dark:prose-invert max-w-none">
+      <MDXRemote 
+        compiledSource={compiledSource}
+        frontmatter={frontmatter}
+        scope={scope}
+        components={components}
+      />
+    </article>
   );
 } 

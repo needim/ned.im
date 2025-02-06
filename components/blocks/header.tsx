@@ -150,12 +150,6 @@ function NavItem({
 				)}
 			>
 				{children}
-				{isActive && (
-					<motion.span
-						className="absolute inset-x-1 -bottom-px h-px bg-gradient-to-r from-zinc-500/0 via-zinc-500/40 to-zinc-500/0 dark:from-zinc-400/0 dark:via-zinc-400/40 dark:to-zinc-400/0"
-						layoutId="active-nav-item"
-					/>
-				)}
 			</Link>
 		</li>
 	);

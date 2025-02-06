@@ -23,7 +23,9 @@ export function TimelineItemComponent({ item }: TimelineItemProps) {
         {/* 日期和事件 */}
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
           <time dateTime={item.date}>
-            {item.date ? formattedDateTimeline(item.date, item.dateFormatOptions) : "现在"}
+            {item.date 
+              ? formattedDateTimeline(item.date.toString(), item.dateFormatOptions) 
+              : "现在"}
           </time>
           <span>·</span>
           <span>{item.event}</span>

@@ -6,7 +6,6 @@ import { IconCalendar, IconArrowLeft } from "@tabler/icons-react";
 import { Comments } from "@/components/blocks/comments";
 import { ClientSideContent } from "@/components/blocks/client-side-content";
 import Link from "next/link";
-import { MDXContent } from "@/components/mdx-content";
 import type { ReactElement } from "react";
 
 interface GeekPostContentProps {
@@ -67,7 +66,7 @@ export function GeekPostContent({ post, content, slug }: GeekPostContentProps) {
           )}
 
           <div className="prose dark:prose-invert max-w-none">
-            <MDXContent content={content} />
+            {content}
           </div>
 
           <div className="mt-16 pt-8 border-t">

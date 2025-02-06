@@ -5,6 +5,7 @@ import path from 'node:path';
 import matter from 'gray-matter';
 import { columns } from "@/config/columns";
 import { notFound } from "next/navigation";
+import { formattedDate } from "@/lib/utils";
 
 interface Post {
   slug: string;
@@ -83,7 +84,7 @@ export default async function ColumnPage({
 
   return (
     <Container>
-      <div className="mx-auto max-w-4xl mt-16 animate-fade-up">
+      <div className="mx-auto max-w-4xl mt-16">
         <div className="mb-12">
           <Link href="/notes" className="text-sm text-muted-foreground hover:text-primary transition-colors">
             ← 返回专栏列表
@@ -102,7 +103,7 @@ export default async function ColumnPage({
                   </Link>
                 </h2>
                 <div className="mt-2 text-sm text-muted-foreground">
-                  <time dateTime={post.metadata.date}>{post.metadata.date}</time>
+                  <time dateTime={post.metadata.date}>{formattedDate(post.metadata.date)}</time>
                 </div>
                 {post.metadata.description && (
                   <p className="mt-4 text-muted-foreground">

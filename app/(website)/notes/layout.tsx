@@ -1,3 +1,5 @@
+import { Container } from "@/components/blocks/container";
+
 export default function NotesLayout({
   children,
 }: {
