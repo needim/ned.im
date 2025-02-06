@@ -6,6 +6,7 @@ import matter from 'gray-matter';
 import { columns } from "@/config/columns";
 import { notFound } from "next/navigation";
 import { formattedDate } from "@/lib/utils";
+import { unstable_noStore } from 'next/cache';
 
 interface Post {
   slug: string;
@@ -27,6 +28,9 @@ interface SearchParams {
 }
 
 async function getColumnPosts(columnSlug: string): Promise<Post[]> {
+  // 禁用缓存
+  unstable_noStore();
+  
   const postsDirectory = path.join(process.cwd(), 'content/notes', columnSlug);
   
   try {
@@ -72,6 +76,9 @@ export default async function ColumnPage({
   params: Promise<Params>;
   searchParams: Promise<SearchParams>;
 }) {
+  // 禁用缓存
+  unstable_noStore();
+  
   const resolvedParams = await params;
   const columnSlug = resolvedParams.column;
   const columnData = columns.find(col => col.slug === columnSlug);

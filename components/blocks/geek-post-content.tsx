@@ -3,10 +3,25 @@
 import { Container } from "@/components/blocks/container";
 import { Badge } from "@/components/ui/badge";
 import { IconCalendar, IconArrowLeft } from "@tabler/icons-react";
-import { Comments } from "@/components/blocks/comments";
-import { ClientSideContent } from "@/components/blocks/client-side-content";
 import Link from "next/link";
-import type { ReactElement } from "react";
+import dynamic from 'next/dynamic';
+import { useMemo } from 'react';
+import * as runtime from 'react/jsx-runtime';
+
+const ClientSideComments = dynamic(
+  () => import('@/components/blocks/comments').then(mod => mod.Comments),
+  { ssr: false }
+);
+
+const ClientSideContent = dynamic(
+  () => import('@/components/blocks/client-side-content').then(mod => mod.ClientSideContent),
+  { ssr: false }
+);
+
+const MDXRemoteContent = dynamic(
+  () => import('@/components/mdx-remote-content').then(mod => mod.MDXRemoteContent),
+  { ssr: false }
+);
 
 interface GeekPostContentProps {
   post: {
@@ -15,20 +30,19 @@ interface GeekPostContentProps {
     description?: string;
     videoUrl?: string;
   };
-  content: ReactElement;
+  content: {
+    compiledSource: string;
+  };
   slug: string;
 }
 
 export function GeekPostContent({ post, content, slug }: GeekPostContentProps) {
   return (
     <Container>
-      <div className="relative mx-auto max-w-4xl mt-16">
+      <div className="mx-auto max-w-4xl mt-16">
         <div className="mb-8">
-          <Link
-            href="/geek"
-            className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors"
-          >
-            <IconArrowLeft className="mr-2 size-4" />
+          <Link href="/geek" className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors">
+            <IconArrowLeft className="w-4 h-4 mr-2" />
             返回技术分享
           </Link>
         </div>
@@ -39,11 +53,11 @@ export function GeekPostContent({ post, content, slug }: GeekPostContentProps) {
             <div className="mt-4 flex flex-col gap-4">
               <div className="flex items-center gap-4 text-sm text-muted-foreground">
                 <div className="flex items-center gap-2">
-                  <IconCalendar className="size-4" />
+                  <IconCalendar className="w-4 h-4" />
                   <time dateTime={post.date}>{post.date}</time>
                 </div>
                 <div className="flex gap-2">
-                  <Badge variant="secondary" className="bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400">
+                  <Badge className="bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400">
                     技术分享
                   </Badge>
                 </div>
@@ -66,11 +80,11 @@ export function GeekPostContent({ post, content, slug }: GeekPostContentProps) {
           )}
 
           <div className="prose dark:prose-invert max-w-none">
-            {content}
+            <div dangerouslySetInnerHTML={{ __html: content.compiledSource }} />
           </div>
 
           <div className="mt-16 pt-8 border-t">
-            <Comments path={`/geek/${slug}`} />
+            <ClientSideComments path={`/geek/${slug}`} />
           </div>
         </article>
 

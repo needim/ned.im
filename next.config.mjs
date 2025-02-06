@@ -3,18 +3,29 @@ import rehypeHighlight from "rehype-highlight";
 import rehypeSlug from "rehype-slug";
 import remarkFrontmatter from "remark-frontmatter";
 import remarkMdxFrontmatter from "remark-mdx-frontmatter";
+import remarkGfm from "remark-gfm";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
 	pageExtensions: ["mdx", "ts", "tsx"],
 	reactStrictMode: false,
-	logging: {
-		fetches: {
-			fullUrl: true,
+	experimental: {
+		mdxRs: true,
+		webpackBuildWorker: true,
+		optimizePackageImports: ['@mdx-js/react'],
+		serverActions: {
+			bodySizeLimit: '2mb'
 		},
 	},
-	experimental: {
-		mdxRs: false,
+	webpack: (config, { dev, isServer }) => {
+		if (dev) {
+			config.watchOptions = {
+				poll: 1000,
+				aggregateTimeout: 300,
+				ignored: ['**/node_modules', '**/.next'],
+			};
+		}
+		return config;
 	},
 	images: {
 		remotePatterns: [
@@ -59,11 +70,13 @@ const withMDX = createMDX({
 		remarkPlugins: [
 			remarkFrontmatter,
 			remarkMdxFrontmatter,
+			[remarkGfm, { singleTilde: false }],
 		],
 		rehypePlugins: [
 			rehypeSlug,
-			rehypeHighlight,
+			[rehypeHighlight, { ignoreMissing: true }],
 		],
+		providerImportSource: "@mdx-js/react",
 	},
 });
 

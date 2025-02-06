@@ -5,13 +5,12 @@ import { cn } from "@/lib/utils";
 import { CopyButton } from "@/components/blocks/copy-button";
 import { useState } from "react";
 import { IconX } from "@tabler/icons-react";
-import type { MDXRemoteSerializeResult } from "next-mdx-remote";
-import { MDXRemote } from "next-mdx-remote";
 import { createPortal } from "react-dom";
-import type { Components } from "@mdx-js/react/lib";
+import { useMDXComponents } from "@mdx-js/react";
+import type { MDXComponents } from 'mdx/types';
 
 interface MDXContentProps {
-  content: MDXRemoteSerializeResult;
+  content: React.ReactNode;
 }
 
 interface CodeBlockProps {
@@ -77,7 +76,7 @@ function ImagePreview({ src, alt, onClose }: { src: string; alt?: string; onClos
   return typeof document !== 'undefined' ? createPortal(content, document.body) : null;
 }
 
-export const components: Components = {
+export const components: MDXComponents = {
   table: ({ className, ...props }: React.ComponentPropsWithoutRef<"table">) => (
     <div className="my-6 w-full overflow-y-auto">
       <table
@@ -267,19 +266,14 @@ export const components: Components = {
       </>
     );
   },
-} as Components;
+} as MDXComponents;
 
 export function MDXContent({ content }: MDXContentProps) {
-  const { compiledSource, frontmatter, scope } = content;
-  
+  const mdxComponents = useMDXComponents(components);
+
   return (
     <article className="prose prose-zinc dark:prose-invert max-w-none">
-      <MDXRemote 
-        compiledSource={compiledSource}
-        frontmatter={frontmatter}
-        scope={scope}
-        components={components}
-      />
+      {content}
     </article>
   );
 } 
