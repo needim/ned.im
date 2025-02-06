@@ -1,11 +1,11 @@
-import { compileMDX } from "next-mdx-remote/rsc";
+"use client";
+
 import { cn } from "@/lib/utils";
 import * as React from "react";
 import { CopyButton } from "@/components/blocks/copy-button";
-import remarkGfm from "remark-gfm";
 
 interface MDXContentProps {
-  content: string;
+  content: React.ReactNode;
 }
 
 interface CodeBlockProps extends React.HTMLAttributes<HTMLElement> {
@@ -163,27 +163,10 @@ const components = {
   },
 };
 
-export async function MDXContent({ content }: MDXContentProps) {
-  const { content: compiledContent } = await compileMDX({
-    source: content,
-    components,
-    options: {
-      parseFrontmatter: true,
-      mdxOptions: {
-        remarkPlugins: [
-          [remarkGfm, { 
-            singleTilde: false,
-            tablePipeAlign: true,
-            stringLength: () => 1
-          }]
-        ],
-      },
-    },
-  });
-
+export function MDXContent({ content }: MDXContentProps) {
   return (
     <div className="mdx">
-      {compiledContent}
+      {content}
     </div>
   );
 } 
