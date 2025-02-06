@@ -81,7 +81,7 @@ export const components: MDXComponents = {
     <div className="my-6 w-full overflow-y-auto">
       <table
         className={cn(
-          "w-full border-collapse border-spacing-0 rounded-lg border border-border",
+          "w-full border-collapse text-sm",
           className
         )}
         {...props}
@@ -90,20 +90,26 @@ export const components: MDXComponents = {
   ),
   thead: ({ className, ...props }: React.ComponentPropsWithoutRef<"thead">) => (
     <thead
-      className={cn("bg-muted/50 border-b", className)}
+      className={cn(
+        "bg-muted/50 border-b border-border",
+        className
+      )}
       {...props}
     />
   ),
   tbody: ({ className, ...props }: React.ComponentPropsWithoutRef<"tbody">) => (
     <tbody
-      className={cn("divide-y divide-border bg-card", className)}
+      className={cn(
+        "[&>tr:last-child>td]:border-b-0",
+        className
+      )}
       {...props}
     />
   ),
   tr: ({ className, ...props }: React.ComponentPropsWithoutRef<"tr">) => (
     <tr
       className={cn(
-        "border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted",
+        "border-b border-border/50 transition-colors hover:bg-muted/50",
         className
       )}
       {...props}
@@ -112,7 +118,7 @@ export const components: MDXComponents = {
   th: ({ className, ...props }: React.ComponentPropsWithoutRef<"th">) => (
     <th
       className={cn(
-        "h-10 px-4 text-left align-middle font-medium text-muted-foreground border-r last:border-r-0",
+        "h-10 px-4 text-left align-middle font-medium text-muted-foreground [&[align=center]]:text-center [&[align=right]]:text-right",
         className
       )}
       {...props}
@@ -121,7 +127,7 @@ export const components: MDXComponents = {
   td: ({ className, ...props }: React.ComponentPropsWithoutRef<"td">) => (
     <td
       className={cn(
-        "p-4 align-middle border-r border-border last:border-r-0",
+        "p-4 align-middle [&[align=center]]:text-center [&[align=right]]:text-right",
         className
       )}
       {...props}
