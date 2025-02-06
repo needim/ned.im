@@ -7,8 +7,7 @@ import { useState } from "react";
 import { IconX } from "@tabler/icons-react";
 import type { MDXRemoteSerializeResult } from "next-mdx-remote";
 import { MDXRemote } from "next-mdx-remote";
-import { MDXProvider } from "@mdx-js/react";
-import type { Components } from "@mdx-js/react/lib";
+import { createPortal } from "react-dom";
 
 interface MDXContentProps {
   content: MDXRemoteSerializeResult;
@@ -39,10 +38,11 @@ function ImagePreview({ src, alt, onClose }: { src: string; alt?: string; onClos
     }
   };
 
-  return (
-    <dialog 
-      open
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-0 m-0 max-w-none w-full h-full" 
+  const content = (
+    <div 
+      role="dialog"
+      aria-modal="true"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-0 m-0" 
       onClick={handleClick}
       onKeyDown={handleKeyDown}
     >
@@ -69,11 +69,13 @@ function ImagePreview({ src, alt, onClose }: { src: string; alt?: string; onClos
         onClick={(e) => e.stopPropagation()}
         onKeyDown={(e) => e.stopPropagation()}
       />
-    </dialog>
+    </div>
   );
+
+  return typeof document !== 'undefined' ? createPortal(content, document.body) : null;
 }
 
-export const components: Record<string, React.ComponentType<any>> = {
+export const components = {
   table: ({ className, ...props }: React.HTMLAttributes<HTMLTableElement>) => (
     <div className="my-6 w-full overflow-y-auto">
       <table
@@ -273,7 +275,6 @@ export function MDXContent({ content }: MDXContentProps) {
         compiledSource={compiledSource}
         frontmatter={frontmatter}
         scope={scope}
-        // @ts-ignore
         components={components}
       />
     </article>

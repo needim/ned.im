@@ -2,13 +2,11 @@ import { serialize } from 'next-mdx-remote/serialize';
 import remarkGfm from 'remark-gfm';
 import rehypeSlug from 'rehype-slug';
 import rehypePrism from 'rehype-prism-plus';
-import type { MDXRemoteSerializeResult } from 'next-mdx-remote';
 
-export async function compileMDX(source: string): Promise<MDXRemoteSerializeResult> {
+export async function compileMDX(source: string) {
   const mdxSource = await serialize(source, {
     mdxOptions: {
       remarkPlugins: [remarkGfm],
-      // @ts-ignore
       rehypePlugins: [rehypeSlug, rehypePrism],
     },
     parseFrontmatter: true,

@@ -14,9 +14,14 @@ export function Comments({ showHeader = true, path }: CommentsProps) {
   const { theme } = useTheme();
 
   useEffect(() => {
-    if (!ref.current) return;
+    // 清理旧的 script
+    const oldScript = document.querySelector('#giscus-script');
+    if (oldScript) {
+      oldScript.remove();
+    }
 
     const script = document.createElement("script");
+    script.id = "giscus-script";
     script.src = "https://giscus.app/client.js";
     script.async = true;
     script.crossOrigin = "anonymous";
@@ -33,11 +38,16 @@ export function Comments({ showHeader = true, path }: CommentsProps) {
     script.setAttribute("data-lang", "zh-CN");
     script.setAttribute("data-loading", "lazy");
 
-    ref.current.appendChild(script);
+    const comments = ref.current;
+    if (comments) {
+      comments.innerHTML = '';
+      comments.appendChild(script);
+    }
 
     return () => {
-      if (ref.current) {
-        ref.current.innerHTML = "";
+      const oldScript = document.querySelector('#giscus-script');
+      if (oldScript) {
+        oldScript.remove();
       }
     };
   }, [theme]);
@@ -52,7 +62,7 @@ export function Comments({ showHeader = true, path }: CommentsProps) {
           </p>
         </div>
       )}
-      <div ref={ref} className={cn("giscus", theme === 'dark' ? 'dark' : 'light')} />
+      <div ref={ref} />
     </div>
   );
 } 
