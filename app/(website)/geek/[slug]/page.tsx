@@ -4,29 +4,23 @@ import { GeekPostContent } from "@/components/blocks/geek-post-content";
 import type { Metadata } from "next";
 import { compileMarkdown } from "@/lib/mdx";
 
-interface Params {
-  slug: string;
-}
+type PageProps = {
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+};
 
-interface SearchParams {
-  [key: string]: string | string[] | undefined;
-}
+export default async function GeekPostPage(props: PageProps) {
+  const [params, searchParams] = await Promise.all([
+    props.params,
+    props.searchParams
+  ]);
+  const slug = params.slug;
 
-interface PageProps {
-  params: Promise<Params>;
-  searchParams: SearchParams;
-}
-
-export default async function GeekPostPage({
-  params,
-}: PageProps) {
-  const resolvedParams = await params;
-  
-  if (!resolvedParams?.slug) {
+  if (!slug) {
     notFound();
   }
 
-  const result = await getGeekPostBySlug(resolvedParams.slug);
+  const result = await getGeekPostBySlug(slug);
 
   if (!result) {
     notFound();
@@ -39,24 +33,26 @@ export default async function GeekPostPage({
     <GeekPostContent 
       post={post} 
       content={compiledContent} 
-      slug={resolvedParams.slug} 
+      slug={slug} 
     />
   );
 }
 
-export async function generateMetadata({
-  params,
-}: PageProps): Promise<Metadata> {
-  const resolvedParams = await params;
-  
-  if (!resolvedParams?.slug) {
+export async function generateMetadata(props: PageProps): Promise<Metadata> {
+  const [params, searchParams] = await Promise.all([
+    props.params,
+    props.searchParams
+  ]);
+  const slug = params.slug;
+
+  if (!slug) {
     return {
       title: "Not Found",
       description: "The page you're looking for does not exist.",
     };
   }
 
-  const post = await getGeekPostBySlug(resolvedParams.slug);
+  const post = await getGeekPostBySlug(slug);
 
   if (!post) {
     return {

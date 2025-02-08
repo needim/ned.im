@@ -38,10 +38,12 @@ const ImagePreview = React.memo(function ImagePreview({
       open
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/80"
       onClick={onClose}
+      onKeyDown={(e) => e.key === 'Escape' && onClose()}
     >
       <button 
         className="absolute top-4 right-4 p-2 text-white hover:text-zinc-300 transition-colors"
         onClick={onClose}
+        onKeyDown={(e) => e.key === 'Enter' && onClose()}
         aria-label="关闭预览"
       >
         <IconX className="w-6 h-6" />
@@ -56,52 +58,8 @@ const ImagePreview = React.memo(function ImagePreview({
   );
 });
 
-const components = {
-  table: React.memo(function Table({ className, children, ...props }: ComponentProps) {
-    return (
-      <div className="my-6 w-full overflow-y-auto">
-        <table className={cn("w-full border-collapse border border-border bg-card text-sm", className)} {...props}>
-          {children}
-        </table>
-      </div>
-    );
-  }),
-  thead: React.memo(function TableHead({ className, children, ...props }: ComponentProps) {
-    return (
-      <thead className={cn("bg-muted/50 border-b border-border", className)} {...props}>
-        {children}
-      </thead>
-    );
-  }),
-  tbody: React.memo(function TableBody({ className, children, ...props }: ComponentProps) {
-    return (
-      <tbody className={cn("divide-y divide-border", className)} {...props}>
-        {children}
-      </tbody>
-    );
-  }),
-  tr: React.memo(function TableRow({ className, children, ...props }: ComponentProps) {
-    return (
-      <tr className={cn("border-b border-border transition-colors hover:bg-muted/50", className)} {...props}>
-        {children}
-      </tr>
-    );
-  }),
-  th: React.memo(function TableHeader({ className, children, ...props }: ComponentProps) {
-    return (
-      <th className={cn("h-10 px-4 text-left align-middle font-medium text-muted-foreground", className)} {...props}>
-        {children}
-      </th>
-    );
-  }),
-  td: React.memo(function TableCell({ className, children, ...props }: ComponentProps) {
-    return (
-      <td className={cn("p-4 align-middle", className)} {...props}>
-        {children}
-      </td>
-    );
-  }),
-  img: React.memo(function Image({ className, alt, src, ...props }: React.ImgHTMLAttributes<HTMLImageElement>) {
+const MDXComponents = {
+  img: function MDXImage({ className, alt, src, ...props }: React.ImgHTMLAttributes<HTMLImageElement>) {
     const [showPreview, setShowPreview] = React.useState(false);
     
     if (!src) return null;
@@ -111,7 +69,9 @@ const components = {
         <button
           className={cn("block w-full cursor-zoom-in", className)}
           onClick={() => setShowPreview(true)}
+          onKeyDown={(e) => e.key === 'Enter' && setShowPreview(true)}
           type="button"
+          aria-label={alt || "点击查看大图"}
         >
           <img
             className="rounded-lg max-w-full h-auto"
@@ -125,8 +85,8 @@ const components = {
         )}
       </>
     );
-  }),
-  pre: React.memo(function Pre({ children, className, ...props }: ComponentProps) {
+  },
+  pre: function MDXPre({ children, className, ...props }: ComponentProps) {
     const childArray = React.Children.toArray(children);
     const code = childArray.find(
       (child) => React.isValidElement(child) && child.type === "code"
@@ -148,8 +108,8 @@ const components = {
         <CopyButton text={text} />
       </div>
     );
-  }),
-  code: React.memo(function Code({ className, children, ...props }: ComponentProps) {
+  },
+  code: function MDXCode({ className, children, ...props }: ComponentProps) {
     const isInlineCode = !className;
     return (
       <code
@@ -165,9 +125,13 @@ const components = {
         {children}
       </code>
     );
-  })
+  }
 };
 
-export const MDXContent = React.memo(function MDXContent({ content }: MDXContentProps) {
-  return <MDXRemote {...content} components={components} />;
-}); 
+export function MDXContent({ content }: MDXContentProps) {
+  return (
+    <article className="prose prose-zinc dark:prose-invert max-w-none">
+      <MDXRemote {...content} components={MDXComponents} />
+    </article>
+  );
+} 
