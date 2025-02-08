@@ -1,31 +1,14 @@
 import createMDX from "@next/mdx";
 import rehypeHighlight from "rehype-highlight";
 import rehypeSlug from "rehype-slug";
-import remarkFrontmatter from "remark-frontmatter";
-import remarkMdxFrontmatter from "remark-mdx-frontmatter";
 import remarkGfm from "remark-gfm";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
 	pageExtensions: ["mdx", "ts", "tsx"],
-	reactStrictMode: false,
+	reactStrictMode: true,
 	experimental: {
-		mdxRs: true,
-		webpackBuildWorker: true,
-		optimizePackageImports: ['@mdx-js/react'],
-		serverActions: {
-			bodySizeLimit: '2mb'
-		},
-	},
-	webpack: (config, { dev, isServer }) => {
-		if (dev) {
-			config.watchOptions = {
-				poll: 1000,
-				aggregateTimeout: 300,
-				ignored: ['**/node_modules', '**/.next'],
-			};
-		}
-		return config;
+		mdxRs: false,
 	},
 	images: {
 		remotePatterns: [
@@ -67,20 +50,12 @@ const nextConfig = {
 
 const withMDX = createMDX({
 	options: {
-		remarkPlugins: [
-			remarkFrontmatter,
-			remarkMdxFrontmatter,
-			[remarkGfm, { singleTilde: false }],
-		],
+		remarkPlugins: [remarkGfm],
 		rehypePlugins: [
 			rehypeSlug,
-			[rehypeHighlight, { ignoreMissing: true }],
-		],
-		providerImportSource: "@mdx-js/react",
-	},
+			[rehypeHighlight, { ignoreMissing: true }]
+		]
+	}
 });
 
-export default withMDX({
-	...nextConfig,
-	pageExtensions: ["ts", "tsx", "js", "jsx", "md", "mdx"],
-});
+export default withMDX(nextConfig);

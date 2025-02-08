@@ -1,24 +1,30 @@
 "use client";
 
 import * as React from "react";
+import { MDXRemote } from "next-mdx-remote";
+import type { MDXRemoteSerializeResult } from "next-mdx-remote";
 import { cn } from "@/lib/utils";
 import { CopyButton } from "@/components/blocks/copy-button";
-import { useState } from "react";
 import { IconX } from "@tabler/icons-react";
-import { createPortal } from "react-dom";
-import { useMDXComponents } from "@mdx-js/react";
-import type { MDXComponents } from 'mdx/types';
 
 interface MDXContentProps {
-  content: React.ReactNode;
+  content: MDXRemoteSerializeResult;
 }
 
-interface CodeBlockProps {
+interface ComponentProps {
   className?: string;
-  children?: string;
+  children?: React.ReactNode;
 }
 
-function ImagePreview({ src, alt, onClose }: { src: string; alt?: string; onClose: () => void }) {
+const ImagePreview = React.memo(function ImagePreview({ 
+  src, 
+  alt, 
+  onClose 
+}: { 
+  src: string; 
+  alt?: string; 
+  onClose: () => void; 
+}) {
   React.useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
@@ -27,38 +33,15 @@ function ImagePreview({ src, alt, onClose }: { src: string; alt?: string; onClos
     return () => document.removeEventListener('keydown', handleEscape);
   }, [onClose]);
 
-  const handleClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    onClose();
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Escape') {
-      e.stopPropagation();
-      onClose();
-    }
-  };
-
-  const content = (
+  return (
     <dialog 
       open
-      aria-modal="true"
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-0 m-0 max-w-none w-full h-full" 
-      onClick={handleClick}
-      onKeyDown={handleKeyDown}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80"
+      onClick={onClose}
     >
       <button 
         className="absolute top-4 right-4 p-2 text-white hover:text-zinc-300 transition-colors"
-        onClick={(e) => {
-          e.stopPropagation();
-          onClose();
-        }}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') {
-            e.stopPropagation();
-            onClose();
-          }
-        }}
+        onClick={onClose}
         aria-label="关闭预览"
       >
         <IconX className="w-6 h-6" />
@@ -68,136 +51,86 @@ function ImagePreview({ src, alt, onClose }: { src: string; alt?: string; onClos
         alt={alt || "预览图片"}
         className="max-w-[90vw] max-h-[90vh] object-contain"
         onClick={(e) => e.stopPropagation()}
-        onKeyDown={(e) => e.stopPropagation()}
       />
     </dialog>
   );
+});
 
-  return typeof document !== 'undefined' ? createPortal(content, document.body) : null;
-}
-
-export const components: MDXComponents = {
-  table: ({ className, ...props }: React.ComponentPropsWithoutRef<"table">) => (
-    <div className="my-6 w-full overflow-y-auto">
-      <table
-        className={cn(
-          "w-full border-collapse text-sm",
-          className
+const components = {
+  table: React.memo(function Table({ className, children, ...props }: ComponentProps) {
+    return (
+      <div className="my-6 w-full overflow-y-auto">
+        <table className={cn("w-full border-collapse border border-border bg-card text-sm", className)} {...props}>
+          {children}
+        </table>
+      </div>
+    );
+  }),
+  thead: React.memo(function TableHead({ className, children, ...props }: ComponentProps) {
+    return (
+      <thead className={cn("bg-muted/50 border-b border-border", className)} {...props}>
+        {children}
+      </thead>
+    );
+  }),
+  tbody: React.memo(function TableBody({ className, children, ...props }: ComponentProps) {
+    return (
+      <tbody className={cn("divide-y divide-border", className)} {...props}>
+        {children}
+      </tbody>
+    );
+  }),
+  tr: React.memo(function TableRow({ className, children, ...props }: ComponentProps) {
+    return (
+      <tr className={cn("border-b border-border transition-colors hover:bg-muted/50", className)} {...props}>
+        {children}
+      </tr>
+    );
+  }),
+  th: React.memo(function TableHeader({ className, children, ...props }: ComponentProps) {
+    return (
+      <th className={cn("h-10 px-4 text-left align-middle font-medium text-muted-foreground", className)} {...props}>
+        {children}
+      </th>
+    );
+  }),
+  td: React.memo(function TableCell({ className, children, ...props }: ComponentProps) {
+    return (
+      <td className={cn("p-4 align-middle", className)} {...props}>
+        {children}
+      </td>
+    );
+  }),
+  img: React.memo(function Image({ className, alt, src, ...props }: React.ImgHTMLAttributes<HTMLImageElement>) {
+    const [showPreview, setShowPreview] = React.useState(false);
+    
+    if (!src) return null;
+    
+    return (
+      <>
+        <button
+          className={cn("block w-full cursor-zoom-in", className)}
+          onClick={() => setShowPreview(true)}
+          type="button"
+        >
+          <img
+            className="rounded-lg max-w-full h-auto"
+            alt={alt || ""}
+            src={src}
+            {...props}
+          />
+        </button>
+        {showPreview && (
+          <ImagePreview src={src} alt={alt} onClose={() => setShowPreview(false)} />
         )}
-        {...props}
-      />
-    </div>
-  ),
-  thead: ({ className, ...props }: React.ComponentPropsWithoutRef<"thead">) => (
-    <thead
-      className={cn(
-        "bg-muted/50 border-b border-border",
-        className
-      )}
-      {...props}
-    />
-  ),
-  tbody: ({ className, ...props }: React.ComponentPropsWithoutRef<"tbody">) => (
-    <tbody
-      className={cn(
-        "[&>tr:last-child>td]:border-b-0",
-        className
-      )}
-      {...props}
-    />
-  ),
-  tr: ({ className, ...props }: React.ComponentPropsWithoutRef<"tr">) => (
-    <tr
-      className={cn(
-        "border-b border-border/50 transition-colors hover:bg-muted/50",
-        className
-      )}
-      {...props}
-    />
-  ),
-  th: ({ className, ...props }: React.ComponentPropsWithoutRef<"th">) => (
-    <th
-      className={cn(
-        "h-10 px-4 text-left align-middle font-medium text-muted-foreground [&[align=center]]:text-center [&[align=right]]:text-right",
-        className
-      )}
-      {...props}
-    />
-  ),
-  td: ({ className, ...props }: React.ComponentPropsWithoutRef<"td">) => (
-    <td
-      className={cn(
-        "p-4 align-middle [&[align=center]]:text-center [&[align=right]]:text-right",
-        className
-      )}
-      {...props}
-    />
-  ),
-  h1: ({ className, ...props }: React.ComponentPropsWithoutRef<"h1">) => (
-    <h1
-      className={cn(
-        "font-heading mt-2 scroll-m-20 text-4xl font-bold",
-        className
-      )}
-      {...props}
-    />
-  ),
-  h2: ({ className, ...props }: React.ComponentPropsWithoutRef<"h2">) => (
-    <h2
-      className={cn(
-        "font-heading mt-12 scroll-m-20 border-b pb-2 text-2xl font-semibold tracking-tight first:mt-0",
-        className
-      )}
-      {...props}
-    />
-  ),
-  h3: ({ className, ...props }: React.ComponentPropsWithoutRef<"h3">) => (
-    <h3
-      className={cn(
-        "font-heading mt-8 scroll-m-20 text-xl font-semibold tracking-tight",
-        className
-      )}
-      {...props}
-    />
-  ),
-  h4: ({ className, ...props }: React.ComponentPropsWithoutRef<"h4">) => (
-    <h4
-      className={cn(
-        "font-heading mt-8 scroll-m-20 text-lg font-semibold tracking-tight",
-        className
-      )}
-      {...props}
-    />
-  ),
-  p: ({ className, ...props }: React.ComponentPropsWithoutRef<"p">) => (
-    <p
-      className={cn("leading-7 [&:not(:first-child)]:mt-6", className)}
-      {...props}
-    />
-  ),
-  ul: ({ className, ...props }: React.ComponentPropsWithoutRef<"ul">) => (
-    <ul className={cn("my-6 ml-6 list-disc", className)} {...props} />
-  ),
-  ol: ({ className, ...props }: React.ComponentPropsWithoutRef<"ol">) => (
-    <ol className={cn("my-6 ml-6 list-decimal", className)} {...props} />
-  ),
-  li: ({ className, ...props }: React.ComponentPropsWithoutRef<"li">) => (
-    <li className={cn("mt-2", className)} {...props} />
-  ),
-  blockquote: ({ className, ...props }: React.ComponentPropsWithoutRef<"blockquote">) => (
-    <blockquote
-      className={cn(
-        "mt-6 border-l-2 border-border pl-6 italic [&>*]:text-muted-foreground",
-        className
-      )}
-      {...props}
-    />
-  ),
-  pre: ({ children, className, ...props }: React.ComponentPropsWithoutRef<"pre">) => {
+      </>
+    );
+  }),
+  pre: React.memo(function Pre({ children, className, ...props }: ComponentProps) {
     const childArray = React.Children.toArray(children);
     const code = childArray.find(
       (child) => React.isValidElement(child) && child.type === "code"
-    ) as React.ReactElement<CodeBlockProps>;
+    ) as React.ReactElement;
     
     const text = code?.props?.children || "";
 
@@ -215,15 +148,15 @@ export const components: MDXComponents = {
         <CopyButton text={text} />
       </div>
     );
-  },
-  code: ({ className, children, ...props }: CodeBlockProps) => {
+  }),
+  code: React.memo(function Code({ className, children, ...props }: ComponentProps) {
     const isInlineCode = !className;
     return (
       <code
         className={cn(
           "relative rounded font-mono text-sm",
           isInlineCode
-            ? "bg-muted/30 dark:bg-muted/50 px-[0.4rem] py-[0.2rem] text-foreground/90 border border-border/40 font-medium"
+            ? "bg-muted px-[0.3rem] py-[0.2rem] text-foreground"
             : "text-zinc-100",
           className
         )}
@@ -232,54 +165,9 @@ export const components: MDXComponents = {
         {children}
       </code>
     );
-  },
-  img: ({ className, alt, src, ...props }: React.ComponentPropsWithoutRef<"img">) => {
-    const [showPreview, setShowPreview] = useState(false);
+  })
+};
 
-    return (
-      <>
-        <span className="not-prose relative my-4 first:mt-0 last:mb-0 inline-block">
-          <button 
-            className="group relative inline-block cursor-zoom-in" 
-            onClick={() => setShowPreview(true)}
-            onKeyDown={(e) => e.key === 'Enter' && setShowPreview(true)}
-            aria-label={alt ? `查看${alt}大图` : "查看图片大图"}
-          >
-            <div className="absolute -inset-2 rounded-lg bg-zinc-50/50 opacity-0 transition dark:bg-zinc-800/50 group-hover:opacity-100" />
-            <div className="relative overflow-hidden rounded-lg bg-zinc-100 dark:bg-zinc-800/50">
-              <img
-                className={cn(
-                  "max-w-[500px] w-auto",
-                  "h-auto max-h-[300px]",
-                  "object-contain",
-                  "transition duration-300",
-                  "group-hover:scale-[1.02]",
-                  className
-                )}
-                src={src}
-                alt={alt || "图片"}
-              />
-            </div>
-          </button>
-        </span>
-        {showPreview && src && (
-          <ImagePreview
-            src={src}
-            alt={alt}
-            onClose={() => setShowPreview(false)}
-          />
-        )}
-      </>
-    );
-  },
-} as MDXComponents;
-
-export function MDXContent({ content }: MDXContentProps) {
-  const mdxComponents = useMDXComponents(components);
-
-  return (
-    <article className="prose prose-zinc dark:prose-invert max-w-none">
-      {content}
-    </article>
-  );
-} 
+export const MDXContent = React.memo(function MDXContent({ content }: MDXContentProps) {
+  return <MDXRemote {...content} components={components} />;
+}); 

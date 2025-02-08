@@ -12,12 +12,14 @@ interface SearchParams {
   [key: string]: string | string[] | undefined;
 }
 
+interface PageProps {
+  params: Promise<Params>;
+  searchParams: SearchParams;
+}
+
 export default async function GeekPostPage({
   params,
-}: {
-  params: Promise<Params>;
-  searchParams: Promise<SearchParams>;
-}) {
+}: PageProps) {
   const resolvedParams = await params;
   
   if (!resolvedParams?.slug) {
@@ -44,11 +46,16 @@ export default async function GeekPostPage({
 
 export async function generateMetadata({
   params,
-}: {
-  params: Promise<Params>;
-  searchParams: Promise<SearchParams>;
-}): Promise<Metadata> {
+}: PageProps): Promise<Metadata> {
   const resolvedParams = await params;
+  
+  if (!resolvedParams?.slug) {
+    return {
+      title: "Not Found",
+      description: "The page you're looking for does not exist.",
+    };
+  }
+
   const post = await getGeekPostBySlug(resolvedParams.slug);
 
   if (!post) {
