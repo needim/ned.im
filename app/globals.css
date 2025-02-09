@@ -10,7 +10,7 @@
 
 @layer base {
   :root {
-    --background: 210 40% 98%;
+    --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
     --card: 0 0% 100%;
     --card-foreground: 240 10% 3.9%;
@@ -28,16 +28,16 @@
     --destructive-foreground: 0 0% 98%;
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
-    --ring: 240 10% 3.9%;
-    --radius: 0.5rem;
+    --ring: 240 5.9% 10%;
+    --radius: 0.75rem;
   }
 
   .dark {
-    --background: 240 10% 4%;
+    --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
     --card: 240 10% 3.9%;
     --card-foreground: 0 0% 98%;
-    --popover: 240 3.7% 15.9%;
+    --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
     --primary: 0 0% 98%;
     --primary-foreground: 240 5.9% 10%;
@@ -55,7 +55,7 @@
   }
 
   * {
-    border-color: hsl(var(--border));
+    @apply border-border;
   }
 
   html {
@@ -218,4 +218,25 @@
 .qa-wrapper .giscus-button:hover {
   --tw-bg-opacity: 0.5;
   --tw-border-opacity: 0.3;
+}
+
+/* Theme switching without flash */
+.no-flash {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.no-flash.loaded {
+  opacity: 1;
+}
+
+:root[class~='dark'] .dark\:rotate-0 {
+  --tw-rotate: 0deg;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+:root[class~='dark'] .dark\:scale-100 {
+  --tw-scale-x: 1;
+  --tw-scale-y: 1;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }

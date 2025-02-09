@@ -44,9 +44,24 @@ export const getAllGeekPosts = cache(async (): Promise<GeekPost[]> => {
 
 export const getGeekPostBySlug = cache(async (slug: string): Promise<{ meta: GeekMeta; content: string } | null> => {
   try {
-    const filePath = path.join(geekDirectory, `${slug}.mdx`);
+    // Get all files in the directory
+    const files = await fs.readdir(geekDirectory);
+    
+    // Find the file that matches the slug case-insensitively
+    const matchingFile = files.find(file => 
+      file.toLowerCase().replace(/\.mdx$/, '') === slug.toLowerCase()
+    );
+    
+    if (!matchingFile) {
+      console.error('No matching file found for slug:', slug);
+      return null;
+    }
+
+    const filePath = path.join(geekDirectory, matchingFile);
     const fileContents = await fs.readFile(filePath, 'utf8');
     const { data, content } = matter(fileContents);
+    
+    console.log('MDX Frontmatter data:', data);
     
     const meta: GeekMeta = {
       title: data.title as string,
@@ -55,6 +70,8 @@ export const getGeekPostBySlug = cache(async (slug: string): Promise<{ meta: Gee
       videoUrl: data.videoUrl as string,
       attachmentUrl: data.attachmentUrl as string | undefined,
     };
+    
+    console.log('Processed meta:', meta);
 
     return { meta, content };
   } catch (error) {

@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Lexend } from "next/font/google";
 
 import { ThemeProvider } from "@/components/providers/theme-provider";
+import { ThemeScript } from "@/components/providers/theme-script";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Script from "next/script";
 import "./globals.css";
@@ -61,6 +62,9 @@ export default function RootLayout({
       className={`${GeistSans.variable} ${GeistMono.variable} ${LexendFont.variable}`}
       suppressHydrationWarning
     >
+      <head>
+        <ThemeScript />
+      </head>
       <body>
         <ThemeProvider
           attribute="class"

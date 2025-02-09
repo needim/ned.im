@@ -23,6 +23,36 @@ export function ThemeToggle({
   const controlsMoon = useAnimation();
   const controlsContrast = useAnimation();
 
+  // 初始状态设置
+  const initialTheme = typeof window !== 'undefined' 
+    ? document.documentElement.classList.contains('dark') 
+      ? 'dark' 
+      : 'light'
+    : 'light';
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+    
+    if (theme === "system") {
+      controlsSun.start("hidden");
+      controlsContrast.start("system");
+      controlsMoon.start("hidden");
+    } else {
+      controlsSun.start(theme === "light" ? "sun" : "hidden");
+      controlsMoon.start(theme === "dark" ? "moon" : "hidden");
+      controlsContrast.start("systemHidden");
+    }
+  }, [mounted, controlsContrast, controlsMoon, controlsSun, theme]);
+
+  const nextTheme = useNextValue(
+    ["light", "system", "dark"] as const,
+    theme as string
+  );
+
   const iconVariants = {
     sun: {
       rotate: 0,
@@ -51,40 +81,14 @@ export function ThemeToggle({
     },
   };
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  // biome-ignore lint/correctness/useExhaustiveDependencies(mounted): <explanation>
-  useEffect(() => {
-    if (theme === "system") {
-      controlsSun.start("hidden");
-      controlsContrast.start("system");
-      controlsMoon.start("hidden");
-    } else {
-      controlsSun.start(theme === "light" ? "sun" : "hidden");
-      controlsMoon.start(theme === "dark" ? "moon" : "hidden");
-      controlsContrast.start("systemHidden");
-    }
-  }, [mounted, controlsContrast, controlsMoon, controlsSun, theme]);
-
-  const nextTheme = useNextValue(
-    ["light", "system", "dark"] as const,
-    theme as string
-  );
-
-  if (!mounted) {
-    return null;
-  }
-
   return (
     <button
       className="flex items-center gap-2 cursor-pointer group"
       onClick={() => {
-        setTheme(nextTheme);
+        setTheme(mounted ? nextTheme : initialTheme === 'dark' ? 'light' : 'dark');
       }}
     >
-      {!hideIndicator && (
+      {!hideIndicator && mounted && (
         <div
           className={cn(
             "text-muted-foreground text-xs",
@@ -103,47 +107,67 @@ export function ThemeToggle({
           "flex items-center bg-zinc-0 ring-1 ring-zinc-900/5 backdrop-blur-sm dark:bg-zinc-800/30 dark:ring-white/10 rounded-full shadow-inner dark:shadow-black/10 relative"
         )}
       >
-        <motion.div
-          animate={{
-            x: theme === "light" ? 4 : theme === "system" ? 12 : 20,
-            transition: { duration: 0.1, ease: "easeInOut" },
-          }}
-          style={{ height: 16, width: 16 }}
-          className={cn(
-            "rounded-full transition-all duration-300 ease-in-out relative"
-          )}
-        >
-          <motion.div
-            style={{ height: 16, width: 16 }}
-            className="absolute top-0 left-0"
-            variants={iconVariants}
-            initial="hidden"
-            animate={controlsSun}
-            transition={{ duration: 0.2, ease: "easeInOut" }}
+        {!mounted ? (
+          // 初始渲染时的静态图标
+          <div 
+            className="absolute"
+            style={{
+              left: initialTheme === 'dark' ? '20px' : '4px',
+              top: '4px',
+              height: '16px',
+              width: '16px',
+            }}
           >
-            <IconSunFilled className="size-4" />
-          </motion.div>
+            {initialTheme === 'dark' ? (
+              <IconMoon className="size-4" />
+            ) : (
+              <IconSunFilled className="size-4" />
+            )}
+          </div>
+        ) : (
+          // 挂载后的动画图标
           <motion.div
+            animate={{
+              x: theme === "light" ? 4 : theme === "system" ? 12 : 20,
+              transition: { duration: 0.1, ease: "easeInOut" },
+            }}
             style={{ height: 16, width: 16 }}
-            className="absolute top-0 left-0"
-            variants={iconVariants}
-            initial="hidden"
-            animate={controlsContrast}
-            transition={{ duration: 0.2, ease: "easeInOut" }}
+            className={cn(
+              "rounded-full transition-all duration-300 ease-in-out relative"
+            )}
           >
-            <IconContrastFilled className="size-4 dark:rotate-180" />
+            <motion.div
+              style={{ height: 16, width: 16 }}
+              className="absolute top-0 left-0"
+              variants={iconVariants}
+              initial={theme === "light" ? "sun" : "hidden"}
+              animate={controlsSun}
+              transition={{ duration: 0.2, ease: "easeInOut" }}
+            >
+              <IconSunFilled className="size-4" />
+            </motion.div>
+            <motion.div
+              style={{ height: 16, width: 16 }}
+              className="absolute top-0 left-0"
+              variants={iconVariants}
+              initial={theme === "system" ? "system" : "hidden"}
+              animate={controlsContrast}
+              transition={{ duration: 0.2, ease: "easeInOut" }}
+            >
+              <IconContrastFilled className="size-4 dark:rotate-180" />
+            </motion.div>
+            <motion.div
+              style={{ height: 16, width: 16 }}
+              className="absolute top-0 left-0"
+              variants={iconVariants}
+              initial={theme === "dark" ? "moon" : "hidden"}
+              animate={controlsMoon}
+              transition={{ duration: 0.2, ease: "easeInOut" }}
+            >
+              <IconMoon className="size-4" />
+            </motion.div>
           </motion.div>
-          <motion.div
-            style={{ height: 16, width: 16 }}
-            className="absolute top-0 left-0"
-            variants={iconVariants}
-            initial="hidden"
-            animate={controlsMoon}
-            transition={{ duration: 0.2, ease: "easeInOut" }}
-          >
-            <IconMoon className="size-4" />
-          </motion.div>
-        </motion.div>
+        )}
       </motion.div>
     </button>
   );

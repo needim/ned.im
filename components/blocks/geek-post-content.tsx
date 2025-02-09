@@ -1,7 +1,7 @@
 "use client";
 
 import { Container } from "@/components/blocks/container";
-import { IconArrowLeft } from "@tabler/icons-react";
+import { IconArrowLeft, IconDownload, IconFile } from "@tabler/icons-react";
 import Link from "next/link";
 import { useMemo, useState, useCallback, useEffect } from 'react';
 import { MDXContent } from '@/components/mdx-content';
@@ -18,6 +18,11 @@ const ClientSideComments = dynamic(
 
 const ClientSideContent = dynamic(
   () => import('@/components/blocks/client-side-content').then(mod => mod.ClientSideContent),
+  { ssr: false }
+);
+
+const ClientSideMDXContent = dynamic(
+  () => import('@/components/mdx-content').then(mod => mod.MDXContent),
   { ssr: false }
 );
 
@@ -38,6 +43,10 @@ export function GeekPostContent({ post, content, slug }: GeekPostContentProps) {
     return null;
   }
 
+  const isExternalLink = post.attachmentUrl?.startsWith('http');
+  const attachmentFileName = isExternalLink ? null : post.attachmentUrl?.split('/').pop();
+  const attachmentApiUrl = attachmentFileName ? `/api/attachments/${attachmentFileName}` : post.attachmentUrl;
+
   return (
     <Container>
       <div className="mx-auto max-w-4xl mt-16">
@@ -51,8 +60,30 @@ export function GeekPostContent({ post, content, slug }: GeekPostContentProps) {
         <article>
           <header className="mb-8">
             <h1 className="text-4xl font-bold tracking-tight">{post.title}</h1>
-            <div className="mt-2 text-sm text-muted-foreground">
-              <time dateTime={post.date}>{formattedDate(post.date)}</time>
+            <div className="mt-2 flex items-center gap-4">
+              <time className="text-sm text-muted-foreground" dateTime={post.date}>
+                {formattedDate(post.date)}
+              </time>
+              {attachmentApiUrl && (
+                <Link
+                  href={attachmentApiUrl}
+                  className="inline-flex items-center gap-1 text-sm text-primary hover:text-primary/80 transition-colors"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {isExternalLink ? (
+                    <>
+                      <IconFile className="w-4 h-4" />
+                      <span>查看附件</span>
+                    </>
+                  ) : (
+                    <>
+                      <IconDownload className="w-4 h-4" />
+                      <span>下载附件</span>
+                    </>
+                  )}
+                </Link>
+              )}
             </div>
             {post.description && (
               <p className="mt-4 text-muted-foreground">
@@ -74,7 +105,7 @@ export function GeekPostContent({ post, content, slug }: GeekPostContentProps) {
           )}
 
           <div className="prose prose-zinc dark:prose-invert max-w-none">
-            <MDXContent content={content} />
+            {mounted && <ClientSideMDXContent content={content} />}
           </div>
         </article>
 
