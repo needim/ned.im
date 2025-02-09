@@ -4,13 +4,14 @@ import path from 'node:path';
 
 export async function GET(
   request: Request,
-  { params }: { params: Promise<{ path: string[] }> | { path: string[] } }
+  context: { params: Promise<{ path: string[] }> }
 ) {
+  const params = await context.params;
+  
   try {
-    const resolvedParams = await Promise.resolve(params);
-    const filePath = path.join(process.cwd(), 'public', 'attachments', ...resolvedParams.path);
-    const content = await fs.readFile(filePath, 'utf-8');
-    const fileName = resolvedParams.path[resolvedParams.path.length - 1];
+    const filePath = path.join(process.cwd(), 'public', 'attachments', ...params.path);
+    const content = await fs.readFile(filePath);
+    const fileName = params.path[params.path.length - 1];
     
     return new NextResponse(content, {
       headers: {
