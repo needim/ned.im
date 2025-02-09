@@ -5,18 +5,66 @@ date: "2024-02-05"
 videoUrl: "https://www.youtube.com/embed/0mRjSIZZGe4?si=YLKCNz79F6AjjgIK"
 attachmentUrl: "https://pan.baidu.com/s/12tHb-jRw3brGBehUnQI4Yg?pwd=6666"
 ---
+## Cherry Studio 客户端
 
-## 在线体验平台
+Cherry Studio 是一个现代化的 AI 模型管理和调用工具：
+
+1. **下载安装**
+   - 官网：[https://cherry-ai.com/](https://cherry-ai.com/)
+   - GitHub：[CherryHQ/cherry-studio](https://github.com/CherryHQ/cherry-studio)
+   - 网盘下载：支持百度网盘和 123 网盘
+
+2. **配置说明**
+   - 支持多种模型源配置：
+     - 硅基流动
+     - 腾讯云 LKE
+     - 阿里云百炼
+     - GitHub Models
+     - Ollama
+   - 知识库功能：
+     - 支持文档导入和量化
+     - 可选择不同的嵌入模型
+     - 支持多知识库管理
+
+3. **使用步骤**
+   - 添加模型源：
+     1. 点击左下角设置按钮
+     2. 选择或添加模型源
+     3. 配置 API 密钥和端点
+     4. 添加所需模型
+   - 知识库配置：
+     1. 点击左侧知识库按钮
+     2. 创建新知识库
+     3. 选择嵌入模型
+     4. 导入文档等待量化
+     5. 在聊天时勾选知识库即可使用
+
+## DeepseekAPI平台
 
 以下是一些可以快速体验和部署 AI 模型的平台：
 
-1. **腾讯云 LKE**
+1. **硅基流动**
+   - 访问地址：[https://cloud.siliconflow.cn/i/Oj0qFpgb](https://cloud.siliconflow.cn/i/Oj0qFpgb)
+   - 特点：
+     - 通过邀请链接注册可获得 2,000 万 TOKEN
+     - 支持知识库构建和 API 调用
+     - 提供完整的 API 接口和文档
+   - 使用步骤：
+     1. 通过链接注册（可选择是否使用邀请码）
+     2. 进入控制台创建 API 密钥
+     3. 在应用中配置并开始使用
+
+2. **腾讯云 LKE**
    - API 配置：[控制台设置](https://console.cloud.tencent.com/lkeap/settings)
    - 在线体验：[体验中心](https://lke.cloud.tencent.com/lke#/experience-center/home?origin=knowledge_engine)
    - API 端点：`https://api.lkeap.cloud.tencent.com`
    - 可用模型：
      - `deepseek-r1`: Deepseek 基础对话模型
      - `deepseek-v3`: Deepseek 增强版对话模型
+   - 特点：
+     - 提供 1,000 万免费 TOKEN
+     - 支持联网搜索能力
+     - 可创建自定义应用和知识库
    - 调用示例：
      ```bash
      curl -X POST "https://api.lkeap.cloud.tencent.com/v1/chat/completions" \
@@ -31,51 +79,64 @@ attachmentUrl: "https://pan.baidu.com/s/12tHb-jRw3brGBehUnQI4Yg?pwd=6666"
        }'
      ```
 
-2. **阿里云百炼**
+3. **阿里云百炼**
    - 访问地址：[百炼控制台](https://bailian.console.aliyun.com/#/home)
+   - 特点：
+     - 提供 1,000 万免费 TOKEN
+     - 支持 Deepseek 模型调用
+     - 简单的 API 接入流程
+   - 使用步骤：
+     1. 登录控制台
+     2. 选择 Deepseek 模型
+     3. 创建并获取 API 密钥
 
-3. **Cherry Studio**
-   - 官网：[https://cherry-ai.com/](https://cherry-ai.com/)
-   - GitHub：[CherryHQ/cherry-studio](https://github.com/CherryHQ/cherry-studio)
+4. **GitHub Models**
+   - 访问地址：[GitHub Marketplace](https://github.com/marketplace?type=models)
+   - 特点：
+     - 提供多种开源模型，包括 O3 mini、O1 和 Deepseek
+     - 支持 API 调用
+     - 可设置 TOKEN 有效期
+   - 使用步骤：
+     1. 登录 GitHub 账户
+     2. 选择需要的模型（如 Deepseek R1）
+     3. 创建 API TOKEN（可设置有效期）
+     4. 在应用中配置并使用
 
-4. **硅基流动知识库**
-   - 访问地址：[https://cloud.siliconflow.cn/i/Oj0qFpgb](https://cloud.siliconflow.cn/i/Oj0qFpgb)
+## 本地部署 - Ollama
 
-## 本地部署指南
+Ollama 提供了便捷的本地 AI 模型部署方案：
 
-### Ollama 部署
+1. **安装方法**
+   - 官方下载：[https://ollama.com/](https://ollama.com/)
+   - 国内加速：[百度网盘下载](https://pan.baidu.com/s/12tHb-jRw3brGBehUnQI4Yg?pwd=6666)
 
-Ollama 是一个强大的本地 AI 模型部署工具：
+2. **模型部署**
+   ```bash
+   # 查看已安装模型
+   ollama list
+   
+   # 安装新模型
+   ollama pull deepseek-coder:7b-instruct-q4_K_M
+   ```
 
-1. **官方下载**
-   - 官网：[https://ollama.com/](https://ollama.com/)
+3. **Cherry Studio 集成**
+   - 无需 API 密钥（可随意填写）
+   - 添加模型时使用 `ollama list` 显示的模型名称
+   - 支持与知识库结合使用
 
-2. **国内加速下载**
-   - 百度网盘：[点击下载](https://pan.baidu.com/s/12tHb-jRw3brGBehUnQI4Yg?pwd=6666)
-   - 提取码：6666
+## 注意事项
 
-### GitHub Models
+1. **网络问题**
+   - Ollama 下载可能遇到速度慢或中断问题
+   - 建议使用网盘下载离线包
 
-在 [GitHub Marketplace](https://github.com/marketplace?type=models) 上有大量开源的 AI 模型可供选择和部署。
+2. **资源占用**
+   - 本地部署需要考虑硬件配置
+   - 70B 模型需要较高配置支持
 
-## 知识库搭建
+3. **API 限制**
+   - 各平台 TOKEN 额度不同
+   - 建议合理使用免费额度
 
-本文将详细介绍如何利用上述工具和平台搭建自己的知识库：
-
-1. 选择合适的模型
-2. 数据预处理和导入
-3. API 接口配置
-4. 前端界面搭建
-5. 性能优化建议
-
-> 详细的搭建步骤和注意事项请观看配套视频教程。
-
-## 补充资源
-
-- 相关文档和教程
-- 常见问题解答
-- 性能优化指南
-- 最佳实践案例
-
-*文章和视频会持续更新，欢迎关注！*
+*文章和视频会持续更新，欢迎关注！如有问题可在评论区留言。*
 
