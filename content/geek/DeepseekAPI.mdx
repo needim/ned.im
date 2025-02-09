@@ -13,6 +13,23 @@ attachmentUrl: "https://pan.baidu.com/s/12tHb-jRw3brGBehUnQI4Yg?pwd=6666"
 1. **腾讯云 LKE**
    - API 配置：[控制台设置](https://console.cloud.tencent.com/lkeap/settings)
    - 在线体验：[体验中心](https://lke.cloud.tencent.com/lke#/experience-center/home?origin=knowledge_engine)
+   - API 端点：`https://api.lkeap.cloud.tencent.com`
+   - 可用模型：
+     - `deepseek-r1`: Deepseek 基础对话模型
+     - `deepseek-v3`: Deepseek 增强版对话模型
+   - 调用示例：
+     ```bash
+     curl -X POST "https://api.lkeap.cloud.tencent.com/v1/chat/completions" \
+       -H "Content-Type: application/json" \
+       -H "Authorization: Bearer YOUR_API_KEY" \
+       -d '{
+         "model": "deepseek-v3",
+         "messages": [
+           {"role": "user", "content": "你好，请介绍一下你自己"}
+         ],
+         "temperature": 0.7
+       }'
+     ```
 
 2. **阿里云百炼**
    - 访问地址：[百炼控制台](https://bailian.console.aliyun.com/#/home)
