@@ -454,7 +454,7 @@ export function MusicPlayer() {
           mode: 'cors',
           headers: {
             'Accept': 'application/json',
-            'Origin': process.env.NEXT_PUBLIC_SITE_URL || 'https://www.laogou717.com'
+            'Origin': process.env.NEXT_PUBLIC_SITE_URL || 'https://ned-im-git-dev-15518658246163coms-projects.vercel.app'
           },
           credentials: 'omit'
         });
