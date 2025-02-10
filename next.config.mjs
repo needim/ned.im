@@ -60,7 +60,7 @@ const nextConfig = {
 					},
 					{
 						key: 'Content-Security-Policy',
-						value: "default-src 'self' https:; script-src 'self' 'unsafe-eval' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; media-src 'self' https: https://*.music.126.net; font-src 'self' data: https:; connect-src 'self' https: wss://*.pusher.com;"
+						value: "default-src 'self' https:; script-src 'self' 'unsafe-eval' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; media-src 'self' https: *.music.126.net m*.music.126.net; font-src 'self' data: https:; connect-src 'self' https: wss://*.pusher.com;"
 					}
 				]
 			}

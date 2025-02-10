@@ -51,9 +51,10 @@ const RETRY_DELAY = 2000; // 2 seconds
 // 确保所有音乐资源 URL 使用 HTTPS
 const ensureHttps = (url: string) => {
   if (!url) return '';
-  // 替换所有可能的 HTTP 链接为 HTTPS
+  // 替换所有可能的 HTTP 链接为 HTTPS，并处理特殊字符
   return url.replace(/^http:\/\/(m\d+\.music\.126\.net)/, 'https://$1')
-           .replace(/^http:/, 'https:');
+           .replace(/^http:/, 'https:')
+           .replace(/\?.*$/, ''); // 移除URL参数，可能导致跨域问题
 };
 
 export function MusicPlayer() {
@@ -590,6 +591,7 @@ export function MusicPlayer() {
 
     const handleCanPlay = () => {
       setIsBuffering(false);
+      setError(null); // 清除之前的错误
       // 确保音频可以播放时设置正确的音量
       audio.volume = volume;
       
@@ -608,12 +610,16 @@ export function MusicPlayer() {
               console.error("播放失败:", error);
               setIsPlaying(false);
               shouldAutoPlay.current = false;
+              setError(`播放失败: ${error.message}`);
             }
           });
         } catch (error) {
           console.error("播放出错:", error);
           setIsPlaying(false);
           shouldAutoPlay.current = false;
+          if (error instanceof Error) {
+            setError(`播放出错: ${error.message}`);
+          }
         }
       }
     };
@@ -624,20 +630,49 @@ export function MusicPlayer() {
 
     const handlePlaying = () => {
       setIsBuffering(false);
+      setError(null); // 清除错误状态
     };
 
-    const handleError = (e: ErrorEvent) => {
-      console.error("音频错误:", e);
+    const handleError = (e: Event) => {
+      const target = e.target as HTMLAudioElement;
+      console.error("音频错误:", e, target.error);
       setIsBuffering(false);
+      
+      // 设置具体的错误信息
+      if (target.error) {
+        switch (target.error.code) {
+          case MediaError.MEDIA_ERR_ABORTED:
+            setError("播放被中断");
+            break;
+          case MediaError.MEDIA_ERR_NETWORK:
+            setError("网络错误导致加载失败");
+            break;
+          case MediaError.MEDIA_ERR_DECODE:
+            setError("音频解码失败");
+            break;
+          case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED:
+            setError("不支持的音频格式");
+            break;
+          default:
+            setError(`播放错误: ${target.error.message}`);
+        }
+      }
+
       if (retryCount < MAX_RETRY_COUNT) {
         const nextRetryDelay = RETRY_DELAY * (retryCount + 1);
         setTimeout(() => {
+          console.log(`尝试重新加载音频 (${retryCount + 1}/${MAX_RETRY_COUNT})`);
           setRetryCount(prev => prev + 1);
+          if (currentSong?.url) {
+            audio.src = ensureHttps(currentSong.url);
+            audio.load();
+          }
         }, nextRetryDelay);
       } else {
         setIsPlaying(false);
         shouldAutoPlay.current = true;
         setTimeout(() => {
+          console.log("重试次数已达上限，切换到下一首");
           playNextSong();
         }, 1000);
       }
@@ -654,7 +689,7 @@ export function MusicPlayer() {
       audio.removeEventListener('playing', handlePlaying);
       audio.removeEventListener('error', handleError);
     };
-  }, [volume, isPlaying, retryCount, playNextSong, hasUserInteraction, isVipSong, vipSongInfo]);
+  }, [volume, isPlaying, retryCount, playNextSong, hasUserInteraction, isVipSong, vipSongInfo, currentSong]);
 
   // 监听音频播放时间，处理 VIP 歌曲预览
   useEffect(() => {
