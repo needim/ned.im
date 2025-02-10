@@ -48,6 +48,11 @@ const fac = new FastAverageColor();
 const MAX_RETRY_COUNT = 3;
 const RETRY_DELAY = 2000; // 2 seconds
 
+// 确保所有音乐资源 URL 使用 HTTPS
+const ensureHttps = (url: string) => {
+  return url.replace(/^http:/, 'https:');
+};
+
 export function MusicPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(DEFAULT_VOLUME);
