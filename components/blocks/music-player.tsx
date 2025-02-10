@@ -450,7 +450,14 @@ export function MusicPlayer() {
         }
 
         // 获取歌单所有歌曲
-        const playlistRes = await fetch(`${API_BASE}/playlist/track/all?id=${PLAYLIST_ID}&realIP=${userIP}`);
+        const playlistRes = await fetch(`${API_BASE}/playlist/track/all?id=${PLAYLIST_ID}&realIP=${userIP}`, {
+          mode: 'cors',
+          headers: {
+            'Accept': 'application/json',
+            'Origin': process.env.NEXT_PUBLIC_SITE_URL || 'https://www.laogou717.com'
+          },
+          credentials: 'omit'
+        });
         const playlistData = await playlistRes.json();
         
         if (!playlistData.songs) {
