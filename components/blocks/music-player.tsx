@@ -50,7 +50,10 @@ const RETRY_DELAY = 2000; // 2 seconds
 
 // 确保所有音乐资源 URL 使用 HTTPS
 const ensureHttps = (url: string) => {
-  return url.replace(/^http:/, 'https:');
+  if (!url) return '';
+  // 替换所有可能的 HTTP 链接为 HTTPS
+  return url.replace(/^http:\/\/(m\d+\.music\.126\.net)/, 'https://$1')
+           .replace(/^http:/, 'https:');
 };
 
 export function MusicPlayer() {
@@ -318,7 +321,7 @@ export function MusicPlayer() {
         }
 
         if (audioRef.current) {
-          audioRef.current.src = data.data[0].url;
+          audioRef.current.src = ensureHttps(data.data[0].url);
           if (shouldAutoPlay.current && hasUserInteraction) {
             try {
               await audioRef.current.play();
