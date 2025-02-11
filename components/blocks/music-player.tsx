@@ -48,43 +48,56 @@ const fac = new FastAverageColor();
 const MAX_RETRY_COUNT = 3;
 const RETRY_DELAY = 2000; // 2 seconds
 
-// 确保优先使用 HTTPS 音乐资源，并添加跨域检查
-const ensureHttps = (url: string): Promise<string> => {
-  if (!url) return Promise.resolve('');
+const ensureHttps = async (url: string): Promise<string> => {
+  if (!url) return '';
   
-  // 移除URL参数，可能包含过期的token
-  const cleanUrl = url.replace(/\?.*$/, '');
+  // 移除 URL 参数并验证 URL 格式
+  const baseUrl = url.split('?')[0];
   
-  // 检查URL是否可访问
-  return new Promise<string>((resolve) => {
-    const audio = new Audio();
-    audio.crossOrigin = 'anonymous';
-    
-    // 设置超时
-    const timeout = setTimeout(() => {
-      audio.onerror = null;
-      audio.oncanplaythrough = null;
-      resolve(cleanUrl); // 超时后使用原始URL
-    }, 3000);
-    
-    audio.onerror = () => {
-      clearTimeout(timeout);
-      // 如果是 HTTP URL，尝试 HTTPS 版本
-      if (cleanUrl.startsWith('http:')) {
-        const httpsUrl = cleanUrl.replace(/^http:/, 'https:');
-        resolve(httpsUrl);
-      } else {
-        resolve(cleanUrl);
+  // 验证 URL 是否来自允许的域名
+  const allowedDomains = [
+    'music.126.net',
+    'm701.music.126.net',
+    'm702.music.126.net',
+    'm801.music.126.net',
+    'm802.music.126.net'
+  ];
+  
+  const urlObj = new URL(baseUrl);
+  const isAllowedDomain = allowedDomains.some(domain => urlObj.hostname.endsWith(domain));
+  
+  if (!isAllowedDomain) {
+    throw new Error('不受信任的音频来源');
+  }
+
+  // 如果已经是 HTTPS，验证后返回
+  if (baseUrl.startsWith('https://')) {
+    return baseUrl;
+  }
+
+  // 尝试 HTTPS 版本
+  const httpsUrl = baseUrl.replace('http://', 'https://');
+  try {
+    const res = await fetch(httpsUrl, { 
+      method: 'HEAD',
+      headers: {
+        'Accept': 'audio/*',
+        'Sec-Fetch-Dest': 'audio',
+        'Sec-Fetch-Mode': 'no-cors',
+        'Sec-Fetch-Site': 'cross-site',
       }
-    };
+    });
     
-    audio.oncanplaythrough = () => {
-      clearTimeout(timeout);
-      resolve(cleanUrl);
-    };
-    
-    audio.src = cleanUrl;
-  });
+    if (res.ok) {
+      return httpsUrl;
+    }
+  } catch (error) {
+    console.warn(`HTTPS version not available for ${baseUrl}, falling back to HTTP with security warning`);
+  }
+
+  // 如果 HTTPS 不可用，显示安全警告
+  setError('当前使用非加密连接播放音乐，建议使用 HTTPS 以提高安全性');
+  return baseUrl;
 };
 
 export function MusicPlayer() {
@@ -584,28 +597,45 @@ export function MusicPlayer() {
     if (!currentSong || !audioRef.current) return;
     
     if (currentSong.url) {
-      audioRef.current.src = currentSong.url;
-      if (shouldAutoPlay.current && hasUserInteraction) {
-        audioRef.current.play()
-          .then(() => {
-            setIsPlaying(true);
-          })
-          .catch(error => {
-            if (error.name !== 'AbortError') {
-              console.error('播放失败:', error);
-              setIsPlaying(false);
-              shouldAutoPlay.current = false;
-              // 如果播放失败，尝试下一首
-              playNextSong();
+      setIsLoading(true);
+      setError(null);
+      
+      ensureHttps(currentSong.url)
+        .then(finalUrl => {
+          if (!finalUrl) {
+            throw new Error('无效的音频地址');
+          }
+          
+          setAudioUrl(finalUrl);
+          if (audioRef.current) {
+            audioRef.current.crossOrigin = 'anonymous';
+            audioRef.current.src = finalUrl;
+            
+            // 添加安全属性
+            audioRef.current.setAttribute('controlsList', 'nodownload');
+            audioRef.current.setAttribute('x-webkit-airplay', 'deny');
+            audioRef.current.setAttribute('disableRemotePlayback', '');
+            
+            if (finalUrl.startsWith('http://')) {
+              console.warn('Using insecure HTTP audio source. This may be blocked by some browsers.');
+              setShowTip(true);
+              setTimeout(() => setShowTip(false), 5000);
             }
-          });
-      }
+          }
+        })
+        .catch(err => {
+          console.error('Error loading audio:', err);
+          setError(`无法加载音频: ${err.message}`);
+          playNextSong();
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
     } else {
       console.error('歌曲URL不存在:', currentSong.name);
-      // 如果当前歌曲没有URL，尝试下一首
       playNextSong();
     }
-  }, [currentSong, hasUserInteraction, playNextSong]);
+  }, [currentSong, playNextSong]);
 
   // 检测文本是否溢出
   const isTextOverflow = useCallback((text: string) => {
@@ -944,7 +974,9 @@ export function MusicPlayer() {
     >
       {showTip && (
         <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-black/80 text-white text-xs rounded-lg px-3 py-1.5 whitespace-nowrap">
-          正在加载音乐资源，请稍候...
+          {audioUrl?.startsWith('http://') 
+            ? '当前使用非加密连接播放音乐，部分浏览器可能会阻止播放'
+            : '正在加载音乐资源，请稍候...'}
         </div>
       )}
       {isBuffering && (
