@@ -48,58 +48,6 @@ const fac = new FastAverageColor();
 const MAX_RETRY_COUNT = 3;
 const RETRY_DELAY = 2000; // 2 seconds
 
-const ensureHttps = async (url: string): Promise<string> => {
-  if (!url) return '';
-  
-  // 移除 URL 参数并验证 URL 格式
-  const baseUrl = url.split('?')[0];
-  
-  // 验证 URL 是否来自允许的域名
-  const allowedDomains = [
-    'music.126.net',
-    'm701.music.126.net',
-    'm702.music.126.net',
-    'm801.music.126.net',
-    'm802.music.126.net'
-  ];
-  
-  const urlObj = new URL(baseUrl);
-  const isAllowedDomain = allowedDomains.some(domain => urlObj.hostname.endsWith(domain));
-  
-  if (!isAllowedDomain) {
-    throw new Error('不受信任的音频来源');
-  }
-
-  // 如果已经是 HTTPS，验证后返回
-  if (baseUrl.startsWith('https://')) {
-    return baseUrl;
-  }
-
-  // 尝试 HTTPS 版本
-  const httpsUrl = baseUrl.replace('http://', 'https://');
-  try {
-    const res = await fetch(httpsUrl, { 
-      method: 'HEAD',
-      headers: {
-        'Accept': 'audio/*',
-        'Sec-Fetch-Dest': 'audio',
-        'Sec-Fetch-Mode': 'no-cors',
-        'Sec-Fetch-Site': 'cross-site',
-      }
-    });
-    
-    if (res.ok) {
-      return httpsUrl;
-    }
-  } catch (error) {
-    console.warn(`HTTPS version not available for ${baseUrl}, falling back to HTTP with security warning`);
-  }
-
-  // 如果 HTTPS 不可用，显示安全警告
-  setError('当前使用非加密连接播放音乐，建议使用 HTTPS 以提高安全性');
-  return baseUrl;
-};
-
 export function MusicPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(DEFAULT_VOLUME);
@@ -962,6 +910,58 @@ export function MusicPlayer() {
       document.removeEventListener('keydown', handleUserInteraction);
     };
   }, []);
+
+  const ensureHttps = useCallback(async (url: string): Promise<string> => {
+    if (!url) return '';
+    
+    // 移除 URL 参数并验证 URL 格式
+    const baseUrl = url.split('?')[0];
+    
+    // 验证 URL 是否来自允许的域名
+    const allowedDomains = [
+      'music.126.net',
+      'm701.music.126.net',
+      'm702.music.126.net',
+      'm801.music.126.net',
+      'm802.music.126.net'
+    ];
+    
+    const urlObj = new URL(baseUrl);
+    const isAllowedDomain = allowedDomains.some(domain => urlObj.hostname.endsWith(domain));
+    
+    if (!isAllowedDomain) {
+      throw new Error('不受信任的音频来源');
+    }
+
+    // 如果已经是 HTTPS，验证后返回
+    if (baseUrl.startsWith('https://')) {
+      return baseUrl;
+    }
+
+    // 尝试 HTTPS 版本
+    const httpsUrl = baseUrl.replace('http://', 'https://');
+    try {
+      const res = await fetch(httpsUrl, { 
+        method: 'HEAD',
+        headers: {
+          'Accept': 'audio/*',
+          'Sec-Fetch-Dest': 'audio',
+          'Sec-Fetch-Mode': 'no-cors',
+          'Sec-Fetch-Site': 'cross-site',
+        }
+      });
+      
+      if (res.ok) {
+        return httpsUrl;
+      }
+    } catch (error) {
+      console.warn(`HTTPS version not available for ${baseUrl}, falling back to HTTP with security warning`);
+    }
+
+    // 如果 HTTPS 不可用，显示安全警告
+    setError('当前使用非加密连接播放音乐，建议使用 HTTPS 以提高安全性');
+    return baseUrl;
+  }, [setError]);
 
   if (!currentSong) {
     return null;
