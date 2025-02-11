@@ -38,6 +38,12 @@ const nextConfig = {
 				hostname: "m802.music.126.net",
 				port: "",
 				pathname: "/**",
+			},
+			{
+				protocol: "https",
+				hostname: "i.ytimg.com",
+				port: "",
+				pathname: "/**",
 			}
 		],
 	},
@@ -60,7 +66,19 @@ const nextConfig = {
 					},
 					{
 						key: 'Content-Security-Policy',
-						value: "default-src 'self' https:; script-src 'self' 'unsafe-eval' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; media-src 'self' https: https://*.music.126.net; font-src 'self' data: https:; connect-src 'self' https: wss://*.pusher.com https://*.laogou717.com https://*.music.126.net;"
+						value: "default-src 'self' https:; script-src 'self' 'unsafe-eval' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https: http://*.music.126.net https://*.music.126.net https://i.ytimg.com; media-src 'self' https: http://*.music.126.net https://*.music.126.net; font-src 'self' data: https:; connect-src 'self' https: wss://*.pusher.com https://*.laogou717.com https://*.music.126.net http://*.music.126.net https://music.laogou717.com;"
+					},
+					{
+						key: 'Access-Control-Allow-Origin',
+						value: '*'
+					},
+					{
+						key: 'Access-Control-Allow-Methods',
+						value: 'GET, POST, PUT, DELETE, OPTIONS'
+					},
+					{
+						key: 'Access-Control-Allow-Headers',
+						value: 'X-Requested-With, Content-Type, Authorization'
 					}
 				]
 			}

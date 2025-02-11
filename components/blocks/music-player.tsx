@@ -48,13 +48,43 @@ const fac = new FastAverageColor();
 const MAX_RETRY_COUNT = 3;
 const RETRY_DELAY = 2000; // 2 seconds
 
-// 确保所有音乐资源 URL 使用 HTTPS
-const ensureHttps = (url: string) => {
-  if (!url) return '';
-  // 替换所有可能的 HTTP 链接为 HTTPS，并处理特殊字符
-  return url.replace(/^http:\/\/(m\d+\.music\.126\.net)/, 'https://$1')
-           .replace(/^http:/, 'https:')
-           .replace(/\?.*$/, ''); // 移除URL参数，可能导致跨域问题
+// 确保优先使用 HTTPS 音乐资源，并添加跨域检查
+const ensureHttps = (url: string): Promise<string> => {
+  if (!url) return Promise.resolve('');
+  
+  // 移除URL参数，可能包含过期的token
+  const cleanUrl = url.replace(/\?.*$/, '');
+  
+  // 检查URL是否可访问
+  return new Promise<string>((resolve) => {
+    const audio = new Audio();
+    audio.crossOrigin = 'anonymous';
+    
+    // 设置超时
+    const timeout = setTimeout(() => {
+      audio.onerror = null;
+      audio.oncanplaythrough = null;
+      resolve(cleanUrl); // 超时后使用原始URL
+    }, 3000);
+    
+    audio.onerror = () => {
+      clearTimeout(timeout);
+      // 如果是 HTTP URL，尝试 HTTPS 版本
+      if (cleanUrl.startsWith('http:')) {
+        const httpsUrl = cleanUrl.replace(/^http:/, 'https:');
+        resolve(httpsUrl);
+      } else {
+        resolve(cleanUrl);
+      }
+    };
+    
+    audio.oncanplaythrough = () => {
+      clearTimeout(timeout);
+      resolve(cleanUrl);
+    };
+    
+    audio.src = cleanUrl;
+  });
 };
 
 export function MusicPlayer() {
@@ -63,7 +93,7 @@ export function MusicPlayer() {
   const [isMuted, setIsMuted] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [audioUrl, setAudioUrl] = useState("");
+  const [audioUrl, setAudioUrl] = useState<string>("");
   const [expanded, setExpanded] = useState(false);
   const [playlist, setPlaylist] = useState<Song[]>([]);
   const [currentSong, setCurrentSong] = useState<Song | null>(null);
@@ -262,14 +292,18 @@ export function MusicPlayer() {
     try {
       switchingRef.current = true;
       setIsLoading(true);
+      setError(null);
       
       // 立即更新UI显示
       setCurrentSong(targetSong);
       
-      // 如果当前歌曲已经有URL，先开始播放，同时获取其他信息
+      // 如果当前歌曲已经有URL，先尝试转换为HTTPS
       if (targetSong.url) {
+        const secureUrl = await ensureHttps(targetSong.url);
+        setAudioUrl(secureUrl);
         if (audioRef.current) {
-          audioRef.current.src = targetSong.url;
+          audioRef.current.crossOrigin = 'anonymous';
+          audioRef.current.src = secureUrl;
           if (shouldAutoPlay.current && hasUserInteraction) {
             try {
               await audioRef.current.play();
@@ -302,14 +336,16 @@ export function MusicPlayer() {
 
       // 只有当歌曲没有URL时才重新获取
       if (!targetSong.url) {
-        // 获取音频URL
         const res = await fetch(
-          `${API_BASE}/song/url/v1?id=${targetSong.id}&level=standard&realIP=${userIP}`, {
-          mode: 'cors',
-          headers: {
-            'Accept': 'application/json'
+          `${API_BASE}/song/url/v1?id=${targetSong.id}&level=standard&realIP=${userIP}`,
+          {
+            mode: 'cors',
+            headers: {
+              'Accept': 'application/json',
+              'Origin': process.env.NEXT_PUBLIC_SITE_URL || 'https://ned-im-git-dev-15518658246163coms-projects.vercel.app'
+            }
           }
-        });
+        );
         
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);
@@ -321,8 +357,11 @@ export function MusicPlayer() {
           throw new Error('NO_URL');
         }
 
+        const secureUrl = await ensureHttps(data.data[0].url);
+        setAudioUrl(secureUrl);
         if (audioRef.current) {
-          audioRef.current.src = ensureHttps(data.data[0].url);
+          audioRef.current.crossOrigin = 'anonymous';
+          audioRef.current.src = secureUrl;
           if (shouldAutoPlay.current && hasUserInteraction) {
             try {
               await audioRef.current.play();
@@ -351,12 +390,19 @@ export function MusicPlayer() {
       if (musicDetail) {
         setMusicDetail(musicDetail);
       }
-    } catch (error: unknown) {
+    } catch (error) {
       console.error('切换歌曲失败:', error);
-      setError(`无法播放歌曲 "${targetSong.name}"，请尝试其他歌曲`);
+      if (error instanceof Error) {
+        if (error.message === 'NO_URL') {
+          setError(`无法播放歌曲 "${targetSong.name}"，请尝试其他歌曲`);
+        } else if (error.message.includes('403')) {
+          setError(`歌曲 "${targetSong.name}" 暂时无法访问，可能是版权限制`);
+        } else {
+          setError(`播放失败: ${error.message}`);
+        }
+      }
       setIsPlaying(false);
       shouldAutoPlay.current = false;
-      // 如果当前歌曲播放失败，尝试下一首
       playNextSong();
     } finally {
       setIsLoading(false);
@@ -640,7 +686,7 @@ export function MusicPlayer() {
       setError(null); // 清除错误状态
     };
 
-    const handleError = (e: Event) => {
+    const handleError = async (e: Event) => {
       const target = e.target as HTMLAudioElement;
       console.error("音频错误:", e, target.error);
       setIsBuffering(false);
@@ -667,12 +713,13 @@ export function MusicPlayer() {
 
       if (retryCount < MAX_RETRY_COUNT) {
         const nextRetryDelay = RETRY_DELAY * (retryCount + 1);
-        setTimeout(() => {
+        setTimeout(async () => {
           console.log(`尝试重新加载音频 (${retryCount + 1}/${MAX_RETRY_COUNT})`);
           setRetryCount(prev => prev + 1);
           if (currentSong?.url) {
-            audio.src = ensureHttps(currentSong.url);
-            audio.load();
+            const secureUrl = await ensureHttps(currentSong.url);
+            target.src = secureUrl;
+            target.load();
           }
         }, nextRetryDelay);
       } else {
@@ -956,11 +1003,18 @@ export function MusicPlayer() {
       <audio
         ref={audioRef}
         src={audioUrl || undefined}
+        crossOrigin="anonymous"
         onEnded={handleEnded}
         onTimeUpdate={handleTimeUpdate}
         onLoadedMetadata={handleLoadedMetadata}
         onError={(e) => {
           console.error("音频加载失败:", e);
+          const target = e.target as HTMLAudioElement;
+          if (target.error?.code === MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED) {
+            setError("当前浏览器不支持该音频格式，请尝试使用 Chrome 浏览器");
+          } else if (target.error?.code === MediaError.MEDIA_ERR_NETWORK) {
+            setError("网络错误，请检查网络连接");
+          }
           shouldAutoPlay.current = true;
           setIsPlaying(false);
           playNextSong();
