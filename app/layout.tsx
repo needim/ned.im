@@ -1,6 +1,6 @@
+import type { Metadata, Viewport } from "next";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
-import type { Metadata } from "next";
 import { Lexend } from "next/font/google";
 
 import { ThemeProvider } from "@/components/providers/theme-provider";
@@ -9,6 +9,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import Script from "next/script";
 import "./globals.css";
 import { MusicPlayer } from "@/components/blocks/music-player";
+import { cn } from "@/lib/utils";
 
 const LexendFont = Lexend({
   subsets: ["latin"],
@@ -18,15 +19,15 @@ const LexendFont = Lexend({
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.laogou717.com"),
   title: {
-    default: "Jonas (老狗)",
-    template: "Jonas (老狗) | %s",
+    default: "老狗",
+    template: "%s - 老狗",
   },
-  description: "AI enthusiast, video editor, and photographer. Breaking down information barriers in AI technology.",
+  description: "老狗的个人网站",
   openGraph: {
-    title: "Jonas (老狗)",
-    description: "AI enthusiast, video editor, and photographer. Breaking down information barriers in AI technology.",
+    title: "老狗",
+    description: "老狗的个人网站",
     url: "https://www.laogou717.com",
-    siteName: "Jonas (老狗)",
+    siteName: "老狗",
     locale: "zh_CN",
     type: "website",
   },
@@ -42,13 +43,20 @@ export const metadata: Metadata = {
     },
   },
   twitter: {
-    title: "Jonas (老狗)",
+    title: "老狗",
     card: "summary_large_image",
   },
   verification: {
-    // google: '',
-    // yandex: '',
+    google: "google-site-verification",
+    yandex: "yandex-verification",
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "white" },
+    { media: "(prefers-color-scheme: dark)", color: "black" },
+  ],
 };
 
 export default function RootLayout({
@@ -58,19 +66,45 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="zh-CN"
       className={`${GeistSans.variable} ${GeistMono.variable} ${LexendFont.variable}`}
       suppressHydrationWarning
     >
       <head>
         <ThemeScript />
+        <link
+          rel="preload"
+          href="/_next/static/media/66f30814ff6d7cdf.p.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/_next/static/media/84455f2b5a591033-s.p.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/_next/static/media/e11418ac562b8ac1-s.p.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
       </head>
-      <body>
+      <body
+        className={cn(
+          "min-h-screen bg-background font-sans antialiased",
+          GeistSans.variable,
+          GeistMono.variable
+        )}
+      >
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
-          storageKey="ned.im.theme"
           disableTransitionOnChange
         >
           <TooltipProvider
@@ -86,10 +120,6 @@ export default function RootLayout({
             </div>
           </TooltipProvider>
         </ThemeProvider>
-        <Script
-          data-domain="ned.im"
-          src="https://stats.ned.im/js/script.pageview-props.tagged-events.js"
-        />
       </body>
     </html>
   );

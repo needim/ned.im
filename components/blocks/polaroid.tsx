@@ -78,6 +78,7 @@ const Polaroid = ({
           className="object-cover rounded-lg bg-white p-1.5"
           src={src}
           alt=""
+          sizes="(max-width: 768px) 80px, (max-width: 1200px) 80px, 80px"
         />
       </motion.div>
     </motion.div>
