@@ -34,10 +34,36 @@ interface GeekPostContentProps {
 
 export function GeekPostContent({ post, content, slug }: GeekPostContentProps) {
   const [mounted, setMounted] = useState(false);
+  const [isVideoVisible, setIsVideoVisible] = useState(false);
+  const [isVideoLoading, setIsVideoLoading] = useState(true);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    // 使用 Intersection Observer 检测视频区域是否进入视口
+    if (post.videoUrl) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setIsVideoVisible(true);
+              observer.disconnect();
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+
+      const videoPlaceholder = document.getElementById('video-placeholder');
+      if (videoPlaceholder) {
+        observer.observe(videoPlaceholder);
+      }
+
+      return () => observer.disconnect();
+    }
+  }, [post.videoUrl]);
 
   if (!post) {
     return null;
@@ -93,14 +119,28 @@ export function GeekPostContent({ post, content, slug }: GeekPostContentProps) {
           </header>
 
           {post.videoUrl && (
-            <div className="relative mb-8 aspect-video overflow-hidden rounded-lg">
-              <iframe
-                src={post.videoUrl}
-                className="absolute inset-0 h-full w-full"
-                title={post.title}
-                allowFullScreen
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              />
+            <div id="video-placeholder" className="relative mb-8 aspect-video overflow-hidden rounded-lg bg-muted">
+              {isVideoVisible ? (
+                <>
+                  {isVideoLoading && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-muted">
+                      <div className="w-8 h-8 border-2 border-primary/20 border-t-primary rounded-full animate-spin" />
+                    </div>
+                  )}
+                  <iframe
+                    src={post.videoUrl}
+                    className="absolute inset-0 h-full w-full"
+                    title={post.title}
+                    allowFullScreen
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    onLoad={() => setIsVideoLoading(false)}
+                  />
+                </>
+              ) : (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-8 h-8 border-2 border-primary/20 border-t-primary rounded-full animate-spin" />
+                </div>
+              )}
             </div>
           )}
 
