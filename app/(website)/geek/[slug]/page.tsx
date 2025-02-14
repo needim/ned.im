@@ -1,8 +1,11 @@
 import { notFound } from "next/navigation";
 import { getGeekPostBySlug } from "@/lib/geek";
-import { GeekPostContent } from "@/components/blocks/geek-post-content";
+import { PostContent } from "@/components/blocks/post-content";
 import type { Metadata } from "next";
 import { compileMarkdown } from "@/lib/mdx";
+import ArticleLayout from "@/app/(website)/article-layout";
+
+export const revalidate = 60;
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -30,11 +33,13 @@ export default async function GeekPostPage(props: PageProps) {
   const compiledContent = await compileMarkdown(content);
 
   return (
-    <GeekPostContent 
-      post={post} 
-      content={compiledContent} 
-      slug={slug} 
-    />
+    <ArticleLayout>
+      <PostContent 
+        post={post} 
+        content={compiledContent} 
+        backLink="/geek" 
+      />
+    </ArticleLayout>
   );
 }
 

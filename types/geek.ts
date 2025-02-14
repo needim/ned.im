@@ -1,9 +1,10 @@
 export interface GeekPost {
+  slug: string;
+  fileName: string;
   title: string;
   description: string;
   date: string;
   videoUrl?: string;
-  slug: string;
   attachmentUrl?: string;
 }
 

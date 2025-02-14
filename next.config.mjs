@@ -5,7 +5,7 @@ const nextConfig = {
 	pageExtensions: ["mdx", "ts", "tsx"],
 	reactStrictMode: true,
 	experimental: {
-		mdxRs: false,
+		mdxRs: true,
 	},
 	images: {
 		remotePatterns: [

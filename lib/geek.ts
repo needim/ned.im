@@ -7,6 +7,18 @@ import matter from 'gray-matter';
 const geekDirectory = path.join(process.cwd(), 'content/geek');
 
 export const getAllGeekPosts = cache(async (): Promise<GeekPost[]> => {
+  const metadataCacheFile = path.join(process.cwd(), 'data', 'geek-metadata.json');
+
+  if (process.env.NODE_ENV === 'production') {
+    try {
+      const cached = await fs.readFile(metadataCacheFile, 'utf8');
+      const posts: GeekPost[] = JSON.parse(cached);
+      return posts;
+    } catch (error) {
+      console.warn("No cached metadata found, falling back to file system reading");
+    }
+  }
+
   try {
     const files = await fs.readdir(geekDirectory);
     const posts = await Promise.all(
@@ -20,6 +32,7 @@ export const getAllGeekPosts = cache(async (): Promise<GeekPost[]> => {
           
           return {
             slug,
+            fileName: file,
             title: data.title as string,
             description: data.description as string,
             date: data.date as string,
@@ -29,13 +42,21 @@ export const getAllGeekPosts = cache(async (): Promise<GeekPost[]> => {
         })
     );
 
-    // Sort by date
-    return posts.sort((a, b) => {
+    const sortedPosts = posts.sort((a, b) => {
       if (a.date && b.date) {
         return new Date(b.date).getTime() - new Date(a.date).getTime();
       }
       return 0;
     });
+
+    if (process.env.NODE_ENV === 'production') {
+      fs.writeFile(metadataCacheFile, JSON.stringify(sortedPosts), 'utf8')
+        .catch(err => {
+          console.error("Error writing metadata cache", err);
+        });
+    }
+    
+    return sortedPosts;
   } catch (error) {
     console.error('Failed to read from file system:', error);
     return [];
@@ -44,24 +65,18 @@ export const getAllGeekPosts = cache(async (): Promise<GeekPost[]> => {
 
 export const getGeekPostBySlug = cache(async (slug: string): Promise<{ meta: GeekMeta; content: string } | null> => {
   try {
-    // Get all files in the directory
-    const files = await fs.readdir(geekDirectory);
-    
-    // Find the file that matches the slug case-insensitively
-    const matchingFile = files.find(file => 
-      file.toLowerCase().replace(/\.mdx$/, '') === slug.toLowerCase()
-    );
-    
-    if (!matchingFile) {
-      console.error('No matching file found for slug:', slug);
+    // Retrieve cached posts and find the matching one by slug
+    const posts = await getAllGeekPosts();
+    const matchingPost = posts.find(post => post.slug.toLowerCase() === slug.toLowerCase());
+
+    if (!matchingPost || !matchingPost.fileName) {
+      console.error(`No matching file found for slug: ${slug}`);
       return null;
     }
 
-    const filePath = path.join(geekDirectory, matchingFile);
+    const filePath = path.join(geekDirectory, matchingPost.fileName);
     const fileContents = await fs.readFile(filePath, 'utf8');
     const { data, content } = matter(fileContents);
-    
-    console.log('MDX Frontmatter data:', data);
     
     const meta: GeekMeta = {
       title: data.title as string,
@@ -70,8 +85,6 @@ export const getGeekPostBySlug = cache(async (slug: string): Promise<{ meta: Gee
       videoUrl: data.videoUrl as string,
       attachmentUrl: data.attachmentUrl as string | undefined,
     };
-    
-    console.log('Processed meta:', meta);
 
     return { meta, content };
   } catch (error) {

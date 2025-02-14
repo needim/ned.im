@@ -14,6 +14,7 @@ interface MDXContentProps {
 interface ComponentProps {
   className?: string;
   children?: React.ReactNode;
+  id?: string;
 }
 
 const ImagePreview = React.memo(function ImagePreview({ 
@@ -53,17 +54,28 @@ const ImagePreview = React.memo(function ImagePreview({
         alt={alt || "预览图片"}
         className="max-w-[90vw] max-h-[90vh] object-contain"
         onClick={(e) => e.stopPropagation()}
+        onKeyDown={(e) => e.stopPropagation()}
       />
     </dialog>
   );
 });
 
 const MDXComponents = {
-  img: function MDXImage({ className, alt, src, ...props }: React.ImgHTMLAttributes<HTMLImageElement>) {
+  h1: ({ className, ...props }: ComponentProps) => (
+    <h1 className={cn("mt-2 scroll-m-20 text-4xl font-bold tracking-tight", className)} {...props} />
+  ),
+  h2: ({ className, ...props }: ComponentProps) => (
+    <h2 className={cn("mt-10 scroll-m-20 border-b pb-1 text-3xl font-semibold tracking-tight first:mt-0", className)} {...props} />
+  ),
+  h3: ({ className, ...props }: ComponentProps) => (
+    <h3 className={cn("mt-8 scroll-m-20 text-2xl font-semibold tracking-tight", className)} {...props} />
+  ),
+  h4: ({ className, ...props }: ComponentProps) => (
+    <h4 className={cn("mt-8 scroll-m-20 text-xl font-semibold tracking-tight", className)} {...props} />
+  ),
+  img: function MDXImage({ className, alt = "", src, ...props }: React.ImgHTMLAttributes<HTMLImageElement>) {
     const [showPreview, setShowPreview] = React.useState(false);
-    
     if (!src) return null;
-    
     return (
       <>
         <button
@@ -75,7 +87,7 @@ const MDXComponents = {
         >
           <img
             className="rounded-lg max-w-full h-auto"
-            alt={alt || ""}
+            alt={alt}
             src={src}
             {...props}
           />
@@ -129,9 +141,5 @@ const MDXComponents = {
 };
 
 export function MDXContent({ content }: MDXContentProps) {
-  return (
-    <article className="prose prose-zinc dark:prose-invert max-w-none">
-      <MDXRemote {...content} components={MDXComponents} />
-    </article>
-  );
+  return <MDXRemote {...content} components={MDXComponents} />;
 } 

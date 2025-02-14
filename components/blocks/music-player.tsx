@@ -465,6 +465,12 @@ export function MusicPlayer() {
           },
           credentials: 'omit'
         });
+
+        if (!playlistRes.ok) {
+          console.error('Error fetching playlist:', playlistRes.status, playlistRes.statusText);
+          return;
+        }
+
         const playlistData = await playlistRes.json();
         
         if (!playlistData.songs) {
@@ -532,8 +538,8 @@ export function MusicPlayer() {
           setCurrentSong(shuffledSongs[0]);
           isFirstLoad.current = false;
         }
-      } catch (error: unknown) {
-        console.error('获取歌单失败:', error);
+      } catch (error) {
+        console.error('Failed to fetch playlist:', error);
       }
     };
 
@@ -961,7 +967,7 @@ export function MusicPlayer() {
     // 如果 HTTPS 不可用，显示安全警告
     setError('当前使用非加密连接播放音乐，建议使用 HTTPS 以提高安全性');
     return baseUrl;
-  }, [setError]);
+  }, []);
 
   if (!currentSong) {
     return null;

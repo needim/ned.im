@@ -1,44 +1,3 @@
-import { IconWorld } from "@tabler/icons-react";
-import { type ClassValue, clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
-
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
-}
-
-export function formattedDate(date: string, options?: Intl.DateTimeFormatOptions) {
-  const defaultOptions: Intl.DateTimeFormatOptions = {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  };
-
-  return new Date(date).toLocaleDateString("zh-CN", { ...defaultOptions, ...options });
-}
-
-export function formattedDateTimeline(date: string, options?: Intl.DateTimeFormatOptions & { locale?: string }) {
-  if (!date) return '';
-  
-  const defaultOptions: Intl.DateTimeFormatOptions = {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  };
-
-  const locale = options?.locale || "zh-CN";
-  const { locale: _, ...dateTimeOptions } = { ...defaultOptions, ...options };
-
-  return new Date(date).toLocaleDateString(locale, dateTimeOptions);
-}
-
-export const navigation = [
-  { href: "/", label: "Home" },
-  { href: "/timeline", label: "Timeline" },
-  { href: "/notes", label: "Notes" },
-  { href: "/geek", label: "Geek" },
-  { href: "/qa", label: "Q&A" },
-];
-
 const dateFormat = {
   day: {
     year: "numeric" as const,
@@ -62,7 +21,7 @@ export const timelineItems = [
     date: '',
     event: '无业游民',
     title: '继续制作视频',
-    description: '当累计投入达到10000小时，那些看似沉寂的作品会像中子星物质般突然被「点亮」——每克重量都释放出超新星级别的能量。我希望保持这种克制的燃烧，宇宙一定会送来匹配我频率的观众星群。',
+    description: '当累计投入达到10000小时，那些看似沉寂的作品会像中子星物质般突然被「点亮」——每克重量都释放出超新星级别的能量。我希望保持这种克制的燃烧，宇宙一定会送来匹配我频率的观众星群.',
     icon: '🎥',
     photos: [
       { src: '/changelog/2024-01-01-全职博主/IMG_2055.JPG', variant: '4x5' },
@@ -100,7 +59,7 @@ export const timelineItems = [
     date: '2024-04-11',
     event: 'OneAPI部署',
     title: 'OneAPI部署经验',
-    description: 'OneAPI部署其实没有大家想的那么复杂，找个免费的SQL数据库对照着文档做基本不会有大问题。',
+    description: 'OneAPI部署其实没有大家想的那么复杂，找个免费的SQL数据库对照着文档做基本不会有大问题.',
     icon: '💻',
     photos: [
       { src: 'https://img.laogou717.com/file/335d626feb22b52bc4ade.jpg', variant: '4x3' }
@@ -141,7 +100,7 @@ export const timelineItems = [
     date: '2022-01-01',
     event: '遇见了她',
     title: '生命中的温暖',
-    description: '我当时是做公司的摄影,经常与她聊天,后来一起去玩了一次剧本杀,我们熟络了起来。她跟以前的我很像，胆小、幼稚但很善良。',
+    description: '我当时是做公司的摄影,经常与她聊天,后来一起去玩了一次剧本杀,我们熟络了起来。她跟以前的我很像，胆小、幼稚但很善良.',
     icon: '💝',
     photos: [
       { src: '/changelog/2022-01-01-遇见她/IMG_2028.JPG', variant: '4x3' },
@@ -153,7 +112,7 @@ export const timelineItems = [
     date: '2021',
     event: '电商实习生涯',
     title: '电商实习生涯',
-    description: '在电商公司实习，我说我希望一月能挣四千块，面试的人笑了出来，说当然可以了。呆了两年半认识了一些朋友,他们人都很好。',
+    description: '在电商公司实习，我说我希望一月能挣四千块，面试的人笑了出来，说当然可以了。呆了两年半认识了一些朋友,他们人都很好.',
     icon: '💼',
     photos: [
       { src: '/changelog/2021-06-01-电商实习/IMG_2066.JPG', variant: '1x1' },
@@ -167,7 +126,7 @@ export const timelineItems = [
     date: '2018-09-01',
     event: '警校生活',
     title: '寻找自我的三年',
-    description: '半封闭式的管理让我不适应，但我找到了自己的方向 - 阅读了大量的书籍，自学了我感谢去的东西，期望把浪费的时间都补回来。',
+    description: '半封闭式的管理让我不适应，但我找到了自己的方向 - 阅读了大量的书籍，自学了我感谢去的东西，期望把浪费的时间都补回来.',
     icon: '👮',
     photos: [
       { src: '/changelog/2018-09-01-警校/IMG_2040.JPG', variant: '4x3' },
@@ -179,7 +138,7 @@ export const timelineItems = [
     date: '2018-03-01',
     event: '电子厂流水线',
     title: '短暂的尝试与逃离',
-    description: '18年的暑假,我跟着朋友在苹果蓝牙耳机生产线上，我尝试改变自己内向的性格。一个新人的眼神仿佛看透了我，一瞬间我又变回了那个内向的自己。最后逃回老家。',
+    description: '18年的暑假,我跟着朋友在苹果蓝牙耳机生产线上，我尝试改变自己内向的性格。一个新人的眼神仿佛看透了我，一瞬间我又变回了那个内向的自己。最后逃回老家.',
     icon: '🏭',
     photos: [
       { src: '/changelog/2018-03-01-电子厂/IMG_2045.JPG', variant: '1x1' },
@@ -192,18 +151,19 @@ export const timelineItems = [
     date: '2008',
     event: '摄影初体验',
     title: '创意的萌芽',
-    description: '用母亲的摩托罗拉翻盖手机拍摄"特技视频"，虽然只能录制一分钟的无声视频，但我拍了很多有趣的画面，比如瞬间移动、第一视角的打斗视频。这是我第一次接触摄影创作。',
+    description: '用母亲的摩托罗拉翻盖手机拍摄"特技视频"，虽然只能录制一分钟的无声视频，但我拍了很多有趣的画面，比如瞬间移动、第一视角的打斗视频。这是我第一次接触摄影创作.',
     icon: '📱',
     photos: [
       { src: '/changelog/2008-01-01-第一次拍摄/motorola.png', variant: '4x5' },
-      { src: '/changelog/2008-01-01-第一次拍摄/IMG_2113.jpg', variant: '4x5' },],
+      { src: '/changelog/2008-01-01-第一次拍摄/IMG_2113.jpg', variant: '4x5' }
+    ],
     dateFormatOptions: dateFormat.year
   },
   {
     date: '1999-01-24',
     event: '生命的开始',
     title: '河南小村庄',
-    description: '我出生在中国河南的一个小村庄里，是父母结婚七年后的第一个孩子，我还有个小我三岁的弟弟。',
+    description: '我出生在中国河南的一个小村庄里，是父母结婚七年后的第一个孩子，我还有个小我三岁的弟弟.',
     icon: '👶',
     photos: [
       { src: '/changelog/1999-01-24-出生/IMG_2051.JPG', variant: '4x5' },
@@ -218,8 +178,10 @@ export const timelineItems = [
   }
 ];
 
-export const changelog = timelineItems.sort(
-  (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-);
-
-
+export const changelog = timelineItems
+  .filter(item => item.date) // Filter out items with empty dates
+  .sort((a, b) => {
+    const dateA = new Date(a.date).getTime();
+    const dateB = new Date(b.date).getTime();
+    return dateB - dateA;
+  }); 
