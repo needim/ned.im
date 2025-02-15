@@ -7,9 +7,10 @@ import matter from 'gray-matter';
 const geekDirectory = path.join(process.cwd(), 'content/geek');
 
 export const getAllGeekPosts = cache(async (): Promise<GeekPost[]> => {
-  const metadataCacheFile = path.join(process.cwd(), 'data', 'geek-metadata.json');
-
-  if (process.env.NODE_ENV === 'production') {
+  const isVercelProduction = process.env.NODE_ENV === 'production' && process.env.VERCEL;
+  let metadataCacheFile: string | null = null;
+  if (!isVercelProduction) {
+    metadataCacheFile = path.join(process.cwd(), 'data', 'geek-metadata.json');
     try {
       const cached = await fs.readFile(metadataCacheFile, 'utf8');
       const posts: GeekPost[] = JSON.parse(cached);
@@ -49,7 +50,7 @@ export const getAllGeekPosts = cache(async (): Promise<GeekPost[]> => {
       return 0;
     });
 
-    if (process.env.NODE_ENV === 'production') {
+    if (!isVercelProduction && metadataCacheFile) {
       fs.writeFile(metadataCacheFile, JSON.stringify(sortedPosts), 'utf8')
         .catch(err => {
           console.error("Error writing metadata cache", err);
@@ -83,6 +84,7 @@ export const getGeekPostBySlug = cache(async (slug: string): Promise<{ meta: Gee
       description: data.description as string,
       date: data.date as string,
       videoUrl: data.videoUrl as string,
+      biliVideoUrl: data.biliVideoUrl as string,
       attachmentUrl: data.attachmentUrl as string | undefined,
     };
 

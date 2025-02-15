@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 import { Lexend } from "next/font/google";
+import { headers } from 'next/headers';
 
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { ThemeScript } from "@/components/providers/theme-script";
@@ -10,6 +11,7 @@ import Script from "next/script";
 import "./globals.css";
 import { MusicPlayer } from "@/components/blocks/music-player";
 import { cn } from "@/lib/utils";
+import { Toaster } from 'sonner';
 
 const LexendFont = Lexend({
   subsets: ["latin"],
@@ -59,11 +61,16 @@ export const viewport: Viewport = {
   ],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // 从 headers 中获取国家信息
+  const headersList = await headers();
+  const country = headersList.get('x-user-country') || '';
+  console.log('Layout: Country from headers:', country);
+
   return (
     <html
       lang="zh-CN"
@@ -72,6 +79,7 @@ export default function RootLayout({
     >
       <head>
         <ThemeScript />
+        <meta name="user-country" content={country} />
         <link
           rel="preload"
           href="/_next/static/media/66f30814ff6d7cdf.p.woff2"
@@ -107,18 +115,21 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <TooltipProvider
-            delayDuration={10}
-            skipDelayDuration={10}
-            disableHoverableContent
-          >
-            <div className="flex w-full h-full min-h-full">
-              <div className="relative flex w-full h-full flex-col">
-                {children}
-                <MusicPlayer />
-              </div>
-            </div>
+          <TooltipProvider>
+            {children}
+            <MusicPlayer />
           </TooltipProvider>
+          <Toaster 
+            position="top-left"
+            toastOptions={{
+              style: {
+                background: 'var(--background)',
+                border: '1px solid var(--border)',
+                color: 'var(--foreground)',
+              },
+              className: 'font-sans',
+            }}
+          />
         </ThemeProvider>
       </body>
     </html>

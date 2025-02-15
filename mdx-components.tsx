@@ -2,6 +2,8 @@ import { IconExternalLink } from "@tabler/icons-react";
 import type { MDXComponents } from "mdx/types";
 import Image, { type ImageProps } from "next/image";
 import { cn } from "@/lib/utils";
+import MDXLayout from '@/components/blocks/mdx-layout';
+import type { ComponentProps } from "react";
 
 // This file allows you to provide custom React components
 // to be used in MDX files. You can import and use any
@@ -14,6 +16,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
 		// h1: ({ children }) => (
 		//   <h1 style={{ color: 'red', fontSize: '48px' }}>{children}</h1>
 		// ),
+		wrapper: MDXLayout,
 		img: (props) => (
 			// eslint-disable-next-line jsx-a11y/alt-text
 			<Image
@@ -69,6 +72,15 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
 				)}
 				{...props}
 			/>
+		),
+		h2: ({ className, ...props }: ComponentProps<'h2'>) => (
+			<h2 className={cn("mt-10 scroll-m-20 text-3xl font-semibold tracking-tight first:mt-0", className)} {...props} />
+		),
+		ul: ({ className, ...props }: ComponentProps<'ul'>) => (
+			<ul className={cn("list-disc ml-8 my-4", className)} {...props} />
+		),
+		li: ({ className, ...props }: ComponentProps<'li'>) => (
+			<li className={cn("mb-1", className)} {...props} />
 		),
 		...components,
 	};

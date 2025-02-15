@@ -9,6 +9,7 @@ import type { MDXRemoteSerializeResult } from "next-mdx-remote";
 import { formattedDate } from "@/lib/utils";
 import dynamic from "next/dynamic";
 import { MDXContent } from '@/components/mdx-content';
+import VideoEmbed from '@/components/blocks/video-embed';
 
 // Dynamic imports for MDX content and comments
 const ClientSideComments = dynamic(
@@ -22,6 +23,7 @@ export interface PostMeta {
   date: string;
   description?: string;
   videoUrl?: string;
+  biliVideoUrl?: string;
   attachmentUrl?: string;
   // Additional fields can be added if needed
 }
@@ -34,30 +36,10 @@ interface PostContentProps {
 
 export function PostContent({ post, content, backLink }: PostContentProps) {
   const [mounted, setMounted] = useState(false);
-  const [isVideoVisible, setIsVideoVisible] = useState(false);
-  const [isVideoLoading, setIsVideoLoading] = useState(true);
 
   useEffect(() => {
     setMounted(true);
   }, []);
-
-  useEffect(() => {
-    if (post.videoUrl) {
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsVideoVisible(true);
-            observer.disconnect();
-          }
-        });
-      }, { threshold: 0.1 });
-      const videoPlaceholder = document.getElementById("video-placeholder");
-      if (videoPlaceholder) {
-        observer.observe(videoPlaceholder);
-      }
-      return () => observer.disconnect();
-    }
-  }, [post.videoUrl]);
 
   if (!post) return null;
 
@@ -108,29 +90,12 @@ export function PostContent({ post, content, backLink }: PostContentProps) {
       </header>
 
       {/* Video Section */}
-      {post.videoUrl && (
-        <div id="video-placeholder" className="relative aspect-video overflow-hidden rounded-lg bg-muted mb-8">
-          {isVideoVisible ? (
-            <>
-              {isVideoLoading && (
-                <div className="absolute inset-0 flex items-center justify-center bg-muted">
-                  <div className="w-8 h-8 border-2 border-primary/20 border-t-primary rounded-full animate-spin" />
-                </div>
-              )}
-              <iframe
-                src={post.videoUrl}
-                className="absolute inset-0 h-full w-full"
-                title={post.title}
-                allowFullScreen
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                onLoad={() => setIsVideoLoading(false)}
-              />
-            </>
-          ) : (
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-8 h-8 border-2 border-primary/20 border-t-primary rounded-full animate-spin" />
-            </div>
-          )}
+      {post.videoUrl && post.biliVideoUrl && (
+        <div className="mb-8">
+          <VideoEmbed 
+            youtubeUrl={post.videoUrl}
+            biliUrl={post.biliVideoUrl}
+          />
         </div>
       )}
 

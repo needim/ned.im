@@ -5,6 +5,7 @@ export interface GeekPost {
   description: string;
   date: string;
   videoUrl?: string;
+  biliVideoUrl?: string;
   attachmentUrl?: string;
 }
 
@@ -13,5 +14,6 @@ export interface GeekMeta {
   description: string;
   date: string;
   videoUrl?: string;
+  biliVideoUrl?: string;
   attachmentUrl?: string;
 } 

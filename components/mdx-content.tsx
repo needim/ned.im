@@ -6,6 +6,7 @@ import type { MDXRemoteSerializeResult } from "next-mdx-remote";
 import { cn } from "@/lib/utils";
 import { CopyButton } from "@/components/blocks/copy-button";
 import { IconX } from "@tabler/icons-react";
+import VideoEmbed from "@/components/blocks/video-embed";
 
 interface MDXContentProps {
   content: MDXRemoteSerializeResult;
@@ -61,11 +62,12 @@ const ImagePreview = React.memo(function ImagePreview({
 });
 
 const MDXComponents = {
+  VideoEmbed,
   h1: ({ className, ...props }: ComponentProps) => (
     <h1 className={cn("mt-2 scroll-m-20 text-4xl font-bold tracking-tight", className)} {...props} />
   ),
-  h2: ({ className, ...props }: ComponentProps) => (
-    <h2 className={cn("mt-10 scroll-m-20 border-b pb-1 text-3xl font-semibold tracking-tight first:mt-0", className)} {...props} />
+  h2: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
+    <h2 {...props} className={cn("mt-10 scroll-m-20 pb-1 text-3xl font-semibold tracking-tight first:mt-0", props.className)} />
   ),
   h3: ({ className, ...props }: ComponentProps) => (
     <h3 className={cn("mt-8 scroll-m-20 text-2xl font-semibold tracking-tight", className)} {...props} />
@@ -73,31 +75,7 @@ const MDXComponents = {
   h4: ({ className, ...props }: ComponentProps) => (
     <h4 className={cn("mt-8 scroll-m-20 text-xl font-semibold tracking-tight", className)} {...props} />
   ),
-  img: function MDXImage({ className, alt = "", src, ...props }: React.ImgHTMLAttributes<HTMLImageElement>) {
-    const [showPreview, setShowPreview] = React.useState(false);
-    if (!src) return null;
-    return (
-      <>
-        <button
-          className={cn("block w-full cursor-zoom-in", className)}
-          onClick={() => setShowPreview(true)}
-          onKeyDown={(e) => e.key === 'Enter' && setShowPreview(true)}
-          type="button"
-          aria-label={alt || "点击查看大图"}
-        >
-          <img
-            className="rounded-lg max-w-full h-auto"
-            alt={alt}
-            src={src}
-            {...props}
-          />
-        </button>
-        {showPreview && (
-          <ImagePreview src={src} alt={alt} onClose={() => setShowPreview(false)} />
-        )}
-      </>
-    );
-  },
+  img: (props: React.ImgHTMLAttributes<HTMLImageElement>) => <img {...props} alt={props.alt || "Image"} />,
   pre: function MDXPre({ children, className, ...props }: ComponentProps) {
     const childArray = React.Children.toArray(children);
     const code = childArray.find(
@@ -137,9 +115,45 @@ const MDXComponents = {
         {children}
       </code>
     );
-  }
+  },
+  table: (props: React.TableHTMLAttributes<HTMLTableElement>) => {
+    const { className, ...rest } = props;
+    return (
+      <div className="my-6 w-full overflow-y-auto rounded-xl bg-white/5 backdrop-blur-sm">
+        <table {...rest} className={cn("w-full border-separate border-spacing-0", className)}>
+          {props.children}
+        </table>
+      </div>
+    );
+  },
+  th: ({ className, ...props }: ComponentProps) => (
+    <th className={cn(
+      "bg-zinc-100/10 backdrop-blur-sm first:rounded-tl-xl last:rounded-tr-xl",
+      "px-6 py-4 text-left font-semibold text-zinc-700 dark:text-zinc-300",
+      "border-b border-zinc-200/10",
+      className
+    )} {...props} />
+  ),
+  td: ({ className, ...props }: ComponentProps) => (
+    <td className={cn(
+      "px-6 py-4 text-zinc-600 dark:text-zinc-400",
+      "border-b border-zinc-200/10",
+      "last-of-type:border-r-0",
+      "transition-colors hover:bg-zinc-100/5",
+      className
+    )} {...props} />
+  ),
 };
 
 export function MDXContent({ content }: MDXContentProps) {
-  return <MDXRemote {...content} components={MDXComponents} />;
+  // Extract frontmatter variables from scope
+  const { scope = {}, ...restContent } = content;
+  
+  return (
+    <MDXRemote 
+      {...restContent} 
+      components={MDXComponents}
+      scope={scope} // Pass frontmatter variables to MDX content
+    />
+  );
 } 
