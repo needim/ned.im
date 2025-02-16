@@ -9,14 +9,17 @@ export const revalidate = 60;
 
 type PageProps = {
   params: Promise<{ slug: string[] }>;
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
-export default async function GeekPostPage({ params, searchParams }: PageProps) {
-  // 等待 params 解析完成
-  const resolvedParams = await params;
+export default async function GeekPostPage(props: PageProps) {
+  const [params, searchParams] = await Promise.all([
+    props.params,
+    props.searchParams
+  ]);
+  
   // 将路径数组转换为路径字符串
-  const slug = resolvedParams.slug.join('/');
+  const slug = params.slug.join('/');
 
   if (!slug) {
     notFound();
@@ -42,10 +45,13 @@ export default async function GeekPostPage({ params, searchParams }: PageProps) 
   );
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  // 等待 params 解析完成
-  const resolvedParams = await params;
-  const slug = resolvedParams.slug.join('/');
+export async function generateMetadata(props: PageProps): Promise<Metadata> {
+  const [params, searchParams] = await Promise.all([
+    props.params,
+    props.searchParams
+  ]);
+  
+  const slug = params.slug.join('/');
   
   if (!slug) {
     return {
