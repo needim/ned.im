@@ -4,11 +4,13 @@ import type { NextRequest } from 'next/server'
 export function middleware(request: NextRequest) {
   const response = NextResponse.next()
   
-  // 在开发环境中模拟中国地区
+  // 在开发环境中模拟不同地区
   if (process.env.NODE_ENV === 'development') {
     console.log('Middleware: Development environment detected')
-    response.headers.set('x-user-country', 'CN')
-    console.log('Middleware: Set country to CN in development')
+    // 修改这里的 'CN' 为其他国家代码来测试不同地区
+    // 例如：'US' 美国, 'JP' 日本, 'GB' 英国, 'CN' 中国
+    response.headers.set('x-user-country', 'US')
+    console.log('Middleware: Set country to US in development')
   } else {
     // 生产环境中使用 Vercel 的地理位置检测
     const country = request.headers.get('x-vercel-ip-country') || ''

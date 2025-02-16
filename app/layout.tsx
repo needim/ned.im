@@ -7,6 +7,7 @@ import { headers } from 'next/headers';
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { ThemeScript } from "@/components/providers/theme-script";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { UserInteractionProvider } from "@/components/providers/user-interaction";
 import Script from "next/script";
 import "./globals.css";
 import { MusicPlayer } from "@/components/blocks/music-player";
@@ -101,6 +102,13 @@ export default async function RootLayout({
           type="font/woff2"
           crossOrigin="anonymous"
         />
+        <link
+          rel="preload"
+          href="/sounds/pop.mp3"
+          as="audio"
+          type="audio/mpeg"
+          crossOrigin="anonymous"
+        />
       </head>
       <body
         className={cn(
@@ -109,6 +117,7 @@ export default async function RootLayout({
           GeistMono.variable
         )}
       >
+        <UserInteractionProvider />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

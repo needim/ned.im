@@ -62,7 +62,7 @@ export function Footer() {
                   Deployed on <IconBrandVercel className="size-4 inline" />
                 </Link>
                 <Link
-                  href="https://github.com/needim/ned.im"
+                  href="https://github.com/laogou717/ned.im"
                   target="_blank"
                   rel="nofollow"
                   className="items-center flex gap-1 dark:hover:text-white"

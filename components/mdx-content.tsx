@@ -5,8 +5,13 @@ import { MDXRemote } from "next-mdx-remote";
 import type { MDXRemoteSerializeResult } from "next-mdx-remote";
 import { cn } from "@/lib/utils";
 import { CopyButton } from "@/components/blocks/copy-button";
-import { IconX } from "@tabler/icons-react";
+import { IconX, IconEye } from "@tabler/icons-react";
 import VideoEmbed from "@/components/blocks/video-embed";
+import { ImageViewer } from "@/components/blocks/image-viewer";
+import { LinkButton } from "@/components/blocks/link-button";
+import { GitHubButton } from "@/components/blocks/github-button";
+import { PreviousPost } from "@/components/blocks/previous-post";
+import { DeployButton } from "@/components/blocks/deploy-button";
 
 interface MDXContentProps {
   content: MDXRemoteSerializeResult;
@@ -18,51 +23,12 @@ interface ComponentProps {
   id?: string;
 }
 
-const ImagePreview = React.memo(function ImagePreview({ 
-  src, 
-  alt, 
-  onClose 
-}: { 
-  src: string; 
-  alt?: string; 
-  onClose: () => void; 
-}) {
-  React.useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
-    };
-    document.addEventListener('keydown', handleEscape);
-    return () => document.removeEventListener('keydown', handleEscape);
-  }, [onClose]);
-
-  return (
-    <dialog 
-      open
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80"
-      onClick={onClose}
-      onKeyDown={(e) => e.key === 'Escape' && onClose()}
-    >
-      <button 
-        className="absolute top-4 right-4 p-2 text-white hover:text-zinc-300 transition-colors"
-        onClick={onClose}
-        onKeyDown={(e) => e.key === 'Enter' && onClose()}
-        aria-label="关闭预览"
-      >
-        <IconX className="w-6 h-6" />
-      </button>
-      <img
-        src={src}
-        alt={alt || "预览图片"}
-        className="max-w-[90vw] max-h-[90vh] object-contain"
-        onClick={(e) => e.stopPropagation()}
-        onKeyDown={(e) => e.stopPropagation()}
-      />
-    </dialog>
-  );
-});
-
 const MDXComponents = {
   VideoEmbed,
+  LinkButton,
+  GitHubButton,
+  PreviousPost,
+  DeployButton,
   h1: ({ className, ...props }: ComponentProps) => (
     <h1 className={cn("mt-2 scroll-m-20 text-4xl font-bold tracking-tight", className)} {...props} />
   ),
@@ -75,14 +41,79 @@ const MDXComponents = {
   h4: ({ className, ...props }: ComponentProps) => (
     <h4 className={cn("mt-8 scroll-m-20 text-xl font-semibold tracking-tight", className)} {...props} />
   ),
-  img: (props: React.ImgHTMLAttributes<HTMLImageElement>) => <img {...props} alt={props.alt || "Image"} />,
+  blockquote: ({ className, ...props }: ComponentProps) => (
+    <blockquote 
+      className={cn(
+        "relative my-6",
+        "px-6 py-4",
+        "bg-gradient-to-br from-zinc-100/80 via-zinc-100/40 to-zinc-100/20",
+        "dark:from-zinc-800/80 dark:via-zinc-800/40 dark:to-zinc-800/20",
+        "backdrop-blur-sm",
+        "border-l-4 border-zinc-300/80 dark:border-zinc-600/80",
+        "rounded-r-xl",
+        "text-zinc-700 dark:text-zinc-300",
+        "shadow-sm",
+        "not-italic",
+        className
+      )} 
+      {...props} 
+    />
+  ),
+  img: function Image({ src, alt, ...props }: React.ImgHTMLAttributes<HTMLImageElement>) {
+    const imgRef = React.useRef<HTMLDivElement>(null);
+    const [isHovered, setIsHovered] = React.useState(false);
+    const [localImages, setLocalImages] = React.useState<string[]>([]);
+
+    React.useEffect(() => {
+      if (src && !localImages.includes(src)) {
+        setLocalImages(prev => [...prev, src]);
+      }
+    }, [src, localImages]);
+
+    const handleClick = () => {
+      if (src) {
+        const index = localImages.indexOf(src);
+        if (index !== -1) {
+          // Remove the onClick call since we handle the click in the button wrapper
+        }
+      }
+    };
+
+    return (
+      <div 
+        ref={imgRef}
+        className="relative group contents"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        <img 
+          src={src} 
+          alt={alt || "Article image"}
+          className="rounded-lg select-none"
+          style={{ maxWidth: '100%', height: 'auto' }}
+          draggable={false}
+        />
+        {isHovered && (
+          <button
+            onClick={handleClick}
+            className="absolute top-3 right-3 p-2 rounded-full bg-zinc-800/50 text-white 
+              hover:bg-zinc-700/50 transition-colors backdrop-blur-sm
+              opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+            aria-label="View larger image"
+          >
+            <IconEye className="w-5 h-5" />
+          </button>
+        )}
+      </div>
+    );
+  },
   pre: function MDXPre({ children, className, ...props }: ComponentProps) {
     const childArray = React.Children.toArray(children);
-    const code = childArray.find(
-      (child) => React.isValidElement(child) && child.type === "code"
-    ) as React.ReactElement;
     
-    const text = code?.props?.children || "";
+    // 直接从 pre 标签获取文本
+    const rawText = React.isValidElement(children) 
+      ? React.Children.toArray((children as React.ReactElement).props.children).join('')
+      : '';
 
     return (
       <div className="group relative">
@@ -95,7 +126,7 @@ const MDXComponents = {
         >
           {children}
         </pre>
-        <CopyButton text={text} />
+        <CopyButton text={rawText} />
       </div>
     );
   },
@@ -146,14 +177,80 @@ const MDXComponents = {
 };
 
 export function MDXContent({ content }: MDXContentProps) {
-  // Extract frontmatter variables from scope
-  const { scope = {}, ...restContent } = content;
-  
+  const [viewerOpen, setViewerOpen] = React.useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = React.useState(0);
+  const [images, setImages] = React.useState<string[]>([]);
+
+  const handleImageClick = React.useCallback((src: string) => {
+    const index = images.indexOf(src);
+    if (index !== -1) {
+      setCurrentImageIndex(index);
+      setViewerOpen(true);
+    }
+  }, [images]);
+
+  const addImage = React.useCallback((src: string) => {
+    setImages(prev => {
+      if (!prev.includes(src)) {
+        return [...prev, src];
+      }
+      return prev;
+    });
+  }, []);
+
+  const ImageComponent = React.useCallback(({ src, alt }: React.ImgHTMLAttributes<HTMLImageElement>) => {
+    React.useEffect(() => {
+      if (src) {
+        addImage(src);
+      }
+    }, [src]);
+
+    const imageDescription = alt || "Article image";
+    
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        src && handleImageClick(src);
+      }
+    };
+    
+    return (
+      <button
+        type="button"
+        onClick={() => src && handleImageClick(src)}
+        onKeyDown={handleKeyDown}
+        className="p-0 m-0 border-0 bg-transparent block"
+        style={{ marginBottom: '0.5rem' }}
+      >
+        <img 
+          src={src} 
+          alt={imageDescription}
+          className="rounded-lg select-none cursor-pointer"
+          style={{ 
+            maxWidth: '100%',
+            height: 'auto',
+            display: 'block'
+          }}
+          draggable={false}
+        />
+      </button>
+    );
+  }, [handleImageClick, addImage]);
+
+  const components = React.useMemo(() => ({
+    ...MDXComponents,
+    img: ImageComponent
+  }), [ImageComponent]);
+
   return (
-    <MDXRemote 
-      {...restContent} 
-      components={MDXComponents}
-      scope={scope} // Pass frontmatter variables to MDX content
-    />
+    <>
+      <MDXRemote {...content} components={components} />
+      {viewerOpen && (
+        <ImageViewer
+          images={images}
+          currentIndex={currentImageIndex}
+          onClose={() => setViewerOpen(false)}
+        />
+      )}
+    </>
   );
 } 

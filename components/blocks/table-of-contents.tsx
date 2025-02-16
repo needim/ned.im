@@ -42,7 +42,7 @@ export function TableOfContents() {
         key={heading.id} 
         className={cn(
           "toc-heading",
-          isNested && "ml-3"
+          isNested && "ml-4 border-l border-border/40 pl-3"
         )}
       >
         <div className="group flex items-center w-full text-left relative py-1">
@@ -74,18 +74,18 @@ export function TableOfContents() {
           <a 
             href={`#${heading.id}`}
             className={cn(
-              "text-sm flex-1",
-              isTopLevel ? "pl-5" : "pl-0",
+              "text-sm flex-1 max-w-[200px] overflow-hidden",
+              isTopLevel ? "pl-5 font-medium" : "pl-0 text-[13px]",
               isActive ? "text-primary font-medium" : "text-muted-foreground hover:text-primary"
             )}
           >
-            <span className="truncate">{heading.text}</span>
+            <span className="block truncate">{heading.text}</span>
           </a>
         </div>
         
         {/* 子标题容器 */}
         {isTopLevel && expanded && heading.subHeadings && heading.subHeadings.length > 0 && (
-          <div className="mt-1">
+          <div className="mt-1 mb-2">
             {heading.subHeadings.map(subHeading => renderHeading(subHeading, true))}
           </div>
         )}
@@ -100,7 +100,7 @@ export function TableOfContents() {
   return (
     <nav 
       className={cn(
-        "toc p-4 rounded-lg bg-card/50 border shadow-lg transition-all duration-500",
+        "toc p-4 rounded-lg bg-card/50 border shadow-lg transition-all duration-500 max-w-[280px]",
         isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8"
       )}
     >
