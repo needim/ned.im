@@ -1,9 +1,11 @@
 export interface GeekPost {
+  slug: string;
+  fileName: string;
   title: string;
   description: string;
   date: string;
   videoUrl?: string;
-  slug: string;
+  biliVideoUrl?: string;
   attachmentUrl?: string;
 }
 
@@ -12,5 +14,6 @@ export interface GeekMeta {
   description: string;
   date: string;
   videoUrl?: string;
+  biliVideoUrl?: string;
   attachmentUrl?: string;
 } 

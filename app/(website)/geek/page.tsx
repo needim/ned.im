@@ -1,10 +1,10 @@
 import { Container } from "@/components/blocks/container";
 import { GeekCard } from "@/components/blocks/geek-card";
 import { getAllGeekPosts } from "@/lib/geek";
-import { unstable_noStore } from "next/cache";
+
+export const revalidate = 60; // 启用 ISR，每60秒重新生成页面
 
 export default async function GeekPage() {
-  unstable_noStore();
   const posts = await getAllGeekPosts();
 
   return (

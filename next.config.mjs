@@ -5,7 +5,7 @@ const nextConfig = {
 	pageExtensions: ["mdx", "ts", "tsx"],
 	reactStrictMode: true,
 	experimental: {
-		mdxRs: false,
+		mdxRs: true,
 	},
 	images: {
 		remotePatterns: [
@@ -72,7 +72,7 @@ const nextConfig = {
 					},
 					{
 						key: 'Content-Security-Policy',
-						value: "default-src 'self' https:; script-src 'self' 'unsafe-eval' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https: http://*.music.126.net https://*.music.126.net https://i.ytimg.com; media-src 'self' https: http://*.music.126.net https://*.music.126.net http://m*.music.126.net https://m*.music.126.net; font-src 'self' data: https:; connect-src 'self' https: wss://*.pusher.com https://*.laogou717.com https://*.music.126.net http://*.music.126.net https://music.laogou717.com;"
+						value: "default-src 'self' https:; script-src 'self' 'unsafe-eval' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https: http://*.music.126.net https://*.music.126.net https://i.ytimg.com; media-src 'self' blob: https: http://*.music.126.net https://*.music.126.net http://m*.music.126.net https://m*.music.126.net; font-src 'self' data: https:; connect-src 'self' https: wss://*.pusher.com https://*.laogou717.com https://*.music.126.net http://*.music.126.net https://music.laogou717.com;"
 					},
 					{
 						key: 'Access-Control-Allow-Origin',

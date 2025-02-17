@@ -1,8 +1,9 @@
 ---
 title: "本地部署 DeepSeek R1 无审查版本"
 description: "详细介绍如何在本地部署 Ollama 和 DeepSeek R1 模型，包括环境配置、模型管理和 WebUI 对接等内容"
-date: "2024-02-05"
+date: "2025-02-10"
 videoUrl: "https://www.youtube.com/embed/_2EK2CmU-SU?si=fj5UNDdDGus8frvI"
+biliVideoUrl: "https://player.bilibili.com/player.html?isOutside=true&bvid=BV12k4y197v6&autoplay=0"
 attachmentUrl: "/attachments/nextjs-app-router.mdx"
 ---
 
@@ -34,35 +35,13 @@ attachmentUrl: "/attachments/nextjs-app-router.mdx"
 
 各型号配置要求：
 
-版本 1.5B
-	•	内存：8GB+
-	•	CPU：i5/Ryzen 5
-	•	GPU：集成显卡或低端独显
-	•	适用场景：基础对话、简单文本生成
-
-版本 7B/8B
-	•	内存：16GB+（建议24GB）
-	•	CPU：i7/Ryzen 7
-	•	GPU：RTX 3060及以上
-	•	适用场景：通用对话、代码生成
-
-版本 14B
-	•	内存：32GB+
-	•	CPU：i9/Ryzen 9
-	•	GPU：RTX 3080/4070
-	•	适用场景：长文本推理、专业应用
-
-版本 32B
-	•	内存：64GB+
-	•	CPU：高性能多核服务器
-	•	GPU：双卡专业级GPU
-	•	适用场景：科研计算、复杂检索
-
-版本 70B
-	•	内存：128GB+
-	•	CPU：服务器级多核系统
-	•	GPU：多卡GPU集群
-	•	适用场景：企业级私有化部署
+| 版本    | 内存           | CPU              | GPU                 | 适用场景                   |
+|---------|----------------|-------------------|----------------------|----------------------------|
+| 1.5B    | 8GB+           | i5/Ryzen 5        | 集成显卡或低端独显   | 基础对话、简单文本生成      |
+| 7B/8B   | 16GB+（建议24GB）| i7/Ryzen 7       | RTX 3060及以上       | 通用对话、代码生成          |
+| 14B     | 32GB+          | i9/Ryzen 9        | RTX 3080/4070        | 长文本推理、专业应用        |
+| 32B     | 64GB+          | 高性能多核服务器  | 双卡专业级GPU        | 科研计算、复杂检索          |
+| 70B     | 128GB+         | 服务器级多核系统  | 多卡GPU集群          | 企业级私有化部署            |
 
 > **提示**：实际配置需根据模型文件大小、使用场景和系统 I/O 性能进行合理规划。
 

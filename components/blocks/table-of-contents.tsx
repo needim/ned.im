@@ -1,187 +1,113 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { IconChevronRight } from "@tabler/icons-react";
-
-interface Heading {
-  id: string;
-  text: string;
-  level: number;
-  subHeadings?: Heading[];
-}
+import { useHeadings } from '@/components/hooks/useHeadings';
+import type { Heading } from '@/components/hooks/useHeadings';
 
 export function TableOfContents() {
-  const [headings, setHeadings] = useState<Heading[]>([]);
-  const [activeId, setActiveId] = useState<string>("");
-  const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set());
-
-  const findParentHeading = useCallback((headings: Heading[], targetId: string): Heading | null => {
-    for (const heading of headings) {
-      if (heading.id === targetId) return heading;
-      if (heading.subHeadings?.some(sub => sub.id === targetId)) {
-        return heading;
-      }
-      if (heading.subHeadings) {
-        const found = findParentHeading(heading.subHeadings, targetId);
-        if (found) return heading;
-      }
-    }
-    return null;
-  }, []);
+  const { headings, activeId, expandedSections } = useHeadings();
+  const [isVisible, setIsVisible] = useState(false);
+  const [localExpanded, setLocalExpanded] = useState<Set<string>>(new Set());
 
   useEffect(() => {
-    const articleContent = document.querySelector('.prose');
-    if (!articleContent) return;
+    const timer = setTimeout(() => setIsVisible(true), 500);
+    return () => clearTimeout(timer);
+  }, []);
 
-    const elements = Array.from(articleContent.querySelectorAll("h2, h3, h4")).map((element, index) => {
-      if (!element.id) {
-        element.id = `heading-${index}`;
-      }
-      return element;
-    });
+  // 合并自动展开和手动展开的状态
+  const isExpanded = (id: string) => expandedSections.has(id) || localExpanded.has(id);
 
-    const buildHeadingTree = (headingElements: Element[]): Heading[] => {
-      const headings: Heading[] = [];
-      let currentH2: Heading | null = null;
-      let currentH3: Heading | null = null;
-
-      headingElements.forEach((element) => {
-        const level = Number(element.tagName.charAt(1));
-        const heading: Heading = {
-          id: element.id,
-          text: element.textContent || "",
-          level,
-          subHeadings: [],
-        };
-
-        if (level === 2) {
-          headings.push(heading);
-          currentH2 = heading;
-          currentH3 = null;
-        } else if (level === 3 && currentH2) {
-          if (!currentH2.subHeadings) currentH2.subHeadings = [];
-          currentH2.subHeadings.push(heading);
-          currentH3 = heading;
-        } else if (level === 4 && currentH3) {
-          if (!currentH3.subHeadings) currentH3.subHeadings = [];
-          currentH3.subHeadings.push(heading);
-        }
-      });
-
-      return headings;
-    };
-
-    const headingTree = buildHeadingTree(elements);
-    setHeadings(headingTree);
-
-    const updateActiveHeading = (entries: IntersectionObserverEntry[]) => {
-      const visibleHeadings = entries
-        .filter(entry => entry.isIntersecting)
-        .map(entry => entry.target);
-
-      if (visibleHeadings.length > 0) {
-        const currentHeading = visibleHeadings[0];
-        setActiveId(currentHeading.id);
-        
-        // 找到当前可见标题的父级标题
-        const parentHeading = findParentHeading(headingTree, currentHeading.id);
-        
-        // 只展开当前可见标题的父级
-        setExpandedSections(new Set(parentHeading ? [parentHeading.id] : []));
-      }
-    };
-
-    const observer = new IntersectionObserver(updateActiveHeading, {
-      rootMargin: "-20% 0% -35% 0%",
-      threshold: 1.0,
-    });
-
-    elements.forEach(element => observer.observe(element));
-
-    return () => observer.disconnect();
-  }, [findParentHeading]);
-
-  const toggleSection = (headingId: string) => {
-    setExpandedSections(prev => {
-      const next = new Set(prev);
-      if (next.has(headingId)) {
-        next.delete(headingId);
+  const toggleExpand = (id: string) => {
+    setLocalExpanded(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(id)) {
+        newSet.delete(id);
       } else {
-        // 关闭其他所有展开的部分
-        next.clear();
-        next.add(headingId);
+        newSet.add(id);
       }
-      return next;
+      return newSet;
     });
   };
 
-  const renderHeading = (heading: Heading) => {
-    const hasSubHeadings = heading.subHeadings && heading.subHeadings.length > 0;
-    const isExpanded = expandedSections.has(heading.id);
+  const renderHeading = (heading: Heading, isNested = false) => {
+    const expanded = isExpanded(heading.id);
+    const isActive = activeId === heading.id;
+    const hasSubHeadings = Boolean(heading.subHeadings?.length);
+    const isTopLevel = heading.level === 2;
 
     return (
-      <li key={heading.id}>
-        <div className="flex items-center gap-1">
-          {/* 所有 h2 标题都显示箭头 */}
-          {heading.level === 2 && (
+      <div 
+        key={heading.id} 
+        className={cn(
+          "toc-heading",
+          isNested && "ml-4 border-l border-border/40 pl-3"
+        )}
+      >
+        <div className="group flex items-center w-full text-left relative py-1">
+          {/* 展开图标按钮 - 只在顶级标题显示 */}
+          {isTopLevel && (
             <button
-              onClick={() => toggleSection(heading.id)}
-              className="p-0.5 hover:bg-accent rounded-sm transition-colors"
+              type="button"
+              className={cn(
+                "absolute left-0 w-5 h-5 flex items-center justify-center",
+                "hover:text-primary transition-colors",
+                "focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              )}
+              onClick={(e) => {
+                e.preventDefault();
+                toggleExpand(heading.id);
+              }}
+              aria-label={expanded ? "收起子目录" : "展开子目录"}
             >
-              <IconChevronRight
+              <IconChevronRight 
                 className={cn(
-                  "w-3 h-3 transition-transform",
-                  isExpanded && "transform rotate-90"
+                  "w-3.5 h-3.5 transition-transform duration-200",
+                  expanded && "transform rotate-90"
                 )}
               />
             </button>
           )}
-          <a
+          
+          {/* 标题链接 */}
+          <a 
             href={`#${heading.id}`}
             className={cn(
-              "text-sm text-muted-foreground hover:text-foreground transition-colors line-clamp-1",
-              activeId === heading.id && "font-medium text-foreground",
-              heading.level === 3 && "ml-4",
-              heading.level === 4 && "ml-8"
+              "text-sm flex-1 max-w-[200px] overflow-hidden",
+              isTopLevel ? "pl-5 font-medium" : "pl-0 text-[13px]",
+              isActive ? "text-primary font-medium" : "text-muted-foreground hover:text-primary"
             )}
-            onClick={(e) => {
-              e.preventDefault();
-              const element = document.getElementById(heading.id);
-              if (element) {
-                const yOffset = -100;
-                const y = element.getBoundingClientRect().top + window.scrollY + yOffset;
-                window.scrollTo({ top: y, behavior: "smooth" });
-              }
-              if (heading.level === 2) {
-                toggleSection(heading.id);
-              }
-            }}
           >
-            {heading.text}
+            <span className="block truncate">{heading.text}</span>
           </a>
         </div>
-        {hasSubHeadings && isExpanded && (
-          <ul className="mt-1 space-y-1">
-            {heading.subHeadings?.map(renderHeading)}
-          </ul>
+        
+        {/* 子标题容器 */}
+        {isTopLevel && expanded && heading.subHeadings && heading.subHeadings.length > 0 && (
+          <div className="mt-1 mb-2">
+            {heading.subHeadings.map(subHeading => renderHeading(subHeading, true))}
+          </div>
         )}
-      </li>
+      </div>
     );
   };
 
-  if (headings.length === 0) return null;
+  if (headings.length === 0) {
+    return null;
+  }
 
   return (
-    <div className="hidden xl:block absolute right-[-20rem] top-0 w-64 h-full">
-      <div className="sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto">
-        <div className="p-6 bg-card rounded-xl border">
-          <h4 className="text-sm font-medium mb-4">目录</h4>
-          <ul className="space-y-2.5">
-            {headings.map(renderHeading)}
-          </ul>
-        </div>
+    <nav 
+      className={cn(
+        "toc p-4 rounded-lg bg-card/50 border shadow-lg transition-all duration-500 max-w-[280px]",
+        isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8"
+      )}
+    >
+      <div className="text-sm font-medium mb-2 text-muted-foreground">目录</div>
+      <div className="space-y-1">
+        {headings.map(heading => renderHeading(heading))}
       </div>
-    </div>
+    </nav>
   );
 } 

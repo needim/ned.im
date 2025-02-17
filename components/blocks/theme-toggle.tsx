@@ -5,18 +5,13 @@ import { cn } from "@/lib/utils";
 import {
   IconContrastFilled,
   IconMoon,
-  IconSun,
   IconSunFilled,
 } from "@tabler/icons-react";
 import { motion, useAnimation } from "motion/react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
-export function ThemeToggle({
-  hideIndicator = false,
-}: {
-  hideIndicator?: boolean;
-}) {
+export function ThemeToggle() {
   const [mounted, setMounted] = useState(false);
   const { setTheme, theme } = useTheme();
   const controlsSun = useAnimation();
@@ -88,17 +83,6 @@ export function ThemeToggle({
         setTheme(mounted ? nextTheme : initialTheme === 'dark' ? 'light' : 'dark');
       }}
     >
-      {!hideIndicator && mounted && (
-        <div
-          className={cn(
-            "text-muted-foreground text-xs",
-            hideIndicator &&
-              "transition-all translate-x-full opacity-0 group-hover:opacity-100 group-hover:translate-x-0 delay-150"
-          )}
-        >
-          {theme}
-        </div>
-      )}
       <motion.div
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.9 }}

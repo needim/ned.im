@@ -183,7 +183,7 @@ function AvatarContainer({
 		<div
 			className={clsx(
 				className,
-				"h-10 w-10 rounded-full bg-white/90 p-0.5 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur-sm dark:bg-zinc-800/90 dark:ring-white/10",
+				"h-10 w-10 rounded-full bg-white/90 p-0.5 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:ring-white/10"
 			)}
 			{...props}
 		/>
@@ -203,24 +203,20 @@ export function Avatar({
 		<Link
 			href="/"
 			aria-label="Home"
-			className={clsx(
-				className,
-				"pointer-events-auto will-change-transform",
-				"transition-all duration-300 ease-in-out",
-				isHomePage ? "translate-x-0 translate-y-0 scale-100" : "-translate-x-4 -translate-y-3 scale-75"
-			)}
+			className={clsx(className)}
 			{...props}
 		>
 			<Image
 				src="https://avatars.githubusercontent.com/laogou717"
 				alt=""
 				sizes={large ? "4rem" : "2.25rem"}
-				width="140"
-				height="140"
 				className={clsx(
 					"rounded-full bg-zinc-100 object-cover dark:bg-zinc-800",
-					large ? "h-16 w-16" : "h-9 w-9"
+					large ? "h-16 w-16" : "h-9 w-9",
+					isHomePage && "transform-none"
 				)}
+				width="64"
+				height="64"
 				priority
 			/>
 		</Link>
@@ -229,7 +225,6 @@ export function Avatar({
 
 export function Header() {
 	const isHomePage = usePathname() === "/";
-
 	const headerRef = useRef<React.ElementRef<"div">>(null);
 	const avatarRef = useRef<React.ElementRef<"div">>(null);
 	const isInitial = useRef(true);
@@ -244,12 +239,6 @@ export function Header() {
 
 		function removeProperty(property: string) {
 			document.documentElement.style.removeProperty(property);
-		}
-
-		if (isHomePage) {
-			setProperty("--avatar-image-transform", "translate3d(0rem, 1rem, 0) scale(1)");
-			setProperty("--avatar-border-transform", "translate3d(0rem, 1rem, 0) scale(1)");
-			setProperty("--avatar-border-opacity", "0");
 		}
 
 		function updateHeaderStyles() {
@@ -320,14 +309,6 @@ export function Header() {
 				"--avatar-image-transform",
 				`translate3d(${x}rem, ${y}rem, 0) scale(${scale})`,
 			);
-
-			const borderScale = 1 / (toScale / scale);
-			const borderX = (-toX + x) * borderScale;
-			const borderY = (-toY + y) * borderScale;
-			const borderTransform = `translate3d(${borderX}rem, ${borderY}rem, 0) scale(${borderScale})`;
-
-			setProperty("--avatar-border-transform", borderTransform);
-			setProperty("--avatar-border-opacity", scale === toScale ? "1" : "0");
 		}
 
 		function updateStyles() {
@@ -359,7 +340,7 @@ export function Header() {
 					<>
 						<div
 							ref={avatarRef}
-							className="order-last mt-[calc(--spacing(16)-(--spacing(3)))]"
+							className="order-last mt-[calc(theme(spacing.16)-theme(spacing.3))]"
 						/>
 						<Container
 							className="top-0 order-last -mb-3 pt-3"
@@ -369,7 +350,7 @@ export function Header() {
 							}}
 						>
 							<div
-								className="top-(--avatar-top,--spacing(3)) w-full"
+								className="top-[var(--avatar-top,theme(spacing.3))] w-full"
 								style={{
 									position:
 										"var(--header-inner-position)" as React.CSSProperties["position"],
@@ -385,7 +366,7 @@ export function Header() {
 									/>
 									<Avatar
 										large
-										className="block size-16 origin-left"
+										className="block h-16 w-16 origin-left"
 										style={{ transform: "var(--avatar-image-transform)" }}
 									/>
 								</div>
@@ -402,13 +383,13 @@ export function Header() {
 					}}
 				>
 					<Container
-						className="top-(--header-top,--spacing(6)) w-full"
+						className="top-[var(--header-top,theme(spacing.6))] w-full"
 						style={{
 							position:
 								"var(--header-inner-position)" as React.CSSProperties["position"],
 						}}
 					>
-						<div className="relative flex gap-4 items-center">
+						<div className="relative flex gap-4">
 							<div className="flex flex-1">
 								{!isHomePage && (
 									<AvatarContainer>
@@ -416,13 +397,13 @@ export function Header() {
 									</AvatarContainer>
 								)}
 							</div>
-							<div className="flex flex-1 justify-end md:justify-center min-h-10">
+							<div className="flex flex-1 justify-end md:justify-center">
 								<MobileNavigation className="pointer-events-auto md:hidden" />
-								<DesktopNavigation className="pointer-events-auto hidden md:block shrink-0" />
+								<DesktopNavigation className="pointer-events-auto hidden md:block" />
 							</div>
 							<div className="flex justify-end md:flex-1">
 								<div className="pointer-events-auto">
-									<ThemeToggle hideIndicator />
+									<ThemeToggle />
 								</div>
 							</div>
 						</div>
