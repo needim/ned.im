@@ -70,7 +70,6 @@ export default async function RootLayout({
   // 从 headers 中获取国家信息
   const headersList = await headers();
   const country = headersList.get('x-user-country') || '';
-  console.log('Layout: Country from headers:', country);
 
   return (
     <html

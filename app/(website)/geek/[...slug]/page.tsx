@@ -1,16 +1,25 @@
 import { notFound } from "next/navigation";
-import { getGeekPostBySlug } from "@/lib/geek";
+import { getGeekPostBySlug, getAllGeekPosts } from "@/lib/geek";
 import { PostContent } from "@/components/blocks/post-content";
 import type { Metadata } from "next";
 import { compileMarkdown } from "@/lib/mdx";
 import ArticleLayout from "@/app/(website)/article-layout";
 
-export const revalidate = 60;
+// 使用 ISR
+export const revalidate = 3600; // 1小时重新验证一次
 
 type PageProps = {
   params: Promise<{ slug: string[] }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
+
+// 生成静态路径
+export async function generateStaticParams() {
+  const posts = await getAllGeekPosts();
+  return posts.map(post => ({
+    slug: post.slug.split('/')
+  }));
+}
 
 export default async function GeekPostPage(props: PageProps) {
   const [params, searchParams] = await Promise.all([

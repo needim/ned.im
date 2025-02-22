@@ -15,6 +15,34 @@ interface SearchParams {
   [key: string]: string | string[] | undefined;
 }
 
+// 获取所有可能的路径参数
+export async function generateStaticParams() {
+  const posts = [];
+  
+  // 遍历所有专栏
+  for (const column of columns) {
+    const columnPath = path.join(process.cwd(), 'content/notes', column.slug);
+    try {
+      const files = await fs.readdir(columnPath);
+      
+      // 获取所有 .mdx 文件
+      const mdxFiles = files.filter(file => file.endsWith('.mdx'));
+      
+      // 为每个文件生成参数
+      for (const file of mdxFiles) {
+        posts.push({
+          column: column.slug,
+          slug: file.replace(/\.mdx$/, '')
+        });
+      }
+    } catch (error) {
+      console.error(`Error reading directory ${columnPath}:`, error);
+    }
+  }
+  
+  return posts;
+}
+
 async function getPost(column: string, slug: string) {
   try {
     const filePath = path.join(process.cwd(), 'content/notes', column, `${slug}.mdx`);
@@ -43,9 +71,8 @@ async function getPost(column: string, slug: string) {
   }
 }
 
-// 强制动态渲染
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
+// 使用 ISR 而不是强制动态渲染
+export const revalidate = 3600; // 1小时重新验证一次
 
 export default async function PostPage({ 
   params 
