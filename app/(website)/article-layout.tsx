@@ -1,8 +1,18 @@
 "use client";
 
+import dynamic from 'next/dynamic';
 import { Container } from "@/components/blocks/container";
-import { TableOfContents } from "@/components/blocks/table-of-contents";
-import { TextSelectionQuote } from "@/components/blocks/text-selection-quote";
+
+// 使用动态导入来优化性能
+const TableOfContents = dynamic(
+  () => import("@/components/blocks/table-of-contents").then(mod => mod.TableOfContents),
+  { ssr: false }
+);
+
+const TextSelectionQuote = dynamic(
+  () => import("@/components/blocks/text-selection-quote").then(mod => mod.TextSelectionQuote),
+  { ssr: false }
+);
 
 interface ArticleLayoutProps {
   children: React.ReactNode;

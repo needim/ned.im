@@ -106,11 +106,29 @@ export function MusicPlayer() {
   const [musicDetail, setMusicDetail] = useState<MusicDetail | null>(null);
   const [songList, setSongList] = useState<Song[]>([]);
 
-  // 获取API基础URL
+  // 获取API基础URL和其他配置
   const API_BASE = process.env.NEXT_PUBLIC_NETEASE_API_BASE;
+  const PLAYLIST_ID = process.env.NEXT_PUBLIC_NETEASE_PLAYLIST_ID;
+
   if (!API_BASE) {
     throw new Error('NEXT_PUBLIC_NETEASE_API_BASE environment variable is not set');
   }
+
+  if (!PLAYLIST_ID) {
+    throw new Error('NEXT_PUBLIC_NETEASE_PLAYLIST_ID environment variable is not set');
+  }
+
+  // 获取用户IP
+  useEffect(() => {
+    const getIP = async () => {
+      // 从 meta 标签获取国家信息
+      const countryMeta = document.querySelector('meta[name="user-country"]');
+      const country = countryMeta?.getAttribute('content') || '';
+      setUserIP(country);
+    };
+
+    getIP();
+  }, []);
 
   // 检测是否为Safari浏览器
   const isSafari = useCallback(() => {
@@ -424,58 +442,26 @@ export function MusicPlayer() {
     }
   }, []);
 
-  // 获取用户IP
-  useEffect(() => {
-    const getIP = async () => {
-      // 中国大陆IP池
-      const cnIPs = [
-        '116.25.146.177',  // 广东
-        '211.136.150.66',  // 北京
-        '223.104.63.35',   // 上海
-        '120.241.0.0',     // 深圳
-        '183.192.196.1'    // 杭州
-      ];
-      
-      // 随机选择一个IP
-      const randomIP = cnIPs[Math.floor(Math.random() * cnIPs.length)];
-      setUserIP(randomIP);
-    };
-
-    getIP();
-  }, []);
-
   // 获取歌单详情和所有歌曲的URL
   useEffect(() => {
-    if (!userIP) return;
-    
     const fetchPlaylist = async () => {
       try {
-        const PLAYLIST_ID = process.env.NEXT_PUBLIC_NETEASE_PLAYLIST_ID;
-        if (!PLAYLIST_ID) {
-          console.error('未配置歌单ID');
-          return;
-        }
-
         // 获取歌单所有歌曲
         const playlistRes = await fetch(`${API_BASE}/playlist/track/all?id=${PLAYLIST_ID}&realIP=${userIP}`, {
           mode: 'cors',
           headers: {
-            'Accept': 'application/json',
-            'Origin': process.env.NEXT_PUBLIC_SITE_URL || 'https://ned-im-git-dev-15518658246163coms-projects.vercel.app'
-          },
-          credentials: 'omit'
+            'Accept': 'application/json'
+          }
         });
 
         if (!playlistRes.ok) {
-          console.error('Error fetching playlist:', playlistRes.status, playlistRes.statusText);
-          return;
+          throw new Error(`获取歌单失败: ${playlistRes.status}`);
         }
 
         const playlistData = await playlistRes.json();
         
         if (!playlistData.songs) {
-          console.error('获取歌单失败:', playlistData);
-          return;
+          throw new Error('获取歌单失败: 没有歌曲数据');
         }
 
         const tracks = playlistData.songs;
@@ -512,7 +498,7 @@ export function MusicPlayer() {
             });
             
             songsWithUrls.push(...batchWithUrls);
-          } catch (error: unknown) {
+          } catch (error) {
             console.error(`获取第${i/batchSize + 1}批歌曲URL失败:`, error);
             // 即使失败也继续处理其他批次
             const batchWithoutUrls = batch.map((track: Song) => ({
@@ -539,57 +525,91 @@ export function MusicPlayer() {
           isFirstLoad.current = false;
         }
       } catch (error) {
-        console.error('Failed to fetch playlist:', error);
+        console.error('获取歌单失败:', error);
+        setError('获取歌单失败');
       }
     };
 
-    fetchPlaylist();
-  }, [userIP, API_BASE]);
+    if (userIP) {
+      fetchPlaylist();
+    }
+  }, [API_BASE, PLAYLIST_ID, userIP]);
 
   // 切换歌曲时的处理逻辑
   useEffect(() => {
-    if (!currentSong || !audioRef.current) return;
+    if (!currentSong) return;
     
-    if (currentSong.url) {
+    const loadSong = async () => {
       setIsLoading(true);
       setError(null);
       
-      ensureHttps(currentSong.url)
-        .then(finalUrl => {
-          if (!finalUrl) {
-            throw new Error('无效的音频地址');
+      try {
+        // 如果歌曲没有URL，重新获取
+        if (!currentSong.url) {
+          const urlRes = await fetch(
+            `${API_BASE}/song/url/v1?id=${currentSong.id}&level=standard&realIP=${userIP}`,
+            {
+              mode: 'cors',
+              headers: {
+                'Accept': 'application/json'
+              }
+            }
+          );
+          
+          if (!urlRes.ok) {
+            throw new Error(`获取歌曲URL失败: ${urlRes.status}`);
           }
           
-          setAudioUrl(finalUrl);
-          if (audioRef.current) {
-            audioRef.current.crossOrigin = 'anonymous';
-            audioRef.current.src = finalUrl;
+          const urlData = await urlRes.json();
+          const songUrl = urlData.data?.[0]?.url;
+          
+          if (!songUrl) {
+            throw new Error(`歌曲 "${currentSong.name}" 暂时无法播放`);
+          }
+          
+          currentSong.url = songUrl;
+        }
+        
+        const finalUrl = await ensureHttps(currentSong.url);
+        if (!finalUrl) {
+          throw new Error('无效的音频地址');
+        }
+        
+        setAudioUrl(finalUrl);
+        if (audioRef.current) {
+          audioRef.current.crossOrigin = 'anonymous';
+          audioRef.current.src = finalUrl;
+          
+          if (shouldAutoPlay.current && hasUserInteraction) {
+            const playPromise = audioRef.current.play();
+            playPromiseRef.current = playPromise;
             
-            // 添加安全属性
-            audioRef.current.setAttribute('controlsList', 'nodownload');
-            audioRef.current.setAttribute('x-webkit-airplay', 'deny');
-            audioRef.current.setAttribute('disableRemotePlayback', '');
-            
-            if (finalUrl.startsWith('http://')) {
-              console.warn('Using insecure HTTP audio source. This may be blocked by some browsers.');
-              setShowTip(true);
-              setTimeout(() => setShowTip(false), 5000);
+            try {
+              await playPromise;
+              setIsPlaying(true);
+            } catch (error) {
+              if (error instanceof Error && error.name !== 'AbortError') {
+                console.error('播放失败:', error);
+                setIsPlaying(false);
+                shouldAutoPlay.current = false;
+                throw error;
+              }
             }
           }
-        })
-        .catch(err => {
-          console.error('Error loading audio:', err);
-          setError(`无法加载音频: ${err.message}`);
-          playNextSong();
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    } else {
-      console.error('歌曲URL不存在:', currentSong.name);
-      playNextSong();
-    }
-  }, [currentSong, playNextSong]);
+        }
+      } catch (error) {
+        console.error('加载歌曲失败:', error);
+        if (error instanceof Error) {
+          setError(error.message);
+        }
+        playNextSong();
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    loadSong();
+  }, [currentSong, userIP, API_BASE, hasUserInteraction, playNextSong]);
 
   // 检测文本是否溢出
   const isTextOverflow = useCallback((text: string) => {
@@ -917,8 +937,10 @@ export function MusicPlayer() {
     };
   }, []);
 
-  const ensureHttps = useCallback(async (url: string): Promise<string> => {
-    if (!url) return '';
+  const ensureHttps = useCallback(async (url: string | null | undefined): Promise<string> => {
+    if (!url) {
+      throw new Error('无效的音频地址');
+    }
     
     // 移除 URL 参数并验证 URL 格式
     const baseUrl = url.split('?')[0];
@@ -964,8 +986,6 @@ export function MusicPlayer() {
       console.warn(`HTTPS version not available for ${baseUrl}, falling back to HTTP with security warning`);
     }
 
-    // 如果 HTTPS 不可用，显示安全警告
-    setError('当前使用非加密连接播放音乐，建议使用 HTTPS 以提高安全性');
     return baseUrl;
   }, []);
 

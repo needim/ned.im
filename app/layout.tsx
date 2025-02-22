@@ -22,15 +22,15 @@ const LexendFont = Lexend({
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.laogou717.com"),
   title: {
-    default: "老狗",
-    template: "%s - 老狗",
+    default: "神烦老狗",
+    template: "%s - 神烦老狗",
   },
-  description: "老狗的个人网站",
+  description: "神烦老狗的个人网站",
   openGraph: {
-    title: "老狗",
-    description: "老狗的个人网站",
+    title: "神烦老狗",
+    description: "神烦老狗的个人网站",
     url: "https://www.laogou717.com",
-    siteName: "老狗",
+    siteName: "神烦老狗",
     locale: "zh_CN",
     type: "website",
   },
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     },
   },
   twitter: {
-    title: "老狗",
+    title: "神烦老狗",
     card: "summary_large_image",
   },
   verification: {
