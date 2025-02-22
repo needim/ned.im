@@ -1,6 +1,13 @@
+Custom License
+
+The original codebase (https://github.com/needim/ned.im) is created by Nedim Arabacı (needim)
+and used with explicit permission from the original author.
+
+For the modifications and additions made by 神烦老狗:
+
 MIT License
 
-Copyright (c) 2024 神烦老狗 (forked from needim)
+Copyright (c) 2024 神烦老狗
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -18,4 +25,7 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE. 
+SOFTWARE.
+
+Note: This license applies only to the modifications and additions made to the original codebase.
+The original codebase remains under its original terms as specified by Nedim Arabacı. 
