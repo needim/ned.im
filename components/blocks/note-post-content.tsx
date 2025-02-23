@@ -4,7 +4,6 @@ import Link from "next/link";
 import { formattedDate } from "@/lib/utils";
 import { IconArrowLeft } from "@tabler/icons-react";
 import dynamic from 'next/dynamic';
-import { MDXContent } from '@/components/mdx-content';
 import type { MDXRemoteSerializeResult } from 'next-mdx-remote';
 
 const ArticleLayout = dynamic(() => import("@/app/(website)/article-layout"), { ssr: true });
@@ -12,6 +11,16 @@ const ClientSideComments = dynamic(
   () => import('@/components/blocks/comments').then(mod => mod.Comments),
   { ssr: false }
 );
+const MDXContent = dynamic(() => import('@/components/mdx-content').then(mod => mod.MDXContent), {
+  ssr: false,
+  loading: () => (
+    <div className="animate-pulse">
+      <div className="h-4 bg-muted rounded w-3/4 mb-4" />
+      <div className="h-4 bg-muted rounded w-1/2 mb-4" />
+      <div className="h-4 bg-muted rounded w-5/6" />
+    </div>
+  ),
+});
 
 interface NotePostContentProps {
   post: {
