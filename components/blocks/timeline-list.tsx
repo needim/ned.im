@@ -4,10 +4,10 @@ import type React from "react";
 import { motion, LazyMotion, domAnimation } from "framer-motion";
 import type { Variants } from "framer-motion";
 import { IconBrandX } from "@tabler/icons-react";
+import type { TimelineItem } from "@/types/timeline";
 import dynamic from 'next/dynamic';
 import { cn } from "@/lib/utils";
 import { formattedDateTimeline } from "@/lib/utils";
-import type { TimelineItem } from "@/types/timeline";
 
 // 动态导入 PolaroidGallery 组件
 const PolaroidGallery = dynamic(() => import('./polaroid-gallery'), {
