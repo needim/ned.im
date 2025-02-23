@@ -4,7 +4,7 @@ import type React from "react";
 import { motion, LazyMotion, domAnimation } from "framer-motion";
 import type { Variants } from "framer-motion";
 import { IconBrandX } from "@tabler/icons-react";
-import type { polaroidVariants } from "./polaroid";
+import type { TimelineItem } from "@/types/timeline";
 import dynamic from 'next/dynamic';
 import { cn } from "@/lib/utils";
 import { formattedDateTimeline } from "@/lib/utils";
@@ -19,35 +19,6 @@ const PolaroidGallery = dynamic(() => import('./polaroid-gallery'), {
     </div>
   ),
 });
-
-type TImage = {
-  src: string;
-  variant: keyof typeof polaroidVariants;
-};
-
-type TimelineItem = {
-  date: string;
-  event: string;
-  title: string;
-  description: string;
-  icon: string;
-  photos: Array<{
-    src: string;
-    variant: keyof typeof polaroidVariants;
-  }>;
-  link?: string;
-  dateFormatOptions?: Intl.DateTimeFormatOptions;
-  metadata?: {
-    time?: string;
-    location?: string;
-    music?: {
-      platform: string;
-      id: string;
-      url: string;
-    };
-    video?: string;
-  };
-};
 
 interface TimelineListProps {
   initialData: TimelineItem[];
