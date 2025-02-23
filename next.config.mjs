@@ -7,6 +7,9 @@ const nextConfig = {
 	experimental: {
 		mdxRs: true,
 	},
+	poweredByHeader: false,
+	compress: true,
+	output: 'standalone',
 	images: {
 		remotePatterns: [
 			{
@@ -52,6 +55,13 @@ const nextConfig = {
 				pathname: "/**",
 			}
 		],
+		deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+		imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+		formats: ['image/webp'],
+		minimumCacheTTL: 60,
+		dangerouslyAllowSVG: true,
+		contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+		domains: ['img.laogou717.com'],
 	},
 	async headers() {
 		return [
