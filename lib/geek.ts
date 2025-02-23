@@ -23,22 +23,41 @@ async function getAllMdxFiles(dir: string): Promise<string[]> {
   return files.flat();
 }
 
+// 获取文件的最后修改时间
+async function getLatestModTime(files: string[]): Promise<number> {
+  const stats = await Promise.all(
+    files.map(file => fs.stat(file))
+  );
+  return Math.max(...stats.map(stat => stat.mtimeMs));
+}
+
 export async function getAllGeekPosts(): Promise<GeekPost[]> {
   const isVercelProduction = process.env.NODE_ENV === 'production' && process.env.VERCEL;
   let metadataCacheFile: string | null = null;
+  
+  // 获取所有 MDX 文件
+  const files = await getAllMdxFiles(geekDirectory);
+  
   if (!isVercelProduction) {
     metadataCacheFile = path.join(process.cwd(), 'data', 'geek-metadata.json');
     try {
-      const cached = await fs.readFile(metadataCacheFile, 'utf8');
-      const posts: GeekPost[] = JSON.parse(cached);
-      return posts;
+      // 获取缓存文件信息
+      const cacheStats = await fs.stat(metadataCacheFile);
+      // 获取最新的文章修改时间
+      const latestModTime = await getLatestModTime(files);
+      
+      // 如果缓存比所有文章都新，使用缓存
+      if (cacheStats.mtimeMs > latestModTime) {
+        const cached = await fs.readFile(metadataCacheFile, 'utf8');
+        const posts: GeekPost[] = JSON.parse(cached);
+        return posts;
+      }
     } catch (error) {
-      console.warn("No cached metadata found, falling back to file system reading");
+      console.warn("Cache validation failed, falling back to file system reading");
     }
   }
 
   try {
-    const files = await getAllMdxFiles(geekDirectory);
     const posts = await Promise.all(
       files.map(async (filePath) => {
         try {
@@ -75,7 +94,12 @@ export async function getAllGeekPosts(): Promise<GeekPost[]> {
     });
 
     if (!isVercelProduction && metadataCacheFile) {
-      fs.writeFile(metadataCacheFile, JSON.stringify(sortedPosts), 'utf8')
+      // 确保 data 目录存在
+      const dataDir = path.dirname(metadataCacheFile);
+      await fs.mkdir(dataDir, { recursive: true });
+      
+      // 写入新的缓存
+      await fs.writeFile(metadataCacheFile, JSON.stringify(sortedPosts), 'utf8')
         .catch(err => {
           console.error("Error writing metadata cache", err);
         });

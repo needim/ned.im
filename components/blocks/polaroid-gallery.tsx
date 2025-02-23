@@ -38,6 +38,7 @@ const PolaroidGallery = ({
   const isInView = useInView(ref);
   const [isVisible, setIsVisible] = useState(false);
   const [startIndex, setStartIndex] = useState(0);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   useEffect(() => {
     if (isInView && !isVisible) {
@@ -51,7 +52,7 @@ const PolaroidGallery = ({
         startIndex,
       }}
     >
-      <Dialog>
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogTrigger asChild>
           <div
             ref={ref}
@@ -64,7 +65,10 @@ const PolaroidGallery = ({
                 total={images.length}
                 key={image.src}
                 variant={image.variant}
-                onClick={() => setStartIndex(index)}
+                onClick={() => {
+                  setStartIndex(index);
+                  setIsDialogOpen(true);
+                }}
                 src={image.src}
               />
             ))}
@@ -77,16 +81,18 @@ const PolaroidGallery = ({
           </DialogHeader>
           <div>
             <CarouselContent>
-              {images.map((image) => (
+              {images.map((image, index) => (
                 <CarouselItem key={image.src}>
                   <div className="flex items-center justify-center w-full h-full max-h-[80vh]">
                     <Image
-                      alt=""
+                      alt={`${event} - ${title || ''} - 图片 ${index + 1}`}
                       src={image.src}
                       width={1200}
                       height={800}
                       className="object-contain w-auto h-auto max-h-[80vh]"
-                      priority
+                      priority={index === startIndex}
+                      loading={index === startIndex ? "eager" : "lazy"}
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
                     />
                   </div>
                 </CarouselItem>
