@@ -6,6 +6,10 @@ const nextConfig = {
 	reactStrictMode: true,
 	experimental: {
 		mdxRs: true,
+		optimizePackageImports: ['framer-motion', '@tabler/icons-react'],
+		serverActions: {
+			bodySizeLimit: '2mb',
+		},
 	},
 	poweredByHeader: false,
 	compress: true,
@@ -57,8 +61,8 @@ const nextConfig = {
 		],
 		deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
 		imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-		formats: ['image/webp'],
-		minimumCacheTTL: 60,
+		formats: ['image/webp', 'image/avif'],
+		minimumCacheTTL: 60 * 60 * 24,
 		dangerouslyAllowSVG: true,
 		contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
 	},
@@ -94,6 +98,37 @@ const nextConfig = {
 					{
 						key: 'Access-Control-Allow-Headers',
 						value: 'X-Requested-With, Content-Type, Authorization'
+					},
+					{
+						key: 'Cache-Control',
+						value: 'public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800'
+					}
+				]
+			},
+			{
+				source: '/api/:path*',
+				headers: [
+					{
+						key: 'Cache-Control',
+						value: 'no-store'
+					}
+				]
+			},
+			{
+				source: '/_next/image/:path*',
+				headers: [
+					{
+						key: 'Cache-Control',
+						value: 'public, max-age=86400, s-maxage=31536000, stale-while-revalidate=31536000'
+					}
+				]
+			},
+			{
+				source: '/static/:path*',
+				headers: [
+					{
+						key: 'Cache-Control',
+						value: 'public, max-age=31536000, immutable'
 					}
 				]
 			}

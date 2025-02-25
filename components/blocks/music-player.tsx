@@ -3,6 +3,9 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { IconPlayerPause, IconPlayerPlay, IconVolume, IconVolume3, IconArrowsDiagonal, IconArrowsDiagonalMinimize, IconPlayerTrackNext, IconPlayerTrackPrev } from "@tabler/icons-react";
 import { FastAverageColor } from 'fast-average-color';
+import { MusicPlayerControls } from './music-player/controls';
+import { MusicPlayerProgress } from './music-player/progress';
+import { MusicPlayerInfo } from './music-player/info';
 
 interface Song {
   id: string;
@@ -47,6 +50,63 @@ const fac = new FastAverageColor();
 
 const MAX_RETRY_COUNT = 3;
 const RETRY_DELAY = 2000; // 2 seconds
+
+// 将API调用抽离为自定义hook
+function useMusicAPI(API_BASE: string, userIP: string) {
+  const fetchLyrics = useCallback(async (songId: string) => {
+    try {
+      const res = await fetch(`${API_BASE}/lyric/new?id=${songId}&realIP=${userIP}`, {
+        mode: 'cors',
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+      
+      if (!res.ok) {
+        throw new Error(`获取歌词失败: ${res.status}`);
+      }
+      
+      const data = await res.json();
+      return {
+        lrc: data.lrc?.lyric || '',
+        tlyric: data.tlyric?.lyric || '',
+        yrc: data.yrc?.lyric || '' // 逐字歌词
+      };
+    } catch (error) {
+      console.error('获取歌词失败:', error);
+      return null;
+    }
+  }, [userIP, API_BASE]);
+
+  const fetchSimilarSongs = useCallback(async (songId: string) => {
+    try {
+      const res = await fetch(`${API_BASE}/simi/song?id=${songId}&realIP=${userIP}`, {
+        mode: 'cors',
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+      
+      if (!res.ok) {
+        throw new Error(`获取相似歌曲失败: ${res.status}`);
+      }
+      
+      const data = await res.json();
+      return data.songs || [];
+    } catch (error) {
+      console.error('获取相似歌曲失败:', error);
+      return [];
+    }
+  }, [userIP, API_BASE]);
+
+  // 其他API调用方法...
+
+  return {
+    fetchLyrics,
+    fetchSimilarSongs,
+    // 返回其他API方法...
+  };
+}
 
 export function MusicPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -130,56 +190,13 @@ export function MusicPlayer() {
     getIP();
   }, []);
 
+  // 使用自定义hook获取API方法
+  const { fetchLyrics, fetchSimilarSongs } = useMusicAPI(API_BASE, userIP);
+
   // 检测是否为Safari浏览器
   const isSafari = useCallback(() => {
     return /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
   }, []);
-
-  const fetchLyrics = useCallback(async (songId: string) => {
-    try {
-      const res = await fetch(`${API_BASE}/lyric/new?id=${songId}&realIP=${userIP}`, {
-        mode: 'cors',
-        headers: {
-          'Accept': 'application/json'
-        }
-      });
-      
-      if (!res.ok) {
-        throw new Error(`获取歌词失败: ${res.status}`);
-      }
-      
-      const data = await res.json();
-      return {
-        lrc: data.lrc?.lyric || '',
-        tlyric: data.tlyric?.lyric || '',
-        yrc: data.yrc?.lyric || '' // 逐字歌词
-      };
-    } catch (error) {
-      console.error('获取歌词失败:', error);
-      return null;
-    }
-  }, [userIP, API_BASE]);
-
-  const fetchSimilarSongs = useCallback(async (songId: string) => {
-    try {
-      const res = await fetch(`${API_BASE}/simi/song?id=${songId}&realIP=${userIP}`, {
-        mode: 'cors',
-        headers: {
-          'Accept': 'application/json'
-        }
-      });
-      
-      if (!res.ok) {
-        throw new Error(`获取相似歌曲失败: ${res.status}`);
-      }
-      
-      const data = await res.json();
-      return data.songs || [];
-    } catch (error) {
-      console.error('获取相似歌曲失败:', error);
-      return [];
-    }
-  }, [userIP, API_BASE]);
 
   const fetchSongComments = useCallback(async (songId: string, limit = 20) => {
     try {

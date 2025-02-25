@@ -13,6 +13,7 @@ import "./globals.css";
 import { MusicPlayer } from "@/components/blocks/music-player";
 import { cn } from "@/lib/utils";
 import { Toaster } from 'sonner';
+import { PerformanceMonitorWrapper } from "@/components/client-wrappers/performance-monitor-wrapper";
 
 const LexendFont = Lexend({
   subsets: ["latin"],
@@ -126,6 +127,7 @@ export default async function RootLayout({
           <TooltipProvider>
             {children}
             <MusicPlayer />
+            <PerformanceMonitorWrapper />
           </TooltipProvider>
           <Toaster 
             position="top-left"
