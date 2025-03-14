@@ -52,7 +52,7 @@ export const careerItems = [
         company: { name: "Defter", url: "https://birdefter.com" },
         location: "Podgorica, Montenegro",
         description:
-          "I was responsible for the development of the company's CRM products.",
+          "I was responsible for the development of the company's CRM/ERP products.",
       },
     ],
   },
@@ -850,7 +850,7 @@ export const changelog = changelogItems.sort(
 
 export const projects = [
   {
-    name: "gider.im (PWA)",
+    name: "gider.im",
     githubSlug: "needim/gider.im-pwa",
     released: "2024-05-26",
     description: "Privacy focused income & expense tracking app.",
@@ -871,25 +871,22 @@ export const projects = [
     featured: true,
   },
   {
-    name: "gider.im (Website)",
-    githubSlug: "needim/gider.im-website",
-    released: "2024-05-26",
-    description: "Privacy focused income & expense tracking app.",
-    logo: <GiderimLogo className="size-10" />,
+    name: "recurrentry",
+    githubSlug: "needim/recurrentry",
+    released: "2025-03-14",
+    logo: <IconGithub className="size-10" />,
+    deprecated: false,
+    description:
+      "A highly opinionated TypeScript library for handling recurring payments.",
     links: [
       {
-        href: "https://gider.im",
-        label: "Website",
-        icon: IconWorld,
-      },
-      {
-        href: "https://github.com/needim/gider.im-website",
+        href: "https://github.com/needim/recurrentry",
         label: "GitHub",
         icon: IconGithub,
       },
     ],
-    metrics: [],
     featured: true,
+    metrics: [],
   },
   {
     name: "smashing.tools",
@@ -912,7 +909,6 @@ export const projects = [
     featured: true,
     metrics: [],
   },
-
   {
     name: "ned.im",
     githubSlug: "needim/ned.im",
@@ -928,7 +924,7 @@ export const projects = [
     name: "noty",
     githubSlug: "needim/noty",
     released: "2023-01-01",
-    logo: <></>,
+    logo: <IconGithub className="size-10" />,
     deprecated: true,
     description:
       "A dependency-free, notification plugin with no deps. ⛔️ Deprecated.",
@@ -943,6 +939,7 @@ export const projects = [
     featured: true,
     metrics: [],
   },
+
   {
     name: "Kit 2.5D",
     githubSlug: "needim/Kit25D",

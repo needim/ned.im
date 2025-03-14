@@ -35,7 +35,7 @@ export function ChangelogList(): React.ReactElement {
               <div className="relative z-10 size-7 flex justify-center items-center">
                 <div
                   className={cn(
-                    "size-2 text-base rounded-full",
+                    "size-2 text-base",
                     !log.icon && "bg-zinc-400 dark:bg-zinc-600"
                   )}
                 >

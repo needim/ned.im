@@ -25,11 +25,22 @@ function NavLink({
 
 export function Footer() {
   return (
-    <footer className="mt-32 flex-none">
+    <footer className="flex-none">
+      <section className="border-y border-border/50">
+        <div className="h-1.5 w-full bg-[repeating-linear-gradient(-45deg,var(--color-border),var(--color-border)_1px,transparent_1px,transparent_6px)] opacity-50" />
+      </section>
+      <div className="relative max-w-3xl mx-auto pointer-events-none">
+        <div
+          aria-hidden="true"
+          className="absolute inset-x-4 -bottom-14 top-0 mx-auto max-w-7xl lg:inset-x-0"
+        >
+          <div className="from-(--color-border)/50 absolute bottom-0 left-0 top-0 w-px bg-gradient-to-b to-transparent to-75%" />
+          <div className="from-(--color-border)/50 absolute bottom-0 right-0 top-0 w-px bg-gradient-to-b to-transparent to-75%" />
+        </div>
+      </div>
       <ContainerOuter>
-        <div className="faded-border" />
-        <div className="pb-16 pt-10 ">
-          <ContainerInner>
+        <div className="pb-16 pt-4">
+          <ContainerInner className="px-8">
             <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm font-medium text-muted-foreground mb-4">
               {navItems.map((item) => (
                 <NavLink key={item.href} href={item.href}>

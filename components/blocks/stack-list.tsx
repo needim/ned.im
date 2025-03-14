@@ -14,7 +14,7 @@ export function StackList({
     <div className="mt-12">
       <h2 className="text-3xl mt-8">{title}</h2>
       <p className="text-muted-foreground">{description}</p>
-      <ul className="rounded-lg shadow-[rgba(0,_0,_0,_0.15)_0px_20px_40px_-12px] dark:bg-zinc-950 py-2 px-3 ring-2 hover:ring-3 ring-zinc-900/5 dark:ring-zinc-800 transition-all duration-500 hover:ring-zinc-600/20 dark:hover:ring-zinc-700 divide-y mt-4 divide-border border bg-card/20">
+      <ul className="shadow-[rgba(0,_0,_0,_0.15)_0px_20px_40px_-12px] dark:bg-zinc-950  ring-2 hover:ring-3 ring-zinc-900/5 dark:ring-zinc-800 transition-all duration-500 hover:ring-zinc-600/20 dark:hover:ring-zinc-700 divide-y mt-4 divide-border border bg-card/20">
         {items.map((product, index) => (
           <li
             key={index}

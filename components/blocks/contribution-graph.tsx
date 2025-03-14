@@ -44,7 +44,7 @@ export function ContributionGraph({
             <motion.div
               variants={item}
               className={cn(
-                "size-2 relative rounded-[0.05rem] hover:scale-125 transition-transform duration-150",
+                "size-2 relative hover:scale-125 transition-transform duration-150",
                 day.contributionCount === 0
                   ? "bg-zinc-200 dark:bg-zinc-900"
                   : day.contributionCount < 5

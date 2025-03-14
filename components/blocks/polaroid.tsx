@@ -63,7 +63,7 @@ const Polaroid = ({
         transitionEnd: { zIndex: total - index },
       }}
       className={cn(
-        "w-20 h-auto shadow-polaroid rounded-lg z-10 relative",
+        "w-20 h-auto shadow-polaroid z-10 relative",
         fullscreen && "w-full h-full"
       )}
     >
@@ -76,7 +76,7 @@ const Polaroid = ({
         <Image
           width={480}
           height={640}
-          className="object-contain rounded-lg bg-white p-1.5"
+          className="object-contain bg-white p-1.5"
           src={src}
           alt=""
         />

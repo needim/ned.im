@@ -77,8 +77,8 @@ export default function Notes() {
   ];
 
   return (
-    <Container className="mt-16">
-      <div className="max-w-2xl">
+    <Container className="py-8 pb-10 px-8">
+      <div className="max-w-3xl">
         <h1 className="tracking-tight text-5xl">Stack</h1>
         <div className="pro text-muted-foreground text-balance">
           <p className="mt-2">

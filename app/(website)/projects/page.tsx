@@ -2,6 +2,7 @@ import { Container } from "@/components/blocks/container";
 import { projects } from "@/lib/utils";
 import { getGithubInfo } from "@/server/thirdparty";
 import type { Metadata } from "next";
+import React from "react";
 
 export const metadata: Metadata = {
   title: "Projects",
@@ -31,21 +32,23 @@ export default async function Home() {
   });
 
   return (
-    <Container className="mt-16">
-      <div className="max-w-2xl">
+    <Container className="py-8 pb-10">
+      <div className=" px-8">
         <h1 className="tracking-tight text-5xl">Projects</h1>
         <div className="pro text-muted-foreground text-balance">
-          <p className="mt-2">
+          <p className="mt-1">
             I've worked on a range of projects over the years—some as hobbies,
             others as proof of concept, and a few to solve my own challenges.
           </p>
         </div>
+      </div>
 
-        <div className="grid grid-cols-1 gap-4">
-          {featuredProjects.map((project, index) => (
+      <div className="grid grid-cols-1">
+        {featuredProjects.map((project, index) => (
+          <React.Fragment key={`project-${index}`}>
             <div
               key={`project-${index}`}
-              className="overflow-hidden bg-card/20 rounded-3xl shadow-[rgba(0,_0,_0,_0.15)_0px_20px_40px_-12px] dark:bg-zinc-950 p-6 ring-2 hover:ring-3 ring-zinc-900/5 dark:ring-zinc-800 transition-all duration-500 hover:ring-zinc-600/20 dark:hover:ring-zinc-700 relative"
+              className="group relative hover:bg-muted/30 transition-colors duration-300 px-8 py-4"
             >
               <div className="absolute right-5 top-5 hidden sm:block">
                 {project.logo}
@@ -53,16 +56,15 @@ export default async function Home() {
               <h2 className="flex items-center justify-between text-lg">
                 {project.name}
               </h2>
-              <p className="my-3 pr-0 sm:pr-14 text-muted-foreground">
+              <p className="mb-3 pr-0 sm:pr-14 text-muted-foreground">
                 {project.description}
               </p>
-              {/* <div className="mt-2 gap-2 flex"></div> */}
-              <div className="-mx-3 -mb-3 -mt-1 flex flex-col sm:flex-row gap-4 sm:gap-0 items-start sm:items-center justify-between p-3">
-                <div className="flex gap-2">
+              <div className="-mx-3 -mb-3 -mt-1 flex flex-col sm:flex-row gap-4 sm:gap-0 items-start sm:items-center justify-between p-3 sm:h-14">
+                <div className="flex gap-4">
                   {project.metrics.map((metric, index) => (
                     <div
                       key={`metric-${index}`}
-                      className="rouded-md rounded-b-none flex items-center rounded-lg bg-linear-to-b from-zinc-200/40 dark:from-zinc-900 dark:to-zinc-950 px-3 py-1.5 shadow-inner gap-3"
+                      className="flex items-center py-1.5 shadow-inner gap-3"
                     >
                       <span className="text-xs uppercase tracking-wide font-medium text-muted-foreground">
                         {metric.label}
@@ -73,7 +75,7 @@ export default async function Home() {
                     </div>
                   ))}
                 </div>
-                <div className="flex items-center gap-5 text-zinc-500 text-sm">
+                <div className="flex items-center gap-5 text-zinc-500 text-sm z-10">
                   {project.links.map((link, index) => (
                     <a
                       key={`link-${index}`}
@@ -90,9 +92,14 @@ export default async function Home() {
                 </div>
               </div>
             </div>
-          ))}
-        </div>
+            <section className="border-y border-border/50">
+              <div className="h-1.5 w-full bg-[repeating-linear-gradient(-45deg,var(--color-border),var(--color-border)_1px,transparent_1px,transparent_6px)] opacity-50" />
+            </section>
+          </React.Fragment>
+        ))}
+      </div>
 
+      <div className="px-8">
         <p className="mt-10 text-muted-foreground">
           Here are some more projects that I have worked on. You can find the
           complete list of projects on my{" "}
@@ -112,7 +119,7 @@ export default async function Home() {
             <a
               href={project.links[0].href}
               key={`project-${index}`}
-              className="group relative w-full rounded-xl cursor-pointer overflow-hidden shadow-[rgba(0,_0,_0,_0.15)_0px_20px_40px_-12px] bg-card/20 py-3 px-4 ring-2 hover:ring-3 ring-zinc-900/5 dark:ring-zinc-800 transition-all duration-500 hover:ring-zinc-600/20 dark:hover:ring-zinc-700"
+              className="group relative w-full cursor-pointer overflow-hidden shadow-[rgba(0,_0,_0,_0.15)_0px_20px_40px_-12px] bg-card/20 py-3 px-4 ring-2 hover:ring-3 ring-zinc-900/5 dark:ring-zinc-800 transition-all duration-500 hover:ring-zinc-600/20 dark:hover:ring-zinc-700"
             >
               <div className="">
                 <div className="whitespace-nowrap flex items-center font-medium">

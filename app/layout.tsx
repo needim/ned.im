@@ -19,6 +19,9 @@ export const metadata: Metadata = {
     default: "Nedim Arabacı",
     template: "Nedim Arabacı | %s",
   },
+  appleWebApp: {
+    title: "ned.im",
+  },
   description: "Developer, software manager, and creator.",
   openGraph: {
     title: "Nedim Arabacı",
@@ -73,11 +76,11 @@ export default function RootLayout({
             skipDelayDuration={10}
             disableHoverableContent
           >
-            <div className="flex w-full h-full min-h-full">
-              <div className="relative flex w-full h-full flex-col">
-                {children}
-              </div>
-            </div>
+            {/* <div className="flex w-full h-full min-h-full"> */}
+            {/* <div className="relative flex w-full h-full flex-col"> */}
+            {children}
+            {/* </div> */}
+            {/* </div> */}
           </TooltipProvider>
         </ThemeProvider>
         <Script

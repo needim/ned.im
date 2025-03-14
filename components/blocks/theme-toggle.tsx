@@ -98,7 +98,7 @@ export function ThemeToggle({
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.9 }}
         className={cn(
-          "h-6 w-10 flex items-center bg-zinc-0 ring-1 ring-zinc-900/5 backdrop-blur-sm dark:bg-zinc-800/30 dark:ring-white/10 rounded-full shadow-inner dark:shadow-black/10 relative"
+          "h-6 w-10 flex items-center bg-zinc-0 ring-1 ring-zinc-900/5 backdrop-blur-sm dark:bg-zinc-800/30 dark:ring-white/10 shadow-inner dark:shadow-black/10 relative"
         )}
       >
         <motion.div
@@ -107,7 +107,7 @@ export function ThemeToggle({
             transition: { duration: 0.1, easings: ["easeInOut"] },
           }}
           className={cn(
-            "rounded-full size-4 transition-all duration-300 ease-in-out relative"
+            "size-4 transition-all duration-300 ease-in-out relative"
           )}
         >
           <motion.div

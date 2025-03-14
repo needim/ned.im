@@ -1,5 +1,5 @@
+import { Avatar } from "@/components/blocks/avatar";
 import CarbonAds from "@/components/blocks/docs/carbon-ads";
-import { Avatar } from "@/components/blocks/header";
 import { ThemeToggle } from "@/components/blocks/theme-toggle";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -122,7 +122,7 @@ export default function RootLayout({
           <div>
             <h2 className="text-xl font-semibold mt-2 mb-2">Sponsors</h2>
 
-            <ul className="divide-y mt-4 divide-border rounded-md border bg-zinc-100/75 dark:bg-zinc-900/75">
+            <ul className="divide-y mt-4 divide-border border bg-zinc-100/75 dark:bg-zinc-900/75">
               {sponsors.map((product, index) => (
                 <li
                   key={index}

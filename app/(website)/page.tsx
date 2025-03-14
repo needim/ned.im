@@ -9,6 +9,7 @@ import { careerItems } from "@/lib/utils";
 import { getGithubInfo, getXInfo } from "@/server/thirdparty";
 import type { Metadata } from "next";
 import Link from "next/link";
+import React from "react";
 
 const currentYear = new Date().getFullYear();
 const lastPosition = currentYear - careerItems[careerItems.length - 1].from;
@@ -37,7 +38,7 @@ export default async function Readme() {
 
   return (
     <>
-      <Container className="mt-9">
+      <Container className="py-8 pb-10 px-8">
         <h1 className="tracking-tight text-4xl sm:text-5xl">
           Nedim Arabacı
           <span className="text-muted-foreground font-title font-extralight text-3xl sm:text-4xl block text-balance">
@@ -55,7 +56,7 @@ export default async function Readme() {
             >
               @Defter
             </Link>
-            , a company that specializes in building SaaS CRM products.
+            , a company that specializes in building SaaS CRM/ERP products.
           </p>
           <p>
             At Defter, my responsibility is to oversee the development and
@@ -81,9 +82,12 @@ export default async function Readme() {
           />
         </div>
       </Container>
-      <Container className="mt-24 md:mt-20">
+      <section className="border-y border-border/50">
+        <div className="h-1.5 w-full bg-[repeating-linear-gradient(-45deg,var(--color-border),var(--color-border)_1px,transparent_1px,transparent_6px)] opacity-50" />
+      </section>
+      <Container className="py-8 pb-10 px-8">
         <h2 className="text-3xl">Spotlight</h2>
-        <p className="text-muted-foreground mb-8 mt-3">
+        <p className="text-muted-foreground mb-8 mt-1">
           Most recent projects and contributions.
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -101,23 +105,31 @@ export default async function Readme() {
           />
         </div>
       </Container>
-      <Container className="mt-24 md:mt-20">
-        <div className="mx-auto max-w-2xl gap-y-20">
-          <div className="flex flex-col gap-3">
-            <h2 className="text-3xl sm:text-4xl mb-1">Career</h2>
-            <div className="flex flex-col gap-8">
-              <p className="text-muted-foreground">
-                Overall I have{" "}
-                <span className="font-semibold">
-                  {lastPosition}+ years of experience
-                </span>{" "}
-                in software development.
-              </p>
-              {careerItems.map((item, index) => (
-                <CareerCard key={`career-${index}`} item={item} />
-              ))}
-            </div>
-          </div>
+      <section className="border-y border-border/50">
+        <div className="h-1.5 w-full bg-[repeating-linear-gradient(-45deg,var(--color-border),var(--color-border)_1px,transparent_1px,transparent_6px)] opacity-50" />
+      </section>
+      <Container className="py-8 pb-0">
+        <div className="px-8">
+          <h2 className="text-3xl">Career</h2>
+          <p className="text-muted-foreground mb-8 mt-1">
+            Overall I have{" "}
+            <span className="font-semibold">
+              {lastPosition}+ years of experience
+            </span>{" "}
+            in software development.
+          </p>
+        </div>
+        <div className="flex flex-col mt-8">
+          {careerItems.map((item, index) => (
+            <React.Fragment key={`career-${index}`}>
+              <CareerCard key={`career-${index}`} item={item} />
+              {index !== careerItems.length - 1 && (
+                <section className="border-y border-border/50">
+                  <div className="h-1.5 w-full bg-[repeating-linear-gradient(-45deg,var(--color-border),var(--color-border)_1px,transparent_1px,transparent_6px)] opacity-50" />
+                </section>
+              )}
+            </React.Fragment>
+          ))}
         </div>
       </Container>
     </>
