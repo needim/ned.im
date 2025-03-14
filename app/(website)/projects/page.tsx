@@ -49,7 +49,7 @@ export default async function Home() {
           <React.Fragment key={`project-${index}`}>
             <div
               key={`project-${index}`}
-              className="group relative hover:bg-muted/30 transition-colors duration-300 px-8 py-4"
+              className="group relative hover:bg-muted dark:hover:bg-muted/30 transition-colors duration-300 px-8 py-4"
             >
               <div className="absolute right-5 top-5 hidden sm:block">
                 {project.logo}
@@ -65,7 +65,7 @@ export default async function Home() {
                   {project.metrics.map((metric, index) => (
                     <div
                       key={`metric-${index}`}
-                      className="flex items-center py-1.5 shadow-inner gap-3"
+                      className="flex items-center py-1.5 gap-3"
                     >
                       <span className="text-xs uppercase tracking-wide font-medium text-muted-foreground">
                         {metric.label}

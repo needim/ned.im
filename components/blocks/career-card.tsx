@@ -2,7 +2,7 @@ import type { careerItems } from "@/lib/utils";
 
 export function CareerCard({ item }: { item: (typeof careerItems)[number] }) {
   return (
-    <div className="group relative hover:bg-muted/30 transition-colors duration-300 px-8 py-4">
+    <div className="group relative hover:bg-muted dark:hover:bg-muted/30 transition-colors duration-300 px-8 py-4">
       <div className="flex items-center justify-between text-xs text-muted-foreground">
         <span>{item.location}</span>{" "}
         <span>
