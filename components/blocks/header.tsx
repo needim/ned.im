@@ -1,6 +1,7 @@
 "use client";
 import { Avatar } from "@/components/blocks/avatar";
 import { HeaderGradient } from "@/components/blocks/header-gradient";
+import { SectionDivider } from "@/components/blocks/section-divider";
 import { ThemeToggle } from "@/components/blocks/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -21,9 +22,8 @@ export const SiteHeader = () => {
       <HeaderGradient />
       <header className="border-b dark:[--color-border:color-mix(in_oklab,var(--color-zinc-800)_60%,transparent)]">
         <div className="mx-auto flex max-w-3xl justify-between px-6 py-4 lg:px-8">
-          <div className="flex gap-6">
+          <div className="flex gap-6 items-center">
             <Avatar />
-
             <div className="flex gap-1">
               <Button
                 asChild
@@ -58,9 +58,7 @@ export const SiteHeader = () => {
           </div>
         </div>
       </header>
-      <section className="border-b border-border/50">
-        <div className="h-1.5 w-full bg-[repeating-linear-gradient(-45deg,var(--color-border),var(--color-border)_1px,transparent_1px,transparent_6px)] opacity-50" />
-      </section>
+
       <div className="relative max-w-3xl mx-auto pointer-events-none">
         <div
           aria-hidden="true"
@@ -70,6 +68,7 @@ export const SiteHeader = () => {
           <div className="to-(--color-border)/50 absolute bottom-0 right-0 top-0 w-px bg-gradient-to-b from-transparent to-75%" />
         </div>
       </div>
+      <SectionDivider className="border-t-0" />
     </>
   );
 };

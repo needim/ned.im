@@ -3,6 +3,7 @@ import { Container } from "@/components/blocks/container";
 import GiderimLogo from "@/components/blocks/giderim-logo";
 import { OpenSourceCard } from "@/components/blocks/opensource-card";
 import { ProjectCard } from "@/components/blocks/project-card";
+import { SectionDivider } from "@/components/blocks/section-divider";
 import { GitHubIcon, XIcon } from "@/components/blocks/social-icons";
 import { SocialLink } from "@/components/blocks/social-link";
 import { careerItems } from "@/lib/utils";
@@ -82,9 +83,7 @@ export default async function Readme() {
           />
         </div>
       </Container>
-      <section className="border-y border-border/50">
-        <div className="h-1.5 w-full bg-[repeating-linear-gradient(-45deg,var(--color-border),var(--color-border)_1px,transparent_1px,transparent_6px)] opacity-50" />
-      </section>
+      <SectionDivider />
       <Container className="py-8 pb-10 px-8">
         <h2 className="text-3xl">Spotlight</h2>
         <p className="text-muted-foreground mb-8 mt-1">
@@ -105,9 +104,7 @@ export default async function Readme() {
           />
         </div>
       </Container>
-      <section className="border-y border-border/50">
-        <div className="h-1.5 w-full bg-[repeating-linear-gradient(-45deg,var(--color-border),var(--color-border)_1px,transparent_1px,transparent_6px)] opacity-50" />
-      </section>
+      <SectionDivider />
       <Container className="py-8 pb-0">
         <div className="px-8">
           <h2 className="text-3xl">Career</h2>
@@ -123,11 +120,7 @@ export default async function Readme() {
           {careerItems.map((item, index) => (
             <React.Fragment key={`career-${index}`}>
               <CareerCard key={`career-${index}`} item={item} />
-              {index !== careerItems.length - 1 && (
-                <section className="border-y border-border/50">
-                  <div className="h-1.5 w-full bg-[repeating-linear-gradient(-45deg,var(--color-border),var(--color-border)_1px,transparent_1px,transparent_6px)] opacity-50" />
-                </section>
-              )}
+              {index !== careerItems.length - 1 && <SectionDivider />}
             </React.Fragment>
           ))}
         </div>

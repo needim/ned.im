@@ -1,4 +1,5 @@
 import { Container } from "@/components/blocks/container";
+import { SectionDivider } from "@/components/blocks/section-divider";
 import { projects } from "@/lib/utils";
 import { getGithubInfo } from "@/server/thirdparty";
 import type { Metadata } from "next";
@@ -59,7 +60,7 @@ export default async function Home() {
               <p className="mb-3 pr-0 sm:pr-14 text-muted-foreground">
                 {project.description}
               </p>
-              <div className="-mx-3 -mb-3 -mt-1 flex flex-col sm:flex-row gap-4 sm:gap-0 items-start sm:items-center justify-between p-3 sm:h-14">
+              <div className=" flex flex-col sm:flex-row gap-4 sm:gap-0 items-start sm:items-center justify-between sm:h-14">
                 <div className="flex gap-4">
                   {project.metrics.map((metric, index) => (
                     <div
@@ -92,9 +93,7 @@ export default async function Home() {
                 </div>
               </div>
             </div>
-            <section className="border-y border-border/50">
-              <div className="h-1.5 w-full bg-[repeating-linear-gradient(-45deg,var(--color-border),var(--color-border)_1px,transparent_1px,transparent_6px)] opacity-50" />
-            </section>
+            <SectionDivider />
           </React.Fragment>
         ))}
       </div>

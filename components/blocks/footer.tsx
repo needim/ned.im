@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { ContainerInner, ContainerOuter } from "@/components/blocks/container";
+import { SectionDivider } from "@/components/blocks/section-divider";
 import { ThemeToggle } from "@/components/blocks/theme-toggle";
 import IconNextjs from "@/components/icons/nextjs";
 import { navItems } from "@/lib/utils";
@@ -26,9 +27,7 @@ function NavLink({
 export function Footer() {
   return (
     <footer className="flex-none">
-      <section className="border-y border-border/50">
-        <div className="h-1.5 w-full bg-[repeating-linear-gradient(-45deg,var(--color-border),var(--color-border)_1px,transparent_1px,transparent_6px)] opacity-50" />
-      </section>
+      <SectionDivider />
       <div className="relative max-w-3xl mx-auto pointer-events-none">
         <div
           aria-hidden="true"

@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cn } from "@/lib/utils";
 import { forwardRef } from "react";
 
 export const ContainerOuter = forwardRef<
@@ -6,8 +6,8 @@ export const ContainerOuter = forwardRef<
   React.ComponentPropsWithoutRef<"div">
 >(function OuterContainer({ className, children, ...props }, ref) {
   return (
-    <div ref={ref} className={clsx("", className)} {...props}>
-      <div className="mx-auto w-full max-w-3xl">{children}</div>
+    <div ref={ref} className={cn("py-8", className)} {...props}>
+      {children}
     </div>
   );
 });
@@ -17,8 +17,12 @@ export const ContainerInner = forwardRef<
   React.ComponentPropsWithoutRef<"div">
 >(function InnerContainer({ className, children, ...props }, ref) {
   return (
-    <div ref={ref} className={clsx("relative", className)} {...props}>
-      <div className="mx-auto max-w-3xl lg:max-w-3xl">{children}</div>
+    <div
+      ref={ref}
+      className={cn("relative mx-auto max-w-3xl", className)}
+      {...props}
+    >
+      {children}
     </div>
   );
 });
