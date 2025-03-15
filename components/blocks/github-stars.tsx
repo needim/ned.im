@@ -22,7 +22,7 @@ export function GithubStars({
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <motion.div className="absolute top-1 right-0  transition-all duration-150 opacity-100 text-sm flex gap-1 items-center font-mono delay-300">
+        <motion.div className="absolute top-1 right-0 transition-all duration-150 opacity-100 text-sm flex gap-1 items-center font-mono delay-300 min-h-5">
           <NumberTicker play={true} value={totalStars} />
           <IconStarFilled className="size-4" />
         </motion.div>
