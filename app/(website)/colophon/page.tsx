@@ -116,10 +116,10 @@ export default function Notes() {
             <li>
               <a
                 target="_blank"
-                href="https://kamranahmed.info/"
+                href="https://kamranahmed.info"
                 rel="noreferrer"
               >
-                https://kamranahmed.info/
+                https://kamranahmed.info
               </a>{" "}
               by Kamran Ahmed
             </li>
@@ -130,6 +130,11 @@ export default function Notes() {
                 rel="noreferrer"
               >
                 https://www.raycast.com
+              </a>
+            </li>
+            <li>
+              <a target="_blank" href="https://nsui.irung.me" rel="noreferrer">
+                https://nsui.irung.me
               </a>
             </li>
           </ul>
