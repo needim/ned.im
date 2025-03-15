@@ -11,8 +11,6 @@ import { usePathname } from "next/navigation";
 export const SiteHeader = () => {
   const pathname = usePathname();
 
-  console.log(pathname);
-
   const isActive = (path: string) => {
     return pathname === path || pathname.startsWith(`${path}/`);
   };
@@ -21,7 +19,7 @@ export const SiteHeader = () => {
     <>
       <HeaderGradient />
       <header className="border-b dark:[--color-border:color-mix(in_oklab,var(--color-zinc-800)_60%,transparent)]">
-        <div className="mx-auto flex max-w-3xl justify-between px-6 py-4 lg:px-8">
+        <div className="mx-auto flex max-w-3xl justify-between px-8 py-4">
           <div className="flex gap-6 items-center">
             <Avatar />
             <div className="flex gap-1">
