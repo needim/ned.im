@@ -10,9 +10,6 @@ const nextConfig = {
 			fullUrl: true,
 		},
 	},
-	experimental: {
-		mdxRs: true,
-	},
 	images: {
 		remotePatterns: [
 			{
