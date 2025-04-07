@@ -39,14 +39,14 @@ export default async function Readme() {
 
 	return (
 		<>
-			<Container className="py-8 pb-10 px-8">
+			<Container className="py-8 pb-10 px-7">
 				<h1 className="tracking-tight text-4xl sm:text-5xl">
 					Nedim Arabacı
 					<span className="text-muted-foreground font-title font-extralight text-3xl sm:text-4xl block text-balance">
 						Developer & Software manager
 					</span>
 				</h1>
-				<div className="pro text-muted-foreground text-balance">
+				<div className="pro text-muted-foreground text-balance ps-1">
 					<p className="mt-6">
 						Hi <span className="text-xl">👋🏻</span>, I&apos;m currently working
 						at{" "}
