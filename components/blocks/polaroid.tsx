@@ -9,6 +9,7 @@ export const polaroidVariants = {
 	"1x1": "w-20 h-20",
 	"4x5": "w-20 h-24",
 	"4x3": "w-20 h-16",
+	"9x16": "w-20 h-32",
 };
 
 const Polaroid = ({

@@ -143,8 +143,26 @@ const changelogItems: Array<{
 	description?: string;
 	icon?: string;
 	dateFormatOptions?: (typeof dateFormat)[keyof typeof dateFormat];
-	photos?: Array<{ src: string; variant: "1x1" | "4x3" | "4x5" }>;
+	photos?: Array<{ src: string; variant: "1x1" | "4x3" | "4x5" | "9x16" }>;
 }> = [
+	{
+		date: "2025-05-14",
+		event: "Visit to Japan",
+		title: "Osaka, Kyoto & Tokyo",
+		icon: "🇯🇵",
+		dateFormatOptions: dateFormat.month,
+		photos: [...new Array(8)].map((_, index) => ({
+			src: `/changelog/japan/${index + 1}.png`,
+			variant: "9x16" as const,
+		})),
+	},
+	{
+		date: "2025-04-05",
+		event: "Fourth car",
+		title: "Opel Mokka (2025 model)",
+		icon: "🚗",
+		dateFormatOptions: dateFormat.day,
+	},
 	{
 		date: "2024-11-26",
 		event: "Visit to Denmark & Sweden",
