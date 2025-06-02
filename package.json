@@ -49,7 +49,7 @@
     "tw-animate-css": "^1.3.2",
     "typescript": "^5.8.3"
   },
-  "packageManager": "pnpm@10.11.0",
+  "packageManager": "pnpm@10.11.1",
   "pnpm": {
     "overrides": {
       "@types/react": "19.1.6",
