@@ -48,6 +48,10 @@ next-env.d.ts
 
 # Dependencies
 node_modules/
+
+# IDE tools
+.kiro/
+.trae/
 .pnpm-store/
 
 # IDE
