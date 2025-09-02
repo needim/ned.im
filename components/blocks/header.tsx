@@ -2,16 +2,16 @@
 
 import { Popover, Transition } from "@headlessui/react";
 import clsx from "clsx";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Fragment, useEffect, useRef } from "react";
-import { motion } from "framer-motion";
 
 import { Container } from "@/components/blocks/container";
 import { ThemeToggle } from "@/components/blocks/theme-toggle";
-import { cn } from "@/lib/utils";
 import { navigation } from "@/lib/navigation";
+import { cn } from "@/lib/utils";
 
 type NavigationItem = {
 	href: string;
@@ -64,7 +64,7 @@ function MobileNavItem({
 					"block py-2 text-base transition-colors duration-200",
 					isActive
 						? "text-zinc-900 dark:text-zinc-200"
-						: "text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200"
+						: "text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200",
 				)}
 			>
 				{children}
@@ -146,7 +146,7 @@ function NavItem({
 					"relative block px-3 py-2 transition",
 					isActive
 						? "text-foreground"
-						: "text-muted-foreground hover:text-foreground"
+						: "text-muted-foreground hover:text-foreground",
 				)}
 			>
 				{children}
@@ -183,7 +183,7 @@ function AvatarContainer({
 		<div
 			className={clsx(
 				className,
-				"h-10 w-10 rounded-full bg-white/90 p-0.5 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:ring-white/10"
+				"h-10 w-10 rounded-full bg-white/90 p-0.5 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:ring-white/10",
 			)}
 			{...props}
 		/>
@@ -200,12 +200,7 @@ export function Avatar({
 	const isHomePage = usePathname() === "/";
 
 	return (
-		<Link
-			href="/"
-			aria-label="Home"
-			className={clsx(className)}
-			{...props}
-		>
+		<Link href="/" aria-label="Home" className={clsx(className)} {...props}>
 			<Image
 				src="https://avatars.githubusercontent.com/laogou717"
 				alt=""
@@ -213,7 +208,7 @@ export function Avatar({
 				className={clsx(
 					"rounded-full bg-zinc-100 object-cover dark:bg-zinc-800",
 					large ? "h-16 w-16" : "h-9 w-9",
-					isHomePage && "transform-none"
+					isHomePage && "transform-none",
 				)}
 				width="64"
 				height="64"

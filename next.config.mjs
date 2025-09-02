@@ -6,14 +6,14 @@ const nextConfig = {
 	reactStrictMode: true,
 	experimental: {
 		mdxRs: true,
-		optimizePackageImports: ['framer-motion', '@tabler/icons-react'],
+		optimizePackageImports: ["framer-motion", "@tabler/icons-react"],
 		serverActions: {
-			bodySizeLimit: '2mb',
+			bodySizeLimit: "2mb",
 		},
 	},
 	poweredByHeader: false,
 	compress: true,
-	output: 'standalone',
+	output: "standalone",
 	images: {
 		remotePatterns: [
 			{
@@ -57,11 +57,11 @@ const nextConfig = {
 				hostname: "m701.music.126.net",
 				port: "",
 				pathname: "/**",
-			}
+			},
 		],
 		deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
 		imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-		formats: ['image/webp', 'image/avif'],
+		formats: ["image/webp", "image/avif"],
 		minimumCacheTTL: 60 * 60 * 24,
 		dangerouslyAllowSVG: true,
 		contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
@@ -69,69 +69,72 @@ const nextConfig = {
 	async headers() {
 		return [
 			{
-				source: '/:path*',
+				source: "/:path*",
 				headers: [
 					{
-						key: 'X-Frame-Options',
-						value: 'DENY'
+						key: "X-Frame-Options",
+						value: "DENY",
 					},
 					{
-						key: 'X-Content-Type-Options',
-						value: 'nosniff'
+						key: "X-Content-Type-Options",
+						value: "nosniff",
 					},
 					{
-						key: 'Strict-Transport-Security',
-						value: 'max-age=31536000; includeSubDomains'
+						key: "Strict-Transport-Security",
+						value: "max-age=31536000; includeSubDomains",
 					},
 					{
-						key: 'Content-Security-Policy',
-						value: "default-src 'self' https:; script-src 'self' 'unsafe-eval' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https: http://*.music.126.net https://*.music.126.net https://i.ytimg.com; media-src 'self' blob: https: http://*.music.126.net https://*.music.126.net https://m*.music.126.net http://m*.music.126.net; font-src 'self' data: https:; connect-src 'self' https: wss://*.pusher.com https://*.laogou717.com https://*.music.126.net http://*.music.126.net https://music.laogou717.com;"
+						key: "Content-Security-Policy",
+						value:
+							"default-src 'self' https:; script-src 'self' 'unsafe-eval' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https: http://*.music.126.net https://*.music.126.net https://i.ytimg.com; media-src 'self' blob: https: http://*.music.126.net https://*.music.126.net https://m*.music.126.net http://m*.music.126.net; font-src 'self' data: https:; connect-src 'self' https: wss://*.pusher.com https://*.laogou717.com https://*.music.126.net http://*.music.126.net https://music.laogou717.com;",
 					},
 					{
-						key: 'Access-Control-Allow-Origin',
-						value: '*'
+						key: "Access-Control-Allow-Origin",
+						value: "*",
 					},
 					{
-						key: 'Access-Control-Allow-Methods',
-						value: 'GET, POST, PUT, DELETE, OPTIONS'
+						key: "Access-Control-Allow-Methods",
+						value: "GET, POST, PUT, DELETE, OPTIONS",
 					},
 					{
-						key: 'Access-Control-Allow-Headers',
-						value: 'X-Requested-With, Content-Type, Authorization'
+						key: "Access-Control-Allow-Headers",
+						value: "X-Requested-With, Content-Type, Authorization",
 					},
 					{
-						key: 'Cache-Control',
-						value: 'public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800'
-					}
-				]
+						key: "Cache-Control",
+						value:
+							"public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800",
+					},
+				],
 			},
 			{
-				source: '/api/:path*',
+				source: "/api/:path*",
 				headers: [
 					{
-						key: 'Cache-Control',
-						value: 'no-store'
-					}
-				]
+						key: "Cache-Control",
+						value: "no-store",
+					},
+				],
 			},
 			{
-				source: '/_next/image/:path*',
+				source: "/_next/image/:path*",
 				headers: [
 					{
-						key: 'Cache-Control',
-						value: 'public, max-age=86400, s-maxage=31536000, stale-while-revalidate=31536000'
-					}
-				]
+						key: "Cache-Control",
+						value:
+							"public, max-age=86400, s-maxage=31536000, stale-while-revalidate=31536000",
+					},
+				],
 			},
 			{
-				source: '/static/:path*',
+				source: "/static/:path*",
 				headers: [
 					{
-						key: 'Cache-Control',
-						value: 'public, max-age=31536000, immutable'
-					}
-				]
-			}
+						key: "Cache-Control",
+						value: "public, max-age=31536000, immutable",
+					},
+				],
+			},
 		];
 	},
 	async redirects() {
@@ -152,8 +155,8 @@ const nextConfig = {
 
 const withMDX = createMDX({
 	options: {
-		format: 'mdx'
-	}
+		format: "mdx",
+	},
 });
 
 export default withMDX(nextConfig);

@@ -1,9 +1,9 @@
 import { Container } from "@/components/blocks/container";
 
 export default function NotesLayout({
-  children,
+	children,
 }: {
-  children: React.ReactNode;
+	children: React.ReactNode;
 }) {
-  return <>{children}</>;
-} 
+	return <>{children}</>;
+}

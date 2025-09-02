@@ -3,240 +3,249 @@
 @tailwind utilities;
 
 :root {
-  --avatar-image-transform: translate3d(0rem, 1rem, 0) scale(1);
-  --avatar-border-transform: translate3d(0rem, 1rem, 0) scale(1);
-  --avatar-border-opacity: 0;
+	--avatar-image-transform: translate3d(0rem, 1rem, 0) scale(1);
+	--avatar-border-transform: translate3d(0rem, 1rem, 0) scale(1);
+	--avatar-border-opacity: 0;
 }
 
 @layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 5.9% 10%;
-    --radius: 0.75rem;
-  }
+	:root {
+		--background: 0 0% 100%;
+		--foreground: 240 10% 3.9%;
+		--card: 0 0% 100%;
+		--card-foreground: 240 10% 3.9%;
+		--popover: 0 0% 100%;
+		--popover-foreground: 240 10% 3.9%;
+		--primary: 240 5.9% 10%;
+		--primary-foreground: 0 0% 98%;
+		--secondary: 240 4.8% 95.9%;
+		--secondary-foreground: 240 5.9% 10%;
+		--muted: 240 4.8% 95.9%;
+		--muted-foreground: 240 3.8% 46.1%;
+		--accent: 240 4.8% 95.9%;
+		--accent-foreground: 240 5.9% 10%;
+		--destructive: 0 84.2% 60.2%;
+		--destructive-foreground: 0 0% 98%;
+		--border: 240 5.9% 90%;
+		--input: 240 5.9% 90%;
+		--ring: 240 5.9% 10%;
+		--radius: 0.75rem;
+	}
 
-  .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
-  }
+	.dark {
+		--background: 240 10% 3.9%;
+		--foreground: 0 0% 98%;
+		--card: 240 10% 3.9%;
+		--card-foreground: 0 0% 98%;
+		--popover: 240 10% 3.9%;
+		--popover-foreground: 0 0% 98%;
+		--primary: 0 0% 98%;
+		--primary-foreground: 240 5.9% 10%;
+		--secondary: 240 3.7% 15.9%;
+		--secondary-foreground: 0 0% 98%;
+		--muted: 240 3.7% 15.9%;
+		--muted-foreground: 240 5% 64.9%;
+		--accent: 240 3.7% 15.9%;
+		--accent-foreground: 0 0% 98%;
+		--destructive: 0 62.8% 30.6%;
+		--destructive-foreground: 0 0% 98%;
+		--border: 240 3.7% 15.9%;
+		--input: 240 3.7% 15.9%;
+		--ring: 240 4.9% 83.9%;
+	}
 
-  * {
-    @apply border-border;
-  }
+	* {
+		@apply border-border;
+	}
 
-  html {
-    @apply antialiased min-h-screen bg-background text-foreground font-sans;
-  }
+	html {
+		@apply antialiased min-h-screen bg-background text-foreground font-sans;
+	}
 
-  body {
-    @apply min-h-screen font-sans bg-background text-foreground;
-  }
+	body {
+		@apply min-h-screen font-sans bg-background text-foreground;
+	}
 
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-serif font-medium tracking-tight;
-  }
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		@apply font-serif font-medium tracking-tight;
+	}
 }
 
 @layer components {
-  .pro {
-    @apply prose prose-zinc dark:prose-invert;
-  }
+	.pro {
+		@apply prose prose-zinc dark:prose-invert;
+	}
 
-  .container {
-    @apply mx-auto px-8;
-    @screen sm {
-      max-width: none;
-    }
-    @screen 2xl {
-      max-width: 1400px;
-    }
-  }
+	.container {
+		@apply mx-auto px-8;
+		@screen sm {
+			max-width: none;
+		}
+		@screen 2xl {
+			max-width: 1400px;
+		}
+	}
 
-  .debug {
-    @apply outline-dashed outline-red-500/75;
-  }
+	.debug {
+		@apply outline-dashed outline-red-500/75;
+	}
 
-  .shadow-polaroid {
-    @apply shadow-[0px_0px_0px_1px_rgba(0,0,0,0.06),0px_1px_1px_-0.5px_rgba(0,0,0,0.06),0px_3px_3px_-1.5px_rgba(0,0,0,0.06),_0px_6px_6px_-3px_rgba(0,0,0,0.06),0px_12px_12px_-6px_rgba(0,0,0,0.06),0px_24px_24px_-12px_rgba(0,0,0,0.06)];
-  }
+	.shadow-polaroid {
+		@apply shadow-[0px_0px_0px_1px_rgba(0,0,0,0.06),0px_1px_1px_-0.5px_rgba(0,0,0,0.06),0px_3px_3px_-1.5px_rgba(0,0,0,0.06),_0px_6px_6px_-3px_rgba(0,0,0,0.06),0px_12px_12px_-6px_rgba(0,0,0,0.06),0px_24px_24px_-12px_rgba(0,0,0,0.06)];
+	}
 
-  .faded-border {
-    background: radial-gradient(
-      49.41% 64.58% at 49.4% 0,
-      hsla(0, 0%, 50%, 0.03) 0,
-      hsla(0, 0%, 50%, 0) 100%
-    );
-    border-top: 1px solid;
-    border-image-source: linear-gradient(
-      90deg,
-      transparent 0,
-      hsla(0, 0%, 50%, 0.19) 30%,
-      hsla(0, 0%, 50%, 0.19) 70%,
-      transparent
-    );
-    border-image-slice: 1;
-  }
+	.faded-border {
+		background: radial-gradient(
+			49.41% 64.58% at 49.4% 0,
+			hsla(0, 0%, 50%, 0.03) 0,
+			hsla(0, 0%, 50%, 0) 100%
+		);
+		border-top: 1px solid;
+		border-image-source: linear-gradient(
+			90deg,
+			transparent 0,
+			hsla(0, 0%, 50%, 0.19) 30%,
+			hsla(0, 0%, 50%, 0.19) 70%,
+			transparent
+		);
+		border-image-slice: 1;
+	}
 
-  .dark .faded-border {
-    background: radial-gradient(
-      49.41% 64.58% at 49.4% 0,
-      hsla(0, 0%, 50%, 0.03) 0,
-      hsla(0, 0%, 50%, 0) 100%
-    );
-    border-top: 1px solid;
-    border-image-source: linear-gradient(
-      90deg,
-      transparent 0,
-      hsla(0, 0%, 50%, 0.19) 30%,
-      hsla(0, 0%, 50%, 0.19) 70%,
-      transparent
-    );
-    border-image-slice: 1;
-  }
+	.dark .faded-border {
+		background: radial-gradient(
+			49.41% 64.58% at 49.4% 0,
+			hsla(0, 0%, 50%, 0.03) 0,
+			hsla(0, 0%, 50%, 0) 100%
+		);
+		border-top: 1px solid;
+		border-image-source: linear-gradient(
+			90deg,
+			transparent 0,
+			hsla(0, 0%, 50%, 0.19) 30%,
+			hsla(0, 0%, 50%, 0.19) 70%,
+			transparent
+		);
+		border-image-slice: 1;
+	}
 }
 
 @layer utilities {
-  .animate-accordion-down {
-    animation: accordion-down 0.2s ease-out;
-  }
+	.animate-accordion-down {
+		animation: accordion-down 0.2s ease-out;
+	}
 
-  .animate-accordion-up {
-    animation: accordion-up 0.2s ease-out;
-  }
+	.animate-accordion-up {
+		animation: accordion-up 0.2s ease-out;
+	}
 
-  @keyframes accordion-down {
-    from {
-      height: 0;
-    }
-    to {
-      height: var(--radix-accordion-content-height);
-    }
-  }
+	@keyframes accordion-down {
+		from {
+			height: 0;
+		}
+		to {
+			height: var(--radix-accordion-content-height);
+		}
+	}
 
-  @keyframes accordion-up {
-    from {
-      height: var(--radix-accordion-content-height);
-    }
-    to {
-      height: 0;
-    }
-  }
+	@keyframes accordion-up {
+		from {
+			height: var(--radix-accordion-content-height);
+		}
+		to {
+			height: 0;
+		}
+	}
 }
 /* Q&A Styles */
 .qa-wrapper {
-  --tw-bg-opacity: 0.3;
-  --tw-border-opacity: 0.1;
+	--tw-bg-opacity: 0.3;
+	--tw-border-opacity: 0.1;
 }
 
 .qa-wrapper .giscus {
-  width: 100% !important;
-  max-width: none !important;
+	width: 100% !important;
+	max-width: none !important;
 }
 
 .qa-wrapper .giscus-frame {
-  border: none !important;
-  background: transparent !important;
+	border: none !important;
+	background: transparent !important;
 }
 
 .qa-wrapper .giscus-comments {
-  background: transparent !important;
+	background: transparent !important;
 }
 
 .qa-wrapper .giscus-comment {
-  margin: 1.5rem 0 !important;
-  padding: 1.5rem !important;
-  border-radius: 1rem !important;
-  background: rgb(244 244 245 / var(--tw-bg-opacity)) !important;
-  border: 1px solid rgb(161 161 170 / var(--tw-border-opacity)) !important;
-  transition: all 0.2s !important;
+	margin: 1.5rem 0 !important;
+	padding: 1.5rem !important;
+	border-radius: 1rem !important;
+	background: rgb(244 244 245 / var(--tw-bg-opacity)) !important;
+	border: 1px solid rgb(161 161 170 / var(--tw-border-opacity)) !important;
+	transition: all 0.2s !important;
 }
 
 .dark .qa-wrapper .giscus-comment {
-  background: rgb(39 39 42 / var(--tw-bg-opacity)) !important;
-  border-color: rgb(161 161 170 / var(--tw-border-opacity)) !important;
+	background: rgb(39 39 42 / var(--tw-bg-opacity)) !important;
+	border-color: rgb(161 161 170 / var(--tw-border-opacity)) !important;
 }
 
 .qa-wrapper .giscus-comment:hover {
-  --tw-bg-opacity: 0.4;
-  --tw-border-opacity: 0.2;
+	--tw-bg-opacity: 0.4;
+	--tw-border-opacity: 0.2;
 }
 
 .qa-wrapper .giscus-reactions {
-  display: flex !important;
-  gap: 0.5rem !important;
-  margin-top: 1rem !important;
+	display: flex !important;
+	gap: 0.5rem !important;
+	margin-top: 1rem !important;
 }
 
 .qa-wrapper .giscus-button {
-  border-radius: 9999px !important;
-  padding: 0.5rem 1rem !important;
-  font-size: 0.875rem !important;
-  line-height: 1.25rem !important;
-  background: rgb(244 244 245 / var(--tw-bg-opacity)) !important;
-  border: 1px solid rgb(161 161 170 / var(--tw-border-opacity)) !important;
-  transition: all 0.2s !important;
+	border-radius: 9999px !important;
+	padding: 0.5rem 1rem !important;
+	font-size: 0.875rem !important;
+	line-height: 1.25rem !important;
+	background: rgb(244 244 245 / var(--tw-bg-opacity)) !important;
+	border: 1px solid rgb(161 161 170 / var(--tw-border-opacity)) !important;
+	transition: all 0.2s !important;
 }
 
 .dark .qa-wrapper .giscus-button {
-  background: rgb(39 39 42 / var(--tw-bg-opacity)) !important;
+	background: rgb(39 39 42 / var(--tw-bg-opacity)) !important;
 }
 
 .qa-wrapper .giscus-button:hover {
-  --tw-bg-opacity: 0.5;
-  --tw-border-opacity: 0.3;
+	--tw-bg-opacity: 0.5;
+	--tw-border-opacity: 0.3;
 }
 
 /* Theme switching without flash */
 .no-flash {
-  opacity: 0;
-  transition: opacity 0.3s;
+	opacity: 0;
+	transition: opacity 0.3s;
 }
 
 .no-flash.loaded {
-  opacity: 1;
+	opacity: 1;
 }
 
-:root[class~='dark'] .dark\:rotate-0 {
-  --tw-rotate: 0deg;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+:root[class~="dark"] .dark\:rotate-0 {
+	--tw-rotate: 0deg;
+	transform: translate(var(--tw-translate-x), var(--tw-translate-y))
+		rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y))
+		scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
-:root[class~='dark'] .dark\:scale-100 {
-  --tw-scale-x: 1;
-  --tw-scale-y: 1;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+:root[class~="dark"] .dark\:scale-100 {
+	--tw-scale-x: 1;
+	--tw-scale-y: 1;
+	transform: translate(var(--tw-translate-x), var(--tw-translate-y))
+		rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y))
+		scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }

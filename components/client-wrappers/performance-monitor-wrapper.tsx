@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { PerformanceMonitor } from '@/components/blocks/performance-monitor';
+import { PerformanceMonitor } from "@/components/blocks/performance-monitor";
 
 export function PerformanceMonitorWrapper() {
-  return <PerformanceMonitor />;
-} 
+	return <PerformanceMonitor />;
+}
