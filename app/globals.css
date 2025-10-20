@@ -93,7 +93,11 @@
 }
 
 @utility shadow-polaroid {
-	@apply shadow-[0px_0px_0px_1px_rgba(0,0,0,0.06),0px_1px_1px_-0.5px_rgba(0,0,0,0.06),0px_3px_3px_-1.5px_rgba(0,0,0,0.06),_0px_6px_6px_-3px_rgba(0,0,0,0.06),0px_12px_12px_-6px_rgba(0,0,0,0.06),0px_24px_24px_-12px_rgba(0,0,0,0.06)];
+	@apply shadow-[0px_0px_0px_1px_rgba(0,0,0,0.08),0px_2px_2px_-1px_rgba(0,0,0,0.1),0px_4px_4px_-2px_rgba(0,0,0,0.08),0px_8px_8px_-4px_rgba(0,0,0,0.06),0px_16px_16px_-8px_rgba(0,0,0,0.04),0px_32px_32px_-16px_rgba(0,0,0,0.02)];
+}
+
+@utility shadow-polaroid-hover {
+	@apply shadow-[0px_0px_0px_1px_rgba(0,0,0,0.12),0px_4px_4px_-2px_rgba(0,0,0,0.15),0px_8px_8px_-4px_rgba(0,0,0,0.12),0px_16px_16px_-8px_rgba(0,0,0,0.08),0px_32px_32px_-16px_rgba(0,0,0,0.06),0px_64px_64px_-32px_rgba(0,0,0,0.04)];
 }
 
 @utility faded-border {
