@@ -24,6 +24,7 @@ const PolaroidGallery = ({
 	const [isVisible, setIsVisible] = useState(false);
 	const [currentIndex, setCurrentIndex] = useState(0);
 	const [isViewerOpen, setIsViewerOpen] = useState(false);
+	const [isImageLoading, setIsImageLoading] = useState(false);
 
 	useEffect(() => {
 		if (isInView && !isVisible) {
@@ -41,10 +42,12 @@ const PolaroidGallery = ({
 	}, []);
 
 	const nextImage = useCallback(() => {
+		setIsImageLoading(true);
 		setCurrentIndex((prev) => (prev + 1) % images.length);
 	}, [images.length]);
 
 	const prevImage = useCallback(() => {
+		setIsImageLoading(true);
 		setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
 	}, [images.length]);
 
@@ -150,14 +153,18 @@ const PolaroidGallery = ({
 									key={currentIndex}
 									className="relative w-full h-[80vh] max-w-4xl mx-auto"
 									initial={{ scale: 0.8, opacity: 0, rotateY: 15 }}
-									animate={{ scale: 1, opacity: 1, rotateY: 0 }}
+									animate={{
+										scale: 1,
+										opacity: 1,
+										rotateY: 0,
+									}}
 									exit={{ scale: 0.8, opacity: 0, rotateY: -15 }}
 									transition={{
-										duration: 0.6,
+										duration: 0.4,
 										ease: [0.25, 0.46, 0.45, 0.94],
 										type: "spring",
-										stiffness: 100,
-										damping: 20,
+										stiffness: 200,
+										damping: 25,
 									}}
 								>
 									<div className="relative w-full h-full rounded-xl overflow-hidden flex items-center justify-center">
@@ -166,10 +173,22 @@ const PolaroidGallery = ({
 											alt=""
 											width={800}
 											height={600}
-											className="object-contain max-w-full max-h-full rounded-xl"
+											className={`object-contain max-w-full max-h-full rounded-xl transition-all duration-300 ${
+												isImageLoading
+													? "blur-sm scale-105"
+													: "blur-0 scale-100"
+											}`}
 											sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
 											priority
+											onLoad={() => setIsImageLoading(false)}
 										/>
+
+										{/* Loading overlay */}
+										{isImageLoading && (
+											<div className="absolute inset-0 bg-black/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
+												<div className="w-8 h-8 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+											</div>
+										)}
 
 										{/* Subtle gradient overlay */}
 										<div className="absolute inset-0 pointer-events-none" />
@@ -209,7 +228,10 @@ const PolaroidGallery = ({
 									{images.map((_, index) => (
 										<button
 											key={index}
-											onClick={() => setCurrentIndex(index)}
+											onClick={() => {
+												setIsImageLoading(true);
+												setCurrentIndex(index);
+											}}
 											className={`w-2 h-2 rounded-full transition-all duration-200 ${
 												index === currentIndex
 													? "bg-white scale-125"
