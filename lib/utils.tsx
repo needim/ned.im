@@ -145,9 +145,10 @@ const changelogItems: Array<{
 	photos?: Array<{ src: string; variant: "1x1" | "4x3" | "4x5" | "9x16" }>;
 }> = [
 	{
-		date: "2025-09-20",
+		date: "2025-10-20",
 		event: "I'm not gonna share my life anymore.",
-		title: "Your data belongs to you.",
+		description: "Your data belongs to you.",
+		title: "Istanbul",
 		icon: "🇹🇷",
 		dateFormatOptions: dateFormat.day,
 	},

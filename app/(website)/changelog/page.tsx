@@ -13,7 +13,7 @@ export default function Changelog() {
 				<h1 className="tracking-tight text-5xl">Changelog</h1>
 				<div className="pro text-muted-foreground text-balance">
 					<p className="mt-2">
-						Here you can find the major updates and changes to my life.
+						Looking for advice on how to communicate life changes to others?
 					</p>
 				</div>
 				<ChangelogList />
