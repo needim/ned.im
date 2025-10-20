@@ -100,9 +100,6 @@ export function ThemeToggle({
 				className={cn("size-5 flex items-center relative")}
 			>
 				<motion.div
-					animate={{
-						transition: { duration: 0.1, easings: ["easeInOut"] },
-					}}
 					className={cn(
 						"size-5 transition-all duration-300 ease-in-out relative",
 					)}
