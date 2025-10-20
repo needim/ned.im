@@ -39,11 +39,10 @@ export const careerItems = [
 	{
 		from: 2021,
 		to: null,
-		title: "Software Manager & Lead Developer",
+		title: "Code Janitor & Digital Mess Cleaner",
 		company: { name: "Defter", url: "https://birdefter.com" },
 		location: "Istanbul, Turkey",
-		description:
-			"I am currently working at Defter as a Software Manager & Lead Developer.",
+		// description: "I am currently working at my job.",
 		subRoles: [
 			{
 				from: 2019,
@@ -145,6 +144,13 @@ const changelogItems: Array<{
 	dateFormatOptions?: (typeof dateFormat)[keyof typeof dateFormat];
 	photos?: Array<{ src: string; variant: "1x1" | "4x3" | "4x5" | "9x16" }>;
 }> = [
+	{
+		date: "2025-09-20",
+		event: "I'm not gonna share my life anymore.",
+		title: "Your data belongs to you.",
+		icon: "🇹🇷",
+		dateFormatOptions: dateFormat.day,
+	},
 	{
 		date: "2025-05-14",
 		event: "Visit to Japan",
@@ -871,7 +877,7 @@ export const projects = [
 		name: "gider.im",
 		githubSlug: "needim/gider.im-pwa",
 		released: "2024-05-26",
-		description: "Privacy focused income & expense tracking app.",
+		description: "(MVP) Privacy focused income & expense tracking app.",
 		logo: <GiderimLogo className="size-10" />,
 		links: [
 			{
@@ -889,29 +895,12 @@ export const projects = [
 		featured: true,
 	},
 	{
-		name: "recurrentry",
-		githubSlug: "needim/recurrentry",
-		released: "2025-03-14",
-		logo: <IconGithub className="size-10" />,
-		deprecated: false,
-		description:
-			"A highly opinionated TypeScript library for handling recurring payments.",
-		links: [
-			{
-				href: "https://github.com/needim/recurrentry",
-				label: "GitHub",
-				icon: IconGithub,
-			},
-		],
-		featured: true,
-		metrics: [],
-	},
-	{
 		name: "smashing.tools",
 		githubSlug: "smashing-tools/smashing.tools",
 		released: "2023-12-25",
 		logo: <IconSmashing className="size-10" />,
-		description: "Curated best starter kits, UI components & resources.",
+		description:
+			"Curated best starter kits, UI components & resources. Maybe I'll add something here someday.",
 		links: [
 			{
 				href: "https://smashing.tools",
@@ -933,7 +922,7 @@ export const projects = [
 		released: "2023-01-01",
 		logo: <></>,
 		deprecated: true,
-		description: "You're currently browsing my personal website.",
+		description: "You're currently browsing this website.",
 		links: [{ href: "/", label: "Website", icon: IconWorld }],
 		featured: false,
 		metrics: [],

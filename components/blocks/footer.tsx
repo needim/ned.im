@@ -5,7 +5,7 @@ import { SectionDivider } from "@/components/blocks/section-divider";
 import { ThemeToggle } from "@/components/blocks/theme-toggle";
 import IconNextjs from "@/components/icons/nextjs";
 import { navItems } from "@/lib/utils";
-import { IconBrandGithubFilled, IconBrandVercel } from "@tabler/icons-react";
+import { IconBrandGithubFilled } from "@tabler/icons-react";
 
 function NavLink({
 	href,
@@ -51,14 +51,6 @@ export function Footer() {
 										className="items-center flex gap-1 dark:hover:text-white"
 									>
 										Built with <IconNextjs className="size-4 inline" />
-									</Link>
-									<Link
-										href="https://www.vercel.com"
-										target="_blank"
-										rel="nofollow"
-										className="items-center flex gap-1 dark:hover:text-white"
-									>
-										Deployed on <IconBrandVercel className="size-4 inline" />
 									</Link>
 									<Link
 										href="https://github.com/needim/ned.im"

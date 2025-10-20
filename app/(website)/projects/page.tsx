@@ -105,15 +105,15 @@ export default async function Home() {
 
 			<div className="px-8">
 				<p className="mt-10 text-muted-foreground">
-					Here are some more projects that I have worked on. You can find the
-					complete list of projects on my{" "}
+					Here are some projects I'm not too embarrassed to show. The rest are
+					hiding on{" "}
 					<a
 						href="https://github.com/needim"
 						className="font-semibold transition-colors"
 						target="_blank"
 						rel="noreferrer"
 					>
-						GitHub profile
+						my GitHub.
 					</a>
 					.
 				</p>

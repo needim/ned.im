@@ -43,7 +43,7 @@ export default async function Readme() {
 				<h1 className="tracking-tight text-4xl sm:text-5xl">
 					Nedim Arabacı
 					<span className="text-muted-foreground font-title font-extralight text-3xl sm:text-4xl block text-balance">
-						Developer & Software manager
+						Code Janitor & Digital Mess Cleaner
 					</span>
 				</h1>
 				<div className="pro text-muted-foreground text-balance ps-1">
@@ -57,13 +57,10 @@ export default async function Readme() {
 						>
 							@Defter
 						</Link>
-						, a company that specializes in building SaaS CRM/ERP products.
+						.
 					</p>
 					<p>
-						At Defter, my responsibility is to oversee the development and
-						deployment of software solutions that are not only efficient and
-						effective but also customized to meet our clients&apos; specific
-						business requirements.
+						I develop/deploy/manage internal software solutions for the company.
 					</p>
 				</div>
 				<div className="mt-6 flex gap-6">
@@ -91,7 +88,7 @@ export default async function Readme() {
 				</p>
 				<div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
 					<ProjectCard
-						title="gider.im"
+						title="gider.im (MVP)"
 						icon={<GiderimLogo className="size-10" />}
 						description="Privacy focused income & expense tracking app."
 						link="https://gider.im"
