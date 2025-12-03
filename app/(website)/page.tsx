@@ -1,11 +1,11 @@
 import { CareerCard } from "@/components/blocks/career-card";
 import { Container } from "@/components/blocks/container";
-import GiderimLogo from "@/components/blocks/giderim-logo";
 import { OpenSourceCard } from "@/components/blocks/opensource-card";
 import { ProjectCard } from "@/components/blocks/project-card";
 import { SectionDivider } from "@/components/blocks/section-divider";
 import { GitHubIcon, XIcon } from "@/components/blocks/social-icons";
 import { SocialLink } from "@/components/blocks/social-link";
+import { WagesoLogo } from "@/components/wageso-logo";
 import { careerItems } from "@/lib/utils";
 import { getGithubInfo, getXInfo } from "@/server/thirdparty";
 import type { Metadata } from "next";
@@ -43,7 +43,7 @@ export default async function Readme() {
 				<h1 className="tracking-tight text-4xl sm:text-5xl">
 					Nedim Arabacı
 					<span className="text-muted-foreground font-title font-extralight text-3xl sm:text-4xl block text-balance">
-						Code Janitor & Digital Mess Cleaner
+						Software Engineer
 					</span>
 				</h1>
 				<div className="pro text-muted-foreground text-balance ps-1">
@@ -88,10 +88,10 @@ export default async function Readme() {
 				</p>
 				<div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
 					<ProjectCard
-						title="gider.im (MVP)"
-						icon={<GiderimLogo className="size-10" />}
-						description="Privacy focused income & expense tracking app."
-						link="https://gider.im"
+						title="Wageso"
+						icon={<WagesoLogo className="size-10" />}
+						description="Privacy-first income, expense & assets tracking app."
+						link="https://wageso.com"
 					/>
 					<OpenSourceCard
 						link="https://github.com/needim"

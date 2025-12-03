@@ -1,8 +1,10 @@
+import { AppStoreLogo } from "@/components/app-store-logo";
 import GiderimLogo from "@/components/blocks/giderim-logo";
 import IconGithub from "@/components/icons/github";
 import { IconSmashing } from "@/components/icons/smashing";
-import { IconWorld } from "@tabler/icons-react";
+import { WagesoLogo } from "@/components/wageso-logo";
 import { type ClassValue, clsx } from "clsx";
+import type { SVGProps } from "react";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -39,7 +41,7 @@ export const careerItems = [
 	{
 		from: 2021,
 		to: null,
-		title: "Code Janitor & Digital Mess Cleaner",
+		title: "Software Engineer",
 		company: { name: "Defter", url: "https://birdefter.com" },
 		location: "Istanbul, Turkey",
 		// description: "I am currently working at my job.",
@@ -873,7 +875,50 @@ export const changelog = changelogItems.sort(
 	(a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
 );
 
+const ExtLinkLogo = (props: SVGProps<SVGSVGElement>) => (
+	<svg
+		xmlns="http://www.w3.org/2000/svg"
+		width="1em"
+		height="1em"
+		viewBox="0 0 24 24"
+		fill="none"
+		stroke="currentColor"
+		strokeWidth="3"
+		strokeLinecap="round"
+		strokeLinejoin="round"
+		className="mr-1 inline-block"
+	>
+		<path d="M7 7h10v10" />
+		<path d="M7 17 17 7" />
+	</svg>
+);
+
 export const projects = [
+	{
+		name: "Wageso",
+		githubSlug: "needim/wageso",
+		released: "2025-11-20",
+		description: "Privacy-first income, expense & assets tracking app.",
+		bottomText: "Now available on App Store",
+		logo: <WagesoLogo className="size-10" />,
+		links: [
+			{
+				href: "https://wageso.com",
+				label: "Website",
+				icon: ExtLinkLogo,
+			},
+			{
+				label: "App Store",
+				icon: AppStoreLogo,
+				href: "https://apps.apple.com/app/wageso/id6747617318",
+			},
+		],
+		metrics: [] as Array<{
+			label: string;
+			value: number;
+		}>,
+		featured: true,
+	},
 	{
 		name: "gider.im",
 		githubSlug: "needim/gider.im-pwa",
@@ -884,7 +929,7 @@ export const projects = [
 			{
 				href: "https://gider.im",
 				label: "Website",
-				icon: IconWorld,
+				icon: ExtLinkLogo,
 			},
 			{
 				href: "https://github.com/needim/gider.im-pwa",
@@ -906,7 +951,7 @@ export const projects = [
 			{
 				href: "https://smashing.tools",
 				label: "Website",
-				icon: IconWorld,
+				icon: ExtLinkLogo,
 			},
 			{
 				href: "https://github.com/smashing-team/smashing.tools",
@@ -924,7 +969,7 @@ export const projects = [
 		logo: <></>,
 		deprecated: true,
 		description: "You're currently browsing this website.",
-		links: [{ href: "/", label: "Website", icon: IconWorld }],
+		links: [{ href: "/", label: "Website", icon: ExtLinkLogo }],
 		featured: false,
 		metrics: [],
 	},
@@ -937,7 +982,7 @@ export const projects = [
 		description:
 			"A dependency-free, notification plugin with no deps. ⛔️ Deprecated.",
 		links: [
-			{ href: "/noty", label: "Website", icon: IconWorld },
+			{ href: "/noty", label: "Website", icon: ExtLinkLogo },
 			{
 				href: "https://github.com/needim/noty",
 				label: "GitHub",

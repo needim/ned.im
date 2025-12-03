@@ -67,6 +67,13 @@ export default async function Home() {
 							</p>
 							<div className=" flex flex-col sm:flex-row gap-4 sm:gap-0 items-start sm:items-center justify-between sm:h-14">
 								<div className="flex gap-4">
+									{project.bottomText && (
+										<div className="flex items-center py-1.5 gap-3">
+											<span className="text-xs uppercase tracking-wide font-semibold text-sky-600 dark:text-sky-400">
+												{project.bottomText}
+											</span>
+										</div>
+									)}
 									{project.metrics.map((metric, index) => (
 										<div
 											key={`metric-${index}`}
