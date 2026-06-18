@@ -1,10 +1,8 @@
 "use client";
-import { Avatar } from "@/components/blocks/avatar";
 import { HeaderGradient } from "@/components/blocks/header-gradient";
 import { SectionDivider } from "@/components/blocks/section-divider";
 import { ThemeToggle } from "@/components/blocks/theme-toggle";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { cn, navItems } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -19,39 +17,36 @@ export const SiteHeader = () => {
 		<>
 			<HeaderGradient />
 			<header className="border-b dark:[--color-border:color-mix(in_oklab,var(--color-zinc-800)_60%,transparent)]">
-				<div className="mx-auto flex max-w-3xl justify-between px-8 py-4">
-					<div className="flex gap-6 items-center">
-						<Avatar />
-						<div className="flex gap-1">
-							<Button
-								asChild
-								size="sm"
-								variant="ghost"
-								className={cn(
-									"text-foreground/50",
-									isActive("/projects") && "text-foreground",
-								)}
-							>
-								<Link href="/projects" className="!text-sm">
-									Projects
-								</Link>
-							</Button>
-							<Button
-								asChild
-								size="sm"
-								variant="ghost"
-								className={cn(
-									"text-foreground/50",
-									isActive("/changelog") && "text-foreground",
-								)}
-							>
-								<Link href="/changelog" className="!text-sm">
-									Changelog
-								</Link>
-							</Button>
+				<div className="mx-auto flex h-14 max-w-3xl items-center justify-between px-8">
+					<nav className="flex min-w-0 items-center gap-4" aria-label="Main">
+						<Link
+							href="/"
+							aria-label="Home"
+							className={cn(
+								"shrink-0 rounded px-1 py-1 font-mono text-sm/6 font-semibold tracking-normal text-muted-foreground transition hover:text-foreground",
+								pathname === "/" && "text-foreground",
+							)}
+						>
+							ned.im
+						</Link>
+						<div className="flex min-w-0 items-center gap-1">
+							{navItems
+								.filter((item) => item.href !== "/")
+								.map((item) => (
+									<Link
+										key={item.href}
+										href={item.href}
+										className={cn(
+											"rounded px-2.5 py-1 text-sm/6 font-medium text-muted-foreground transition hover:bg-accent/60 hover:text-foreground",
+											isActive(item.href) && "text-foreground",
+										)}
+									>
+										{item.label}
+									</Link>
+								))}
 						</div>
-					</div>
-					<div className="flex items-center">
+					</nav>
+					<div className="flex size-9 shrink-0 items-center justify-center rounded transition-colors hover:bg-accent/60">
 						<ThemeToggle hideIndicator />
 					</div>
 				</div>

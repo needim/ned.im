@@ -33,18 +33,18 @@ export default async function Home() {
 	});
 
 	return (
-		<Container className="py-8 pb-10">
+		<Container className="py-10 pb-12 sm:py-12">
 			<div className=" px-8">
-				<h1 className="tracking-tight text-5xl">Projects</h1>
-				<div className="pro text-muted-foreground text-balance">
-					<p className="mt-1">
+				<h1 className="text-5xl/[1.05]">Projects</h1>
+				<div className="mt-3 text-balance text-base/7 text-muted-foreground">
+					<p>
 						I've worked on a range of projects over the years—some as hobbies,
 						others as proof of concept, and a few to solve my own challenges.
 					</p>
 				</div>
 			</div>
 
-			<div className="grid grid-cols-1">
+			<div className="mt-8 grid grid-cols-1">
 				{featuredProjects.map((project, index) => (
 					<React.Fragment key={`project-${index}`}>
 						<div

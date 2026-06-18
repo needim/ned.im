@@ -1,10 +1,8 @@
 export default async function sitemap() {
 	const routes = [
 		"",
-		"/changelog",
 		// "/notes",
 		"/projects",
-		"/stack",
 		"/colophon",
 		// --- noty
 		"/noty",

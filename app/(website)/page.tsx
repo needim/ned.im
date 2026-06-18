@@ -23,14 +23,6 @@ export default async function Readme() {
 	const githubResponse = await getGithubInfo();
 	const xResponse = await getXInfo();
 
-	const last3weeks =
-		githubResponse.data.viewer.contributionsCollection.contributionCalendar.weeks.slice(
-			-3,
-		);
-	const last14days = last3weeks
-		.flatMap((week) => week.contributionDays)
-		.slice(-14);
-
 	const githubFollowers = githubResponse.data.viewer.followers.totalCount;
 	const githubStars = githubResponse.data.viewer.repositories.nodes.reduce(
 		(acc, repo) => acc + repo.stargazerCount,
@@ -39,52 +31,57 @@ export default async function Readme() {
 
 	return (
 		<>
-			<Container className="py-8 pb-10 px-7">
-				<h1 className="tracking-tight text-4xl sm:text-5xl">
-					Nedim Arabacı
-					<span className="text-muted-foreground font-title font-extralight text-3xl sm:text-4xl block text-balance">
+			<Container className="px-8 py-12 sm:py-16">
+				<div className="max-w-2xl">
+					<p className="mb-4 font-mono text-xs/5 font-semibold uppercase tracking-wide text-muted-foreground">
 						Software Engineer
-					</span>
-				</h1>
-				<div className="pro text-muted-foreground text-balance ps-1">
-					<p className="mt-6">
-						Hi <span className="text-xl">👋🏻</span>, I&apos;m currently working
-						at{" "}
-						<Link
-							href="https://birdefter.com"
-							target="_blank"
-							rel="nofollow noreferrer"
-						>
-							@Defter
-						</Link>
-						.
 					</p>
-					<p>
-						I develop/deploy/manage internal software solutions for the company.
-					</p>
-				</div>
-				<div className="mt-6 flex gap-6">
-					<SocialLink
-						href="https://x.com/needim"
-						aria-label="Follow on X"
-						count={xResponse.data?.public_metrics?.followers_count}
-						label="followers"
-						icon={XIcon}
-					/>
-					<SocialLink
-						href="https://github.com/needim"
-						aria-label="Follow on GitHub"
-						icon={GitHubIcon}
-						count={githubFollowers}
-						label="followers"
-					/>
+					<h1 className="text-balance text-4xl/[1.04] sm:text-5xl/[1.02]">
+						Nedim Arabacı
+					</h1>
+					<div className="mt-8 max-w-xl border-l border-border/70 pl-5 text-balance text-base/7 text-muted-foreground sm:text-lg/8">
+						<p>
+							Hi <span className="text-xl">👋🏻</span>, I&apos;m currently
+							working at{" "}
+							<Link
+								href="https://birdefter.com"
+								target="_blank"
+								rel="nofollow noreferrer"
+								className="font-medium text-foreground underline underline-offset-4"
+							>
+								@Defter
+							</Link>
+							.
+						</p>
+						<p className="mt-4">
+							I build and maintain internal tools that keep the company&apos;s
+							daily operations, data flows, and business processes running
+							smoothly.
+						</p>
+					</div>
+					<div className="mt-7 flex flex-wrap gap-3">
+						<SocialLink
+							href="https://x.com/needim"
+							aria-label="Follow on X"
+							count={xResponse.data?.public_metrics?.followers_count}
+							label="followers"
+							icon={XIcon}
+						/>
+						<SocialLink
+							href="https://github.com/needim"
+							aria-label="Follow on GitHub"
+							icon={GitHubIcon}
+							count={githubFollowers}
+							label="followers"
+						/>
+					</div>
 				</div>
 			</Container>
 			<SectionDivider />
-			<Container className="py-8 pb-10 px-8">
-				<h2 className="text-3xl">Spotlight</h2>
-				<p className="text-muted-foreground mb-8 mt-1">
-					Most recent projects and contributions.
+			<Container className="px-8 py-10 sm:py-12">
+				<h2 className="text-3xl/[1.1]">Spotlight</h2>
+				<p className="mb-8 mt-2 text-base/7 text-muted-foreground">
+					Most recent projects and open source contributions.
 				</p>
 				<div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
 					<ProjectCard
@@ -95,17 +92,16 @@ export default async function Readme() {
 					/>
 					<OpenSourceCard
 						link="https://github.com/needim"
-						contributions={last14days}
 						repoStats={githubResponse.data.viewer.repositories.nodes}
 						totalStars={githubStars}
 					/>
 				</div>
 			</Container>
 			<SectionDivider />
-			<Container className="py-8 pb-0">
+			<Container className="pb-0 pt-10 sm:pt-12">
 				<div className="px-8">
-					<h2 className="text-3xl">Career</h2>
-					<p className="text-muted-foreground mb-8 mt-1">
+					<h2 className="text-3xl/[1.1]">Career</h2>
+					<p className="mb-8 mt-2 text-base/7 text-muted-foreground">
 						Overall I have{" "}
 						<span className="font-semibold">
 							{lastPosition}+ years of experience
