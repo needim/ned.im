@@ -130,7 +130,8 @@ export const projects = [
 		name: "Wageso",
 		githubSlug: "needim/wageso",
 		released: "2025-11-20",
-		description: "Privacy-first income, expense & assets tracking app.",
+		description:
+			"Private money tracker for income, expenses, assets, and net worth.",
 		bottomText: "Now available on App Store",
 		logo: <WagesoLogo className="size-10" />,
 		links: [
@@ -155,7 +156,7 @@ export const projects = [
 		name: "gider.im",
 		githubSlug: "needim/gider.im-pwa",
 		released: "2024-05-26",
-		description: "(MVP) Privacy focused income & expense tracking app.",
+		description: "An earlier web app for private income and expense tracking.",
 		logo: <GiderimLogo className="size-10" />,
 		links: [
 			{
@@ -178,7 +179,7 @@ export const projects = [
 		released: "2023-12-25",
 		logo: <IconSmashing className="size-10" />,
 		description:
-			"Curated best starter kits, UI components & resources. Maybe I'll add something here someday.",
+			"A directory of starter kits, UI libraries, and frontend resources.",
 		links: [
 			{
 				href: "https://smashing.tools",
@@ -212,7 +213,7 @@ export const projects = [
 		logo: <IconGithub className="size-10" />,
 		deprecated: true,
 		description:
-			"A dependency-free, notification plugin with no deps. ⛔️ Deprecated.",
+			"A dependency-free notification plugin for older JavaScript apps.",
 		links: [
 			{ href: "/noty", label: "Website", icon: ExtLinkLogo },
 			{
@@ -231,7 +232,7 @@ export const projects = [
 		released: "2017-11-16",
 		logo: <></>,
 		description:
-			"Creating fake 3D world with 2D colliders and sprites in Unity.",
+			"Unity experiment for 2.5D worlds built from sprites and 2D colliders.",
 		links: [
 			{
 				href: "https://github.com/needim/Kit25D",

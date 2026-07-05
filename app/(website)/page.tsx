@@ -8,6 +8,7 @@ import { SocialLink } from "@/components/blocks/social-link";
 import { WagesoLogo } from "@/components/wageso-logo";
 import { careerItems } from "@/lib/utils";
 import { getGithubInfo, getXInfo } from "@/server/thirdparty";
+import { IconArrowRight } from "@tabler/icons-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import React from "react";
@@ -54,9 +55,9 @@ export default async function Readme() {
 							.
 						</p>
 						<p className="mt-4">
-							I build and maintain internal tools that keep the company&apos;s
-							daily operations, data flows, and business processes running
-							smoothly.
+							I build CRM, ERP, and operations software for the agentic era:
+							structured workflows, reliable data, and interfaces that help
+							humans stay in control while AI agents handle the busywork.
 						</p>
 					</div>
 					<div className="mt-7 flex flex-wrap gap-3">
@@ -81,13 +82,13 @@ export default async function Readme() {
 			<Container className="px-8 py-10 sm:py-12">
 				<h2 className="text-3xl/[1.1]">Spotlight</h2>
 				<p className="mb-8 mt-2 text-base/7 text-muted-foreground">
-					Most recent projects and open source contributions.
+					Recent shipped work, personal tools, and open source activity.
 				</p>
 				<div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
 					<ProjectCard
 						title="Wageso"
 						icon={<WagesoLogo className="size-10" />}
-						description="Privacy-first income, expense & assets tracking app."
+						description="Private money tracker for income, expenses, assets, and net worth."
 						link="https://wageso.com"
 					/>
 					<OpenSourceCard
@@ -96,6 +97,13 @@ export default async function Readme() {
 						totalStars={githubStars}
 					/>
 				</div>
+				<Link
+					href="/projects"
+					className="mt-6 inline-flex items-center gap-1 text-sm font-semibold text-muted-foreground transition hover:text-foreground"
+				>
+					View all projects
+					<IconArrowRight className="size-4" />
+				</Link>
 			</Container>
 			<SectionDivider />
 			<Container className="pb-0 pt-10 sm:pt-12">

@@ -20,7 +20,7 @@ export function OpenSourceCard({
 		<ProjectCard
 			debug={debug}
 			title="Open Source"
-			description="Check out my open source projects on GitHub."
+			description="Repos, experiments, and older libraries I keep public."
 			link={link}
 			icon={<IconBrandGithubFilled className="size-10" />}
 			extra={({ hovering }) => (
