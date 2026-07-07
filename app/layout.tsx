@@ -76,11 +76,7 @@ export default function RootLayout({
 						skipDelayDuration={10}
 						disableHoverableContent
 					>
-						{/* <div className="flex w-full h-full min-h-full"> */}
-						{/* <div className="relative flex w-full h-full flex-col"> */}
 						{children}
-						{/* </div> */}
-						{/* </div> */}
 					</TooltipProvider>
 				</ThemeProvider>
 				<Script

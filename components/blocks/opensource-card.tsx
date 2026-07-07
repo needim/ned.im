@@ -23,13 +23,7 @@ export function OpenSourceCard({
 			description="Repos, experiments, and older libraries I keep public."
 			link={link}
 			icon={<IconBrandGithubFilled className="size-10" />}
-			extra={({ hovering }) => (
-				<GithubStars
-					play={hovering}
-					totalStars={totalStars}
-					repoStats={repoStats}
-				/>
-			)}
+			extra={<GithubStars totalStars={totalStars} repoStats={repoStats} />}
 		/>
 	);
 }

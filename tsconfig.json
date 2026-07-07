@@ -26,10 +26,9 @@
 		"next-env.d.ts",
 		"**/*.ts",
 		"**/*.tsx",
+		"**/*.mdx",
 		"types/global.d.ts",
-		".next/types/**/*.ts",
-		"app/(docs)/noty/page.mdx",
-		"app/(docs)/noty/installation/page.mdx"
+		".next/types/**/*.ts"
 	],
 	"exclude": ["node_modules"]
 }

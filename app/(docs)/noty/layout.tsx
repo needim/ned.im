@@ -1,12 +1,12 @@
-import { Avatar } from "@/components/blocks/avatar";
 import CarbonAds from "@/components/blocks/docs/carbon-ads";
 import { ThemeToggle } from "@/components/blocks/theme-toggle";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { IconBrandPatreonFilled, IconSlash } from "@tabler/icons-react";
+import { IconBrandPatreonFilled } from "@tabler/icons-react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { NotyNav } from "./noty-nav";
 
 export const metadata: Metadata = {
 	title: "Noty",
@@ -16,48 +16,8 @@ const sponsors = [
 	{
 		url: "https://www.correctcasinos.com/free-slots",
 		imageSrc: "correct-casino-logo.svg",
+		darkImageSrc: "correct-casino-logo-dark.svg",
 		alt: "Best Free Slots",
-	},
-	{
-		url: "https://www.gambledex.com/",
-		imageSrc: "gambledex.png",
-		alt: "Gambledex",
-	},
-	{
-		url: "https://www.boostmmr.com",
-		imageSrc: "boostmmr.jpg",
-		alt: "",
-	},
-	// {
-	//   url: "https://goread.io/buy-instagram-followers",
-	//   imageSrc: "Favicongoread.png",
-	//   alt: "Buy Instagram Followers",
-	// },
-	{
-		url: "https://nettikasinot.org",
-		imageSrc: "nettikasino.png",
-		alt: "Nettikasinot",
-	},
-
-	{
-		url: "https://casinoshunter.com/online-casinos/real-money",
-		imageSrc: "casinoshunter-dark.png",
-		alt: "Casinos Hunter",
-	},
-	// {
-	//   url: "https://reddogcasino.com/en/games/blackjack",
-	//   imageSrc: "Red-Dog-Casino-Logo.png",
-	//   alt: "RedDogCasino",
-	// },
-	{
-		url: "https://slotsempire.com",
-		imageSrc: "slots-empire.svg",
-		alt: "Online Slots Empire Casino",
-	},
-	{
-		url: "https://idealecasinos.nl",
-		imageSrc: "ideal_casinos_logo_140_140.svg",
-		alt: "online casinos met ideal",
 	},
 ];
 
@@ -71,9 +31,22 @@ export default function RootLayout({
 			<header className="shrink-0 border-b bg-white dark:bg-zinc-900">
 				<div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
 					<div className="flex items-center">
-						<Avatar />
-						<IconSlash />
-						<span className="font-semibold font-mono">noty</span>
+						<Link
+							href="/"
+							aria-label="Home"
+							className="rounded px-1 py-1 font-mono text-sm/6 font-semibold tracking-normal text-muted-foreground transition hover:text-foreground"
+						>
+							ned.im
+						</Link>
+						<span
+							aria-hidden="true"
+							className="mx-1.5 text-muted-foreground/50"
+						>
+							/
+						</span>
+						<span className="font-mono text-sm/6 font-semibold tracking-normal">
+							noty
+						</span>
 					</div>
 					<div className="flex items-center gap-x-8">
 						<ThemeToggle hideIndicator />
@@ -83,21 +56,7 @@ export default function RootLayout({
 
 			<div className="mx-auto flex flex-col lg:flex-row w-full max-w-7xl items-start gap-x-8 px-4 py-10 sm:px-6 lg:px-8">
 				<aside className="lg:sticky top-8 mb-8 lg:mb-0 w-full lg:w-44 shrink-0 lg:block">
-					<nav>
-						<div className="flex flex-row lg:flex-col divide-x lg:divide-x-0 lg:*:pr-0 *:pr-2 flex-wrap gap-2 *:font-medium *:text-muted-foreground text-sm">
-							<Link href="/noty">About</Link>
-							<Link href="/noty/installation">Installation</Link>
-							<Link href="/noty/options">Options</Link>
-							<Link href="/noty/types-and-layouts">Types & Layouts</Link>
-							<Link href="/noty/themes">Themes</Link>
-							<Link href="/noty/animations">Animations</Link>
-							<Link href="/noty/web-push-notifications">
-								Web Push Notifications
-							</Link>
-							<Link href="/noty/confirm-dialogs">Confirm Dialogs</Link>
-							<Link href="/noty/api-and-callbacks">API & Callbacks</Link>
-						</div>
-					</nav>
+					<NotyNav />
 				</aside>
 
 				<main className="flex-1 grow max-w-full pro">{children}</main>
@@ -128,14 +87,23 @@ export default function RootLayout({
 									key={index}
 									className="flex items-center justify-center w-full py-2 pl-4 pr-5 text-sm leading-6 group relative "
 								>
-									<div className="filter grayscale hover:grayscale-0 transition-all dark:invert dark:hover:invert-0 duration-300 ease-in-out">
+									<div className="opacity-75 transition-opacity duration-300 ease-in-out hover:opacity-100">
 										<Link href={product.url} target="_blank">
 											<Image
 												src={`/sponsors/${product.imageSrc}`}
 												alt={product.alt}
 												width={140}
 												height={140}
-												className="max-w-64 min-h-6 transition-all duration-300 ease-in-out"
+												className="h-auto max-w-64 transition-all duration-300 ease-in-out dark:hidden"
+												style={{ width: "auto", height: "auto" }}
+											/>
+											<Image
+												src={`/sponsors/${product.darkImageSrc}`}
+												alt={product.alt}
+												width={140}
+												height={140}
+												className="hidden h-auto max-w-64 transition-all duration-300 ease-in-out dark:block"
+												style={{ width: "auto", height: "auto" }}
 											/>
 										</Link>
 									</div>

@@ -16,7 +16,7 @@ export function SocialLink({
 	return (
 		<Link
 			className={cn(
-				"group inline-flex h-8 items-center gap-2 rounded border border-border/60 bg-background/25 px-2.5 text-muted-foreground ring-offset-background transition hover:border-border hover:bg-accent/40 hover:text-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+				"group inline-flex h-8 items-center gap-2  shadow-xs border border-border bg-white dark:bg-zinc-800 hover:dark:bg-zinc-700 px-2.5  ring-offset-background transition hover:border-border hover:bg-accent hover:text-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
 				className,
 			)}
 			{...props}

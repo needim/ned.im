@@ -2,7 +2,6 @@
 
 import { cn } from "@/lib/utils";
 import { IconArrowUpRight } from "@tabler/icons-react";
-import { useHover } from "@uidotdev/usehooks";
 import Link from "next/link";
 import type React from "react";
 
@@ -20,18 +19,15 @@ export function ProjectCard({
 	label?: string;
 	link: string;
 	icon: React.ReactNode;
-	extra?: (params: { hovering: boolean }) => React.ReactNode;
+	extra?: React.ReactNode;
 	debug?: boolean;
 }): React.ReactElement {
-	const [ref, hovering] = useHover();
-
 	return (
 		<Link
 			href={link}
 			target={link.startsWith("http") ? "_blank" : undefined}
-			ref={ref}
 			className={cn(
-				"group relative h-48 w-full cursor-pointer overflow-hidden shadow-[rgba(0,_0,_0,_0.15)_0px_20px_40px_-12px] bg-card/20 p-6 ring-2 hover:ring-3 ring-zinc-900/5 dark:ring-zinc-800 transition-all duration-500 hover:ring-zinc-600/20 dark:hover:ring-zinc-700",
+				"group relative h-48 w-full cursor-pointer overflow-hidden shadow-[rgba(0,0,0,0.15)_0px_20px_40px_-12px] bg-white dark:bg-zinc-900 p-6 ring-2 hover:ring-3 ring-zinc-900/5 dark:ring-zinc-800 transition-all duration-500 hover:ring-zinc-600/20 dark:hover:ring-zinc-700",
 				debug && "debug overflow-visible",
 			)}
 		>
@@ -80,13 +76,7 @@ export function ProjectCard({
 					)}
 				/>
 
-				{/* <GithubStars
-					play={hovering}
-					totalStars={11}
-					// repoStats={repoStats}
-				/> */}
-
-				{extra?.({ hovering })}
+				{extra}
 			</div>
 		</Link>
 	);

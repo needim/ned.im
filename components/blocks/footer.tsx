@@ -4,7 +4,7 @@ import { ContainerInner } from "@/components/blocks/container";
 import { SectionDivider } from "@/components/blocks/section-divider";
 import { ThemeToggle } from "@/components/blocks/theme-toggle";
 import IconNextjs from "@/components/icons/nextjs";
-import { navItems } from "@/lib/utils";
+import { websiteRoutes } from "@/content/site";
 import { IconBrandGithubFilled } from "@tabler/icons-react";
 
 function NavLink({
@@ -33,14 +33,11 @@ export function Footer() {
 					<div className="pb-8">
 						<ContainerInner className="">
 							<div className="flex flex-wrap gap-x-6 gap-y-1 text-sm font-medium text-muted-foreground pb-4 px-8 border-b border-border/50">
-								{navItems.map((item) => (
+								{websiteRoutes.map((item) => (
 									<NavLink key={item.href} href={item.href}>
 										{item.label}
 									</NavLink>
 								))}
-								<NavLink key={"/colophon"} href="/colophon">
-									Colophon
-								</NavLink>
 							</div>
 							<div className="text-sm text-muted-foreground px-8 py-4">
 								<div className="items-center flex flex-wrap gap-4">

@@ -7,7 +7,7 @@ import {
 	IconMoonFilled,
 	IconSunFilled,
 } from "@tabler/icons-react";
-import { motion, useAnimation } from "motion/react";
+import { motion } from "motion/react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
@@ -18,9 +18,7 @@ export function ThemeToggle({
 }) {
 	const [mounted, setMounted] = useState(false);
 	const { setTheme, theme } = useTheme();
-	const controlsSun = useAnimation();
-	const controlsMoon = useAnimation();
-	const controlsContrast = useAnimation();
+	const currentTheme = theme ?? "system";
 
 	const iconVariants = {
 		sun: {
@@ -54,22 +52,9 @@ export function ThemeToggle({
 		setMounted(true);
 	}, []);
 
-	// biome-ignore lint/correctness/useExhaustiveDependencies(mounted): <explanation>
-	useEffect(() => {
-		if (theme === "system") {
-			controlsSun.start("hidden");
-			controlsContrast.start("system");
-			controlsMoon.start("hidden");
-		} else {
-			controlsSun.start(theme === "light" ? "sun" : "hidden");
-			controlsMoon.start(theme === "dark" ? "moon" : "hidden");
-			controlsContrast.start("systemHidden");
-		}
-	}, [mounted, controlsContrast, controlsMoon, controlsSun, theme]);
-
 	const nextTheme = useNextValue(
 		["light", "system", "dark"] as const,
-		theme as string,
+		currentTheme,
 	);
 
 	if (!mounted) {
@@ -108,7 +93,7 @@ export function ThemeToggle({
 						className="size-5 absolute top-0 left-0"
 						variants={iconVariants}
 						initial="hidden"
-						animate={controlsSun}
+						animate={currentTheme === "light" ? "sun" : "hidden"}
 						transition={{ duration: 0.2, ease: "easeInOut" }}
 					>
 						<IconSunFilled className="size-5" />
@@ -117,7 +102,7 @@ export function ThemeToggle({
 						className="size-5 absolute top-0 left-0"
 						variants={iconVariants}
 						initial="hidden"
-						animate={controlsContrast}
+						animate={currentTheme === "system" ? "system" : "systemHidden"}
 						transition={{ duration: 0.2, ease: "easeInOut" }}
 					>
 						<IconContrastFilled className="size-5 dark:rotate-180" />
@@ -126,7 +111,7 @@ export function ThemeToggle({
 						className="size-5 absolute top-0 left-0"
 						variants={iconVariants}
 						initial="hidden"
-						animate={controlsMoon}
+						animate={currentTheme === "dark" ? "moon" : "hidden"}
 						transition={{ duration: 0.2, ease: "easeInOut" }}
 					>
 						<IconMoonFilled className="size-5" />

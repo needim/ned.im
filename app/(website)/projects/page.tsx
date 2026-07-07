@@ -1,7 +1,7 @@
 import { Container } from "@/components/blocks/container";
 import { SectionDivider } from "@/components/blocks/section-divider";
-import { projects } from "@/lib/utils";
-import { getGithubInfo } from "@/server/thirdparty";
+import { projects } from "@/content/site";
+import { getGithubInfo } from "@/server/github";
 import { IconCalendar } from "@tabler/icons-react";
 import type { Metadata } from "next";
 import React from "react";
@@ -59,7 +59,7 @@ export default async function Home() {
 			<div className="mt-8 grid grid-cols-1 border-y border-border/50">
 				{featuredProjects.map((project, index) => (
 					<React.Fragment key={`project-${index}`}>
-						<article className="group relative px-8 py-6 transition-colors duration-300 hover:bg-muted dark:hover:bg-muted/30">
+						<article className="group relative px-8 py-6 transition-colors duration-300 hover:bg-muted dark:hover:bg-muted/30 bg-white dark:bg-zinc-900">
 							<div className="flex items-start justify-between gap-4">
 								<div className="min-w-0">
 									<div className="flex flex-wrap items-center gap-x-3 gap-y-2">

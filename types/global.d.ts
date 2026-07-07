@@ -36,4 +36,14 @@ declare namespace Externals {
 			};
 		};
 	}
+
+	namespace X {
+		type ApiResponse = {
+			data?: {
+				public_metrics?: {
+					followers_count?: number;
+				};
+			};
+		};
+	}
 }

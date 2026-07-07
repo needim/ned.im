@@ -6,8 +6,9 @@ import { SectionDivider } from "@/components/blocks/section-divider";
 import { GitHubIcon, XIcon } from "@/components/blocks/social-icons";
 import { SocialLink } from "@/components/blocks/social-link";
 import { WagesoLogo } from "@/components/wageso-logo";
-import { careerItems } from "@/lib/utils";
-import { getGithubInfo, getXInfo } from "@/server/thirdparty";
+import { careerItems } from "@/content/site";
+import { getGithubInfo } from "@/server/github";
+import { getXInfo } from "@/server/x";
 import { IconArrowRight } from "@tabler/icons-react";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -21,8 +22,10 @@ export const metadata: Metadata = {
 };
 
 export default async function Readme() {
-	const githubResponse = await getGithubInfo();
-	const xResponse = await getXInfo();
+	const [githubResponse, xResponse] = await Promise.all([
+		getGithubInfo(),
+		getXInfo(),
+	]);
 
 	const githubFollowers = githubResponse.data.viewer.followers.totalCount;
 	const githubStars = githubResponse.data.viewer.repositories.nodes.reduce(
@@ -34,13 +37,13 @@ export default async function Readme() {
 		<>
 			<Container className="px-8 py-12 sm:py-16">
 				<div className="max-w-2xl">
-					<p className="mb-4 font-mono text-xs/5 font-semibold uppercase tracking-wide text-muted-foreground">
+					<p className="mb-4 font-mono text-xs/5 font-semibold uppercase tracking-wide text-muted-foreground text-box-cap">
 						Software Engineer
 					</p>
-					<h1 className="text-balance text-4xl/[1.04] sm:text-5xl/[1.02]">
+					<h1 className="-ms-[0.06em] text-balance text-4xl/[1.04] sm:text-5xl/[1.02]">
 						Nedim Arabacı
 					</h1>
-					<div className="mt-8 max-w-xl border-l border-border/70 pl-5 text-balance text-base/7 text-muted-foreground sm:text-lg/8">
+					<div className="mt-8 max-w-xl text-balance text-base/7 text-muted-foreground sm:text-lg/8">
 						<p>
 							Hi <span className="text-xl">👋🏻</span>, I&apos;m currently
 							working at{" "}
@@ -55,9 +58,9 @@ export default async function Readme() {
 							.
 						</p>
 						<p className="mt-4">
-							I build CRM, ERP, and operations software for the agentic era:
-							structured workflows, reliable data, and interfaces that help
-							humans stay in control while AI agents handle the busywork.
+							I work on CRM, ERP, and operations software: structured workflows,
+							reliable data, and practical interfaces for teams using AI to
+							automate routine work.
 						</p>
 					</div>
 					<div className="mt-7 flex flex-wrap gap-3">
@@ -118,6 +121,7 @@ export default async function Readme() {
 					</p>
 				</div>
 				<div className="flex flex-col mt-8">
+					<SectionDivider />
 					{careerItems.map((item, index) => (
 						<React.Fragment key={`career-${index}`}>
 							<CareerCard key={`career-${index}`} item={item} />

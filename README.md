@@ -2,7 +2,7 @@
 
 Software engineer based in Istanbul, currently working at [Defter](https://birdefter.com).
 
-I build CRM, ERP, and operations software for the agentic era: structured workflows, reliable data, and interfaces that help humans stay in control while AI agents handle the busywork.
+I work on CRM, ERP, and operations software: structured workflows, reliable data, and practical interfaces for teams using AI to automate routine work.
 
 This repository powers [ned.im](https://ned.im), my personal website and project archive.
 
@@ -40,9 +40,6 @@ Recent shipped work, personal tools, and open source activity.
 
 - **2019 - 2021: Full Stack Developer at Defter**  
   Podgorica, Montenegro. Worked on the company's CRM/ERP products.
-
-- **2018: Full Stack Developer at 90Pixel**  
-  Izmir, Turkey.
 
 - **2017 - 2018: Full Stack Developer, Freelancer**  
   Izmir, Turkey.

@@ -11,11 +11,9 @@ import { motion } from "motion/react";
 import type React from "react";
 
 export function GithubStars({
-	play,
 	totalStars,
 	repoStats,
 }: {
-	play: boolean;
 	totalStars: number;
 	repoStats?: Externals.Github.ApiResponse["data"]["viewer"]["repositories"]["nodes"];
 }): React.ReactElement {
